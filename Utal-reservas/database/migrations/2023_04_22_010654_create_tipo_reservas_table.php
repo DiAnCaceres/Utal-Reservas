@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservas', function (Blueprint $table) {
+        Schema::create('tipo_reservas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre',30);
-            $table->string('ubicacion',40);
-            // fk
-            $table->unsignedBigInteger('estado_reserva_id')->constrains();
-            $table->unsignedBigInteger('tipo_reserva_id')->constrains();
+            $table->string('nombre_tipo');
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reservas');
+        Schema::dropIfExists('tipo_reservas');
     }
 };
