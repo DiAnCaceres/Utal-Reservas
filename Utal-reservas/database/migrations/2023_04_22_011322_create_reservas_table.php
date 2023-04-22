@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('nombre',30);
             $table->string('ubicacion',40);
-            // fk
-            $table->unsignedBigInteger('estado_reserva_id')->constrains();
-            $table->unsignedBigInteger('tipo_reserva_id')->constrains();
+            //$table->unsignedBigInteger('estado_reserva_id');
+            //$table->unsignedBigInteger('tipo_reserva_id');
             $table->timestamps();
+            
+            // fk (laravel 10)
+            $table->foreignId('estado_reserva_id')->constrained();
+            $table->foreignId('tipo_reserva_id')->constrained();
         });
     }
 
