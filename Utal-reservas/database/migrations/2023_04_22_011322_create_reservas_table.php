@@ -21,7 +21,7 @@ return new class extends Migration
             
             // fk (laravel 10)
             $table->foreignId('estado_reserva_id')->constrained();
-            $table->foreignId('tipo_reserva_id')->constrained();
+            //$table->foreignId('tipo_reserva_id')->constrained();
         });
     }
 
