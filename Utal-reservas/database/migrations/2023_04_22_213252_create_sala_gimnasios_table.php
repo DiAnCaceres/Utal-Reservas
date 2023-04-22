@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sala_gimnasios', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
+            $table->string('nombre')->unique();
             $table->integer('capacidad');
             $table->timestamps();
             
