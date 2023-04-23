@@ -50,7 +50,7 @@ header span {
     gap: 80px;
 }
 
-.login {                             /*   */ 
+.login {                             /*  caja seleste para los datos del login */ 
     display: flex;
     flex-direction: column;
     width: 25%;
@@ -59,21 +59,14 @@ header span {
     border-radius: 12px;
 }
 
-.box_1_ligteblue {                  /*  Caja celeste almedio bajo los botones de servicios */                    
-    display: flex;                  
-    flex-direction: column;
-    width: 35%;
-    background-color: #00cccc;
-    padding: 100px 150vh 20px 20vh;
-    border-radius: 12px;
-}
 
-.box_2_ligteblue {                   /*  Caja celeste bajo los datos */ 
+.box_registro_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
     display: flex;
     flex-direction: column;
-    width: 35%;
+    margin-left: 37%;
+    width: 25%;
     background-color: #00cccc;
-    padding: 100px 950vh 20px 20vh;
+    padding: 20px 30px;
     border-radius: 12px;
 }
 
@@ -156,17 +149,19 @@ form input {
     margin: auto;
 }
 
-.botonera{
+     
+.botonera{                            /* Caja de botones de Servicio Tapia  */ 
     display: block;
     background-color:#00cccc;
     width: 70%;
     height: 10%;
-    border-radius: 0%;
+    border-radius: 15px;
     margin-left: 15%;
     margin-right: 15%;
 }
+    
 
-.boton_servicios {
+.boton_servicios {                        /* Boton como tal  */ 
     width: 75px;
     height: 75px;
     border-radius: 50%;
@@ -179,16 +174,16 @@ form input {
     font-family: 'Helvetica', sans-serif; /*tipografía texto*/
     }
 
-.boton_servicios:hover{
+.boton_servicios:hover{                  /* Cuando se pasa por encima del boton  */ 
     background-color: #d77c26;
     }
 
-.boton_servicios:active { 
+.boton_servicios:active {                /*  Cuando se clikea */ 
     background: gray;
     color: #000000; 
     }
 
-.boton_activo{
+.boton_activo{                          /*  Cuando el boton esta activo */ 
     width: 75px;
     height: 75px;
     border-radius: 50%;
