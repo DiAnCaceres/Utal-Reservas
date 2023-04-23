@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tipo_reservas', function (Blueprint $table) {
+        Schema::create('canchas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_tipo');
+            // duplicado $table->string('nombre')->unique();
             $table->timestamps();
+            
+            //fk
+            $table->foreignId('reserva_id')->constrained();
         });
     }
 
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tipo_reservas');
+        Schema::dropIfExists('canchas');
     }
 };
