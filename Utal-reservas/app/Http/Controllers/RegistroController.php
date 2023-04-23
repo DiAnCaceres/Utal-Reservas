@@ -6,15 +6,19 @@ use Illuminate\Http\Request;
 
 class RegistroController extends Controller
 {
-    public function registro_sala(){
-        return view('registro.registro_sala');
+    public function sala_estudio(){
+        return view('registro.registrar_sala_estudio');
     }
 
-    /* public function create(){
+    public function sala_gimnasio(){
+        return view('registro.registrar_sala_gimnasio');
+    }
 
-    } */
+    public function cancha(){
+        return view('registro.registrar_cancha');
+    }
 
-    /* public function show(){
-
-    } */
+    public function implemento(){
+        return view('registro.registrar_implemento');
+    }
 }

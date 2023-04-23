@@ -15,4 +15,7 @@ class HomeController extends Controller
         return view('login.index');
     }
 
+    public function registrar_sala_estudio(){
+        return view('registro.registrar_sala_estudio');
+    }
 }

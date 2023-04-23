@@ -155,3 +155,50 @@ form input {
     max-height: 400px;
     margin: auto;
 }
+
+.botonera{
+    display: block;
+    background-color:#00cccc;
+    width: 70%;
+    height: 10%;
+    border-radius: 0%;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.boton_servicios {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    margin-left: 15%;
+    border: 1px solid #c3cad6; /*anchura, estilo y color borde*/
+    padding: 0px; /*espacio alrededor texto*/
+    background-color: #c3cad6; /*color botón*/
+    color: #000000; /*color texto*/
+    text-transform:unset;
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    }
+
+.boton_servicios:hover{
+    background-color: #d77c26;
+    }
+
+.boton_servicios:active { 
+    background: gray;
+    color: #000000; 
+    }
+
+.boton_activo{
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    margin-left: 15%;
+    border: 1px solid #df7a1b; /*anchura, estilo y color borde*/
+    text-align: center;
+    padding: 0px; /*espacio alrededor texto*/
+    background-color: #df7a1b; /*color botón*/
+    color: #000000; /*color texto*/
+    text-decoration: none; /*decoración texto*/
+    /*text-transform: uppercase; capitalización texto*/
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    }
