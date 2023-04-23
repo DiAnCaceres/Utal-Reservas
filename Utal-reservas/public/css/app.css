@@ -44,19 +44,36 @@ header span {
 }
 
 .contenedor {
-   
     width: 90%;
     margin: auto;
     display: flex;
     gap: 80px;
 }
 
-.login {
+.login {                             /*   */ 
     display: flex;
     flex-direction: column;
     width: 25%;
     background-color: #00cccc;
     padding: 20px 30px;
+    border-radius: 12px;
+}
+
+.box_1_ligteblue {                  /*  Caja celeste almedio bajo los botones de servicios */                    
+    display: flex;                  
+    flex-direction: column;
+    width: 35%;
+    background-color: #00cccc;
+    padding: 100px 150vh 20px 20vh;
+    border-radius: 12px;
+}
+
+.box_2_ligteblue {                   /*  Caja celeste bajo los datos */ 
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    background-color: #00cccc;
+    padding: 100px 950vh 20px 20vh;
     border-radius: 12px;
 }
 
