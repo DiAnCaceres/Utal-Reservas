@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('canchas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre')->unique();
+            // duplicado $table->string('nombre')->unique();
             $table->timestamps();
             
             //fk
