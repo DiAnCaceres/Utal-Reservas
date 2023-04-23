@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Reservas;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Reserva\ImplementoRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ImplementoController extends Controller
 {
     //
-    public function store(Request $request){
+    public function store(ImplementoRequest $request){
         try {
             DB::table("reservas")->insert([
                 "nombre" => $request->nombre,

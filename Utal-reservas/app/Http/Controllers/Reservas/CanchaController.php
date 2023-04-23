@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Reservas;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Reserva\CanchaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CanchaController extends Controller
 {
     //
-    public function store(Request $request){
+    public function store(CanchaRequest $request){
         try {
             DB::table("reservas")->insert([
                 "nombre" => $request->nombre,

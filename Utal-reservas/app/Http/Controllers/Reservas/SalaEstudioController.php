@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Reservas;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Reserva\SalaEstudioRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SalaEstudioController extends Controller
 {
     //
-    public function store(Request $request){
+    public function store(SalaEstudioRequest $request){
         try {
             DB::table("reservas")->insert([
                 "nombre" => $request->nombre,
