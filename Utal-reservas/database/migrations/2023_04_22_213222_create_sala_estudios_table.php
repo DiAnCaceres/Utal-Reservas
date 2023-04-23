@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sala_estudios', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre')->unique();
+            // duplicado $table->string('nombre')->unique();
             $table->integer('capacidad');
             $table->timestamps();
             
