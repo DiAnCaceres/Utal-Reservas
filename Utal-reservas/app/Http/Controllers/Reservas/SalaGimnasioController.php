@@ -13,6 +13,17 @@ class SalaGimnasioController extends Controller
     public function store(SalaGimnasioRequest $request){
         $sql=true;
         try {
+            DB::table("ubicaciones")->insert([
+                "nombre_ubicacion"=>$request->nombre_ubicacion,
+                "categoria"=>$request->categoria
+            ]);
+            $id_ubicacion= DB::getPdo()->lastInsertId();
+            
+            DB::table("estado_reservas")->insert([
+                "nombre_estado"=>$request->nombre_estado
+            ]);
+            $id_estado = DB::getPdo()->lastInsertId();
+
             DB::table("reservas")->insert([
                 "nombre" => $request->nombre,
                 "ubicacion" => $request->ubicacion,
