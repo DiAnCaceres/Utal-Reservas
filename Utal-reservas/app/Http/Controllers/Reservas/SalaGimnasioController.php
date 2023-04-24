@@ -11,6 +11,7 @@ class SalaGimnasioController extends Controller
 {
     //
     public function store(SalaGimnasioRequest $request){
+        $sql=true;
         try {
             DB::table("reservas")->insert([
                 "nombre" => $request->nombre,
@@ -25,7 +26,13 @@ class SalaGimnasioController extends Controller
                 "capacidad" => $request->capacidad,
             ]);
         } catch (\Throwable $th) {
-            //dar mensaje que no pudo crear
+            $sql=0;
+        }
+        if($sql == true){
+            return back()->with("correcto","Sala Gimnasio registrada correctamente");
+        }
+        else{
+            return back()->with("incorrecto","Error al registrar");
         }
     }
 }
