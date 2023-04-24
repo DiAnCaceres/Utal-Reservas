@@ -8,12 +8,12 @@
 
         <div class="login">
         
-            <form action="">
+            <form action="{{route('login')}}" method="POST"> <!--Metodo para validar rut y contraseña en bd-->
 
-             <input type="text" placeholder="Rut">
+            <input type="text" placeholder="Rut">
             <input type="password" placeholder="Contraseña">
-            <button class="btnEntrar">Entrar<i class="ri-arrow-right-line"></i></button>
-
+            <button type= "submit" class="btnEntrar">Entrar<i class="ri-arrow-right-line"></i></button>
+            
             </form>
 
 
