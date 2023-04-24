@@ -11,6 +11,7 @@ class ImplementoController extends Controller
 {
     //
     public function store(ImplementoRequest $request){
+        $sql=true;
         try {
             DB::table("reservas")->insert([
                 "nombre" => $request->nombre,
@@ -25,7 +26,13 @@ class ImplementoController extends Controller
                 "cantidad" => $request->cantidad,
             ]);
         } catch (\Throwable $th) {
-            //dar mensaje que no pudo crear
+            $sql=0;
+        }
+        if($sql == true){
+            return back()->with("correcto","Implemento registrado correctamente");
+        }
+        else{
+            return back()->with("incorrecto","Error al registrar");
         }
     }
 }
