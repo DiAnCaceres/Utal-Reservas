@@ -21,4 +21,12 @@ class RegistroController extends Controller
     public function implemento(){
         return view('registro.registrar_implemento');
     }
+
+    public function estudiante(){
+        return view('registro.registrar_estudiante');
+    }
+
+    public function moderador(){
+        return view('registro.registrar_moderador');
+    }
 }
