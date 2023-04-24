@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegistroController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,8 @@ use App\Http\Controllers\LoginController;
 |
 */
 
+Route::get('registro', [RegistroController::class, 'registro_sala'])->name('registro_btn');
+
 Route::get('/', HomeController::class);
 
 // Route::get('/', HomeController::class, 'login');
@@ -23,5 +27,11 @@ Route::get('login', [LoginController::class, 'index'])->name('login');
 
 Route::get('/ayuda', function () {
     return view('ayuda');
+
 })->name('ayuda');
 
+
+Route::get('registro_sala_estudio', [RegistroController::class, 'sala_estudio'])->name('registro_sala_estudio');
+Route::get('registro_sala_gimnasio', [RegistroController::class, 'sala_gimnasio'])->name('registro_sala_gimnasio');
+Route::get('registro_cancha', [RegistroController::class, 'cancha'])->name('registro_cancha');
+Route::get('registro_implemento', [RegistroController::class, 'implemento'])->name('registro_implemento');

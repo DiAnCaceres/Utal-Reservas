@@ -44,14 +44,13 @@ header span {
 }
 
 .contenedor {
-   
     width: 90%;
     margin: auto;
     display: flex;
     gap: 80px;
 }
 
-.login {
+.login {                             /*  caja seleste para los datos del login */ 
     display: flex;
     flex-direction: column;
     width: 25%;
@@ -60,7 +59,18 @@ header span {
     border-radius: 12px;
 }
 
-.btnAyuda {
+
+.box_registro_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: flex;
+    flex-direction: column;
+    margin-left: 37%;
+    width: 25%;
+    background-color: #00cccc;
+    padding: 20px 30px;
+    border-radius: 12px;
+}
+
+.bynAyuda {
     width: 75%;
     margin: auto;
     padding: 8px;
@@ -138,3 +148,52 @@ form input {
     max-height: 400px;
     margin: auto;
 }
+
+     
+.botonera{                            /* Caja de botones de Servicio Tapia  */ 
+    display: block;
+    background-color:#00cccc;
+    width: 70%;
+    height: 10%;
+    border-radius: 15px;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+    
+
+.boton_servicios {                        /* Boton como tal  */ 
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    margin-left: 15%;
+    border: 1px solid #c3cad6; /*anchura, estilo y color borde*/
+    padding: 0px; /*espacio alrededor texto*/
+    background-color: #c3cad6; /*color botón*/
+    color: #000000; /*color texto*/
+    text-transform:unset;
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    }
+
+.boton_servicios:hover{                  /* Cuando se pasa por encima del boton  */ 
+    background-color: #d77c26;
+    }
+
+.boton_servicios:active {                /*  Cuando se clikea */ 
+    background: gray;
+    color: #000000; 
+    }
+
+.boton_activo{                          /*  Cuando el boton esta activo */ 
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    margin-left: 15%;
+    border: 1px solid #df7a1b; /*anchura, estilo y color borde*/
+    text-align: center;
+    padding: 0px; /*espacio alrededor texto*/
+    background-color: #df7a1b; /*color botón*/
+    color: #000000; /*color texto*/
+    text-decoration: none; /*decoración texto*/
+    /*text-transform: uppercase; capitalización texto*/
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    }
