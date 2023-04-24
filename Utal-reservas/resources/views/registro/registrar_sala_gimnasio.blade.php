@@ -17,12 +17,12 @@
 
     <div class="box_registro_ligteblue">
         <h1> Registrar las salas de Gimnasio</h1>
-        <form action="">
-
-            <input type="text" placeholder="Nombre">
-            <input type="text" placeholder="Capacidad">
-            <input type="text" placeholder="Ubicacion">
-            <button class="btnEntrar">Entrar<i class="ri-arrow-right-line"></i></button>
+        <form action="{{route("registro_sala_gimnasio.store")}}" method="POST">
+            @csrf
+            <input type="text" placeholder="Nombre" name="nombre">
+            <input type="text" placeholder="Capacidad" name="capacidad">
+            <input type="text" placeholder="Ubicacion" name="ubicacion">
+            <button type="submit" class="btnEntrar">Entrar<i class="ri-arrow-right-line"></i></button>
         </form>
     </div>
 </div>

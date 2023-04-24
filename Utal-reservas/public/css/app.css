@@ -59,6 +59,15 @@ header span {
     border-radius: 12px;
 }
 
+.registro {
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    background-color: #00cccc;
+    padding: 20px 30px;
+    border-radius: 12px;
+    margin: auto;
+}
 
 .box_registro_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
     display: flex;
