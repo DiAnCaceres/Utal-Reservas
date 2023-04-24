@@ -14,15 +14,17 @@ return new class extends Migration
         Schema::create('reservas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre',30);
-            $table->string('ubicacion',40);
-            $table->string('estado',20);
             //$table->unsignedBigInteger('estado_reserva_id');
             //$table->unsignedBigInteger('tipo_reserva_id');
             $table->timestamps();
             
             // fk (laravel 10)
-            //$table->foreignId('estado_reserva_id')->constrained();
-            //$table->foreignId('tipo_reserva_id')->constrained();
+            $table->foreignId('estado_reserva_id')->constrained();
+            /* Laravel permite crear las foreing key poniendo el nombre de la tabla en singular_id
+            claro esta que en español no todas las palabras suenan bien, como por ejemplo la tabla 
+            ubicaciones en singular es ubicacion, pero lo interpretará como ubicacione|s
+            */
+            $table->foreignId('ubicacione_id')->constrained();
         });
     }
 
