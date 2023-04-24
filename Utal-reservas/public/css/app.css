@@ -197,3 +197,21 @@ form input {
     /*text-transform: uppercase; capitalización texto*/
     font-family: 'Helvetica', sans-serif; /*tipografía texto*/
     }
+
+.button-register{     
+    margin-top: 1.5rem;     
+    margin-bottom: 1.5rem;     
+    padding: 0.5rem;     
+    width: 100%;     
+    background-color: #fff;     
+    border: 1px solid #FF8C40;     
+    color: #FF8C40;     
+    font-size: large;     
+    font-weight: 600px;
+    }
+    
+.button-register:hover{     
+    border: 1px solid #FF8C40;     
+    background-color: #FF8C40;     
+    color: #fff; 
+    } 

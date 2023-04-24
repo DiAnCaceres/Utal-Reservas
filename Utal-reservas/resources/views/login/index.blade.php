@@ -12,7 +12,7 @@
 
             <input type="text" placeholder="Rut">
             <input type="password" placeholder="Contraseña">
-            <button type= "submit" class="btnEntrar">Entrar<i class="ri-arrow-right-line"></i></button>
+            <button type= "submit" class="button-register">Entrar<i class="ri-arrow-right-line"></i></button>
             
             </form>
 
