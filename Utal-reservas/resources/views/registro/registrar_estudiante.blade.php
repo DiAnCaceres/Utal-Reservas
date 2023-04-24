@@ -15,14 +15,15 @@
 
     <div class="registro">
         <h1>Registrar estudiante</h1>
-        <form action="">
-            <input type="text" placeholder="Nombre">
-            <input type="text" placeholder="Mail">
-            <input type="text" placeholder="Rut">
-            <input type="text" placeholder="Matrícula">
-            <input type="password" placeholder="Contraseña">
-            <input type="password" placeholder="Repetir Contraseña">
-            <button class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
+        <form action="{{route("registro_estudiante.store")}}" method="POST">
+            @csrf
+            <input type="text" placeholder="Nombre" name="nombre">
+            <input type="text" placeholder="Mail" name="mail">
+            <input type="text" placeholder="Rut" name="rut">
+            <input type="text" placeholder="Matrícula" name="matricula">
+            <input type="password" placeholder="Contraseña" name="contraseña">
+            <input type="password" placeholder="Repetir Contraseña" name="">
+            <button type="submit" class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
         </form>
     </div>
 </div>
