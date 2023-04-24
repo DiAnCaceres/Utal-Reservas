@@ -17,14 +17,11 @@
 
     <div class="box_registro_ligteblue">
         <h1> Registrar Implemento</h1>
-        <form action="">
-
-            <input type="text" placeholder="Nombre">
-            <input type="text" placeholder="Capacidad">
-            <input type="text" placeholder="Ubicacion">
-            <input type="text" placeholder="Descripcion">
-            <input type="text" placeholder="Datos extra">
-            <button class="btnEntrar">Entrar<i class="ri-arrow-right-line"></i></button>
+        <form action="{{route("registro_implemento.store")}}" method="POST">
+            @csrf
+            <input type="text" placeholder="Nombre" name="nombre">
+            <input type="text" placeholder="Cantidad" name="cantidad">
+            <button type="submit" class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
         </form>
     </div>
 </div>

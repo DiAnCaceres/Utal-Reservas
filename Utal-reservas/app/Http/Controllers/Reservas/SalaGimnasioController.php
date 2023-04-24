@@ -26,9 +26,10 @@ class SalaGimnasioController extends Controller
 
             DB::table("reservas")->insert([
                 "nombre" => $request->nombre,
-                "estado_reserva_id" => $id_estado,
-                "ubicacione_id" => $id_ubicacion
-            ]);
+                "ubicacion" => $request->ubicacion,
+                "estado" => "Disponible"
+            ]);+
+            
             $id_reserva = DB::getPdo()->lastInsertId();
             
             DB::table("sala_gimnasios")->insert([
