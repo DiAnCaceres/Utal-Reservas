@@ -15,14 +15,15 @@
 
     <div class="registro">
         <h1> Registrar moderador</h1>
-        <form action="">
-            <input type="text" placeholder="Nombre">
-            <input type="text" placeholder="Mail">
-            <input type="text" placeholder="Rut">
-            <input type="password" placeholder="Contraseña">
-            <input type="password" placeholder="Repetir Contraseña">
+        <form action="{{route("registro_moderador.store")}}" method="POST">
+            @csrf
+            <input type="text" placeholder="Nombre" name="nombre">
+            <input type="text" placeholder="Mail" name="mail">
+            <input type="text" placeholder="Rut" name="rut">
+            <input type="password" placeholder="Contraseña" name="contraseña">
+            <input type="password" placeholder="Repetir Contraseña" name="">
 
-            <button class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
+            <button type="submit" class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
         </form>
     </div>
 </div>

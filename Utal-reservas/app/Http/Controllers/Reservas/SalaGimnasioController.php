@@ -17,7 +17,7 @@ class SalaGimnasioController extends Controller
                 "nombre" => $request->nombre,
                 "ubicacion" => $request->ubicacion,
                 "estado" => "Disponible"
-            ]);
+            ]);+
             
             $id_reserva = DB::getPdo()->lastInsertId();
             
