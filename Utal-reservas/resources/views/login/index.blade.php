@@ -7,8 +7,15 @@
     <div class="contenedor">
 
         <div class="login">
+        
+            <form action="{{route('login')}}" method="POST"> <!--Metodo para validar rut y contraseña en bd-->
 
-            <a href="{{ route('ayuda') }}" class="btnRegistro">¿Necesitas ayuda?</a>
+            <input type="text" placeholder="Rut">
+            <input type="password" placeholder="Contraseña">
+            <button type= "submit" class="button-register">Entrar<i class="ri-arrow-right-line"></i></button>
+            
+            </form>
+
 
             <div class="separacion">
                 <hr>
@@ -16,13 +23,8 @@
                 <hr>
             </div>
 
-            <form action="">
+            <a href="{{ route('ayuda') }}" class="btnAyuda">¿Necesitas ayuda?</a>
 
-                <input type="text" placeholder="Rut">
-                <input type="password" placeholder="Contraseña">
-                <button class="btnEntrar">Entrar<i class="ri-arrow-right-line"></i></button>
-
-            </form>
         </div>
 
         <div class="imagen">
