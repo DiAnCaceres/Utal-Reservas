@@ -12,4 +12,5 @@
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
     </form>
+    <button type="button" onclick="window.location='{{ route('register_moderador') }}' ">Registrar moderador</button>
 @endsection

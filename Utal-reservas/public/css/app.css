@@ -160,7 +160,8 @@ form input {
 
      
 .botonera{                            /* Caja de botones de Servicio Tapia  */ 
-    display: block;
+    display: flex;
+    padding: 5px;
     background-color:#00cccc;
     width: 70%;
     height: 10%;
@@ -181,6 +182,8 @@ form input {
     color: #000000; /*color texto*/
     text-transform:unset;
     font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    transition: 0.2s;
+    cursor: pointer;
     }
 
 .boton_servicios:hover{                  /* Cuando se pasa por encima del boton  */ 
