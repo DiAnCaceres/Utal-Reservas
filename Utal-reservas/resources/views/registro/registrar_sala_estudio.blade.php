@@ -17,14 +17,22 @@
 
     <div class="box_registro_ligteblue">
         <h1> Registrar las salas de estudio</h1>
-        <form action="{{route("registro_sala_estudio.store")}}" method="POST">
+        <form action="{{route('registro_sala_estudio.store')}}" method="POST">
             @csrf
             <input type="text" placeholder="Nombre" name="nombre">
             <input type="text" placeholder="Capacidad" name="capacidad">
-            <input type="text" placeholder="Ubicacion" name="ubicacion">
+            
+            <label for="ubicacion" style="margin-right: 10px;">Ubicacion:</label>
+            <select name="ubicacion" id="ubicacion">
+                @foreach($ubicacionesEstudio as $ubicacion)
+                <option value="{{ $ubicacion }}">{{ $ubicacion->nombre_ubicacion }}</option>
+                @endforeach
+            </select>
             <button type="submit" class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
         </form>
     </div>
+    
+
 </div>
 
 @endsection 
