@@ -22,10 +22,21 @@ class SalaGimnasioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "ubicacion"=>["required"],
-            "capacidad"=>["required"],
-            "nombre"=>["required"]
+            "nombre_ubicacion"=>["required"],
+            "nombre"=>["required","max:30","unique:reservas,nombre"],
+            "capacidad"=>["required","max:11","integer"]
             // 'email' => 'required|email|unique:users,email_address'
+        ];
+    }
+    public function messages()
+    {
+        return[
+            "nombre.required"=>"El campo :attribute es obligatorio.",
+            "nombre.required"=>"El campo :attribute es obligatorio.",
+            'nombre.unique' => 'El nombre ya existe en la tabla.',
+            "capacidad.required"=>"El campo :attribute es obligatorio.",
+            "nombre.max"=>'El campo :attribute no puede tener más de :max caracteres.',
+            "capacidad.integer"=>'El campo :attribute debe ser un número entero.'
         ];
     }
 }

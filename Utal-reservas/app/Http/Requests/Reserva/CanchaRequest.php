@@ -22,9 +22,18 @@ class CanchaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "ubicacion"=>["required"],
-            "nombre"=>["required"]
+            "nombre_ubicacion"=>["required",],
+            "nombre"=>["required","max:30","unique:reservas,nombre"],
             // 'email' => 'required|email|unique:users,email_address'
+        ];
+    }
+    public function messages()
+    {
+        return[
+            "nombre.required"=>"El campo :attribute es obligatorio.",
+            'nombre.unique' => 'El nombre ya existe en la tabla.',
+            "nombre.required"=>"El campo :attribute es obligatorio.",
+            "nombre.max"=>'El campo :attribute no puede tener más de :max caracteres.'
         ];
     }
 }
