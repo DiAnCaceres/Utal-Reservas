@@ -59,6 +59,15 @@ header span {
     border-radius: 12px;
 }
 
+.registro {
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    background-color: #00cccc;
+    padding: 20px 30px;
+    border-radius: 12px;
+    margin: auto;
+}
 
 .box_registro_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
     display: flex;
@@ -70,7 +79,7 @@ header span {
     border-radius: 12px;
 }
 
-.btnRegistro {
+.btnAyuda {
     width: 75%;
     margin: auto;
     padding: 8px;
@@ -197,3 +206,21 @@ form input {
     /*text-transform: uppercase; capitalización texto*/
     font-family: 'Helvetica', sans-serif; /*tipografía texto*/
     }
+
+.button-register{     
+    margin-top: 1.5rem;     
+    margin-bottom: 1.5rem;     
+    padding: 0.5rem;     
+    width: 100%;     
+    background-color: #fff;     
+    border: 1px solid #FF8C40;     
+    color: #FF8C40;     
+    font-size: large;     
+    font-weight: 600px;
+    }
+    
+.button-register:hover{     
+    border: 1px solid #FF8C40;     
+    background-color: #FF8C40;     
+    color: #fff; 
+    } 

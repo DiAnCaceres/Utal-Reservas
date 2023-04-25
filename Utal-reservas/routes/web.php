@@ -38,12 +38,11 @@ Route::get('registro_sala_estudio', [RegistroController::class, 'sala_estudio'])
 Route::get('registro_sala_gimnasio', [RegistroController::class, 'sala_gimnasio'])->name('registro_sala_gimnasio');
 Route::get('registro_cancha', [RegistroController::class, 'cancha'])->name('registro_cancha');
 Route::get('registro_implemento', [RegistroController::class, 'implemento'])->name('registro_implemento');
+Route::get('registro_estudiante', [RegistroController::class, 'estudiante'])->name('registro_estudiante');
+Route::get('registro_moderador', [RegistroController::class, 'moderador'])->name('registro_moderador');
 
 
-Route::post("/registrar-sala-estudio",[SalaEstudioController::class,"store"])->name("registro_sala_estudio.store");
-Route::post("/registrar-cancha",[CanchaController::class,"store"])->name("registro_cancha.store");
-Route::post("/registrar-sala-gimnasio",[SalaGimnasioController::class,"store"])->name("registro_sala_gimnasio.store");
-Route::post("/registrar-implemento",[ImplementoController::class,"store"])->name("registro_implemento.store");
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post("registro_sala_estudio",[SalaEstudioController::class,"store"])->name("registro_sala_estudio.store");
+Route::post("registro_cancha",[CanchaController::class,"store"])->name("registro_cancha.store");
+Route::post("registro_sala_gimnasio",[SalaGimnasioController::class,"store"])->name("registro_sala_gimnasio.store");
+Route::post("registro_implemento",[ImplementoController::class,"store"])->name("registro_implemento.store");
