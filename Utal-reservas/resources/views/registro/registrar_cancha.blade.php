@@ -18,10 +18,28 @@
     <div class="box_registro_ligteblue">
         <h1> Registrar Cancha</h1>
         <form action="{{route("registro_cancha.store")}}" method="POST">
-            @csrf
+        @csrf
             <input type="text" placeholder="Nombre" name="nombre">
-            <input type="text" placeholder="Ubicacion" name="ubicacion">
-            <button type="submit" class="btnEntrar">Entrar<i class="ri-arrow-right-line"></i></button>
+
+            @if ($errors->has('nombre'))
+                <div class="invalid-feedback">
+                    {{ $errors->first('nombre') }}
+                </div>
+            @endif
+           
+            <button class="btnEntrar">Registar<i class="ri-arrow-right-line"></i></button>
+
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
         </form>
     </div>
 </div>
