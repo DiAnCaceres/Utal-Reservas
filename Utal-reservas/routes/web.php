@@ -44,3 +44,6 @@ Route::post("/registrar-sala-estudio",[SalaEstudioController::class,"store"])->n
 Route::post("/registrar-cancha",[CanchaController::class,"store"])->name("registro_cancha.store");
 Route::post("/registrar-sala-gimnasio",[SalaGimnasioController::class,"store"])->name("registro_sala_gimnasio.store");
 Route::post("/registrar-implemento",[ImplementoController::class,"store"])->name("registro_implemento.store");
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
