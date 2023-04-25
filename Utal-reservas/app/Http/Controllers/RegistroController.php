@@ -39,4 +39,7 @@ class RegistroController extends Controller
     public function moderador(){
         return view('registro.registrar_moderador');
     }
+    public function admin(){
+        return view('registro.registrar_admin');
+    }
 }

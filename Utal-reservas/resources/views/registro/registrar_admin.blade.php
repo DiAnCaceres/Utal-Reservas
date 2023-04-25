@@ -1,6 +1,6 @@
 @extends('layouts.plantilla')
 
-@section('title', 'Registrar moderador')
+@section('title', 'Registrar admin')
 @section('content')
 
 {{-- <div class="botonera">
@@ -14,7 +14,7 @@
 <div class="contenedor">
 
     <div class="registro">
-        <h1>Registrar Moderador</h1>
+        <h1>Registrar admin</h1>
         <form method="POST">
             @csrf
             <input type="text" placeholder="Nombre" name="name">
