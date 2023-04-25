@@ -24,32 +24,47 @@ class CanchaController extends Controller
             // ]);
             // $id_estado = DB::getPdo()->lastInsertId();
 
-            $ubi = DB::table("ubicaciones")
-            ->where('nombre_ubicacion', $request->nombre_ubicacion)
-            ->where('categoria', $request->categoria)
-            ->first();
-            if ($ubi) {
-                $id_ubicacion = $ubi->id;
-            } else {
-                $ubi = DB::table("estado_reservas")->insertGetId([
-                    "nombre_ubicacion"=>$request->nombre_ubicacion,
-                    "categoria"=>$request->categoria
-                ]);
-                $id_ubicacion = $ubi;
-            }
+            // $nom_ubi=$request->nombre_ubicacion;
+            // $cat=$request->categoria;
+            // $ubi = DB::table("ubicaciones")
+            // ->where('nombre_ubicacion', $nom_ubi)
+            // ->where('categoria', $cat)
+            // ->first();
+            // if ($ubi) {
+            //     $id_ubicacion = $ubi->id;
+            // } else {
+            //     $ubi = DB::table("ubicaciones")->insertGetId([
+            //         "nombre_ubicacion"=>$nom_ubi,
+            //         "categoria"=>$cat
+            //     ]);
+            //     $id_ubicacion = $ubi;
+            // }
             
-            $estado = DB::table("ubicaciones")
-            ->where('nombre_estado', $request->nombre_estado)
-            ->first();
+            // $nom_estado=$request->nombre_estado;
+            // $estado = DB::table("estado_reservas")
+            // ->where('nombre_estado',$nom_estado)
+            // ->first();
 
-            if ($estado) {
-                $id_estado = $estado->id;
-            } else {
-                $estado = DB::table("estado_reservas")->insertGetId([
-                    "nombre_estado"=>$request->nombre_estado
-                ]);
-                $id_estado = $estado;
-            }
+            // if ($estado) {
+            //     $id_estado = $estado->id;
+            // } else {
+            //     $estado = DB::table("estado_reservas")->insertGetId([
+            //         "nombre_estado"=>$nom_estado
+            //     ]);
+            //     $id_estado = $estado;
+            // }
+
+            //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
+            $nom_ubi=$request->nombre_ubicacion;
+            // $cat=$request->categoria;
+            $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
+            $id_ubicacion = $ubi->id;
+
+            //OBTENGO EL ID DEL ESTADO DISPONIBLE
+            $estado = DB::table("estado_reservas")
+            ->where('nombre_estado',"Disponible")
+            ->first();
+            $id_estado=$estado->id;
 
             DB::table("reservas")->insert([
                 "nombre" => $request->nombre,

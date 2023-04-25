@@ -33,6 +33,10 @@ Route::get('/ayuda', function () {
 
 })->name('ayuda');
 
+Route::get('home_estudiante', [HomeController::class, 'home_estudiante'])->name('home_estudiante');
+Route::get('home_moderador', [HomeController::class, 'home_moderador'])->name('home_moderador');
+Route::get('home_admin', [HomeController::class, 'home_admin'])->name('home_admin');
+
 
 Route::get('registro_sala_estudio', [RegistroController::class, 'sala_estudio'])->name('registro_sala_estudio');
 Route::get('registro_sala_gimnasio', [RegistroController::class, 'sala_gimnasio'])->name('registro_sala_gimnasio');

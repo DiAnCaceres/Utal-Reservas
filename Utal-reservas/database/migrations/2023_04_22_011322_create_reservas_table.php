@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('reservas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre',30);
+            $table->string('nombre',30)->unique();
             //$table->unsignedBigInteger('estado_reserva_id');
             //$table->unsignedBigInteger('tipo_reserva_id');
-            $table->timestamps();
+            //$table->timestamps();
             
             // fk (laravel 10)
             $table->foreignId('estado_reserva_id')->constrained();
