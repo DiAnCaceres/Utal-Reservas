@@ -3,11 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Ubicacion;
 
 class RegistroController extends Controller
 {
     public function sala_estudio(){
-        return view('registro.registrar_sala_estudio');
+        // ALL SIN FILTRO
+        //$ubicacionesEstudio = Ubicacion::all(); 
+        
+        // con filtro where
+        $ubicacionesEstudio = Ubicacion::where('categoria', 'educativo')->get();
+        
+        
+        // debug
+        //dd($ubicacioneEstudio);
+        return view('registro.registrar_sala_estudio', compact('ubicacionesEstudio'));
     }
 
     public function sala_gimnasio(){
