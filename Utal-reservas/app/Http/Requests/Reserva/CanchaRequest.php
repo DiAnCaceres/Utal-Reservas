@@ -23,8 +23,6 @@ class CanchaRequest extends FormRequest
     {
         return [
             "nombre_ubicacion"=>["required",],
-            "categoria"=>["required"],
-            "nombre_estado"=>["required","max:30"],
             "nombre"=>["required","max:30","unique:reservas,nombre"],
             // 'email' => 'required|email|unique:users,email_address'
         ];
@@ -33,12 +31,9 @@ class CanchaRequest extends FormRequest
     {
         return[
             "nombre.required"=>"El campo :attribute es obligatorio.",
-            "nombre_estado.required"=>"El campo :attribute es obligatorio.",
-            "categoria.required"=>"El campo :attribute es obligatorio.",
             'nombre.unique' => 'El nombre ya existe en la tabla.',
             "nombre.required"=>"El campo :attribute es obligatorio.",
-            "nombre.max"=>'El campo :attribute no puede tener más de :max caracteres.',
-            "nombre_estado.max"=>'El campo :attribute no puede tener más de :max caracteres.',
+            "nombre.max"=>'El campo :attribute no puede tener más de :max caracteres.'
         ];
     }
 }
