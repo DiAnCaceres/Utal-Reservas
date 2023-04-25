@@ -2,9 +2,14 @@
 
 @section('title', 'Utal-Reservas')
 @section('content')
-    <h1>Bienvenido Admin, aquí puedes:</h1>
-    <button type="button" onclick="window.location='{{ route('registro_sala_estudio') }}'">Registar servicios</button>
-    <button type="button" onclick="window.location='{{ route('registro_moderador') }}' ">Registrar moderador</button>
-    <button type="button" onclick="window.location='{{ route('registro_estudiante') }}' ">Registrar estudiante</button>
-    
+    <h1>Bienvenido admin</h1>
+    <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <x-responsive-nav-link :href="route('logout')"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-responsive-nav-link>
+    </form>
 @endsection

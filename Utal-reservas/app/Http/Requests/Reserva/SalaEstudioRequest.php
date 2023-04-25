@@ -32,7 +32,6 @@ class SalaEstudioRequest extends FormRequest
     {
         return[
             "nombre.required"=>"El campo :attribute es obligatorio.",
-            "nombre.required"=>"El campo :attribute es obligatorio.",
             'nombre.unique' => 'El nombre ya existe en la tabla.',
             "capacidad.required"=>"El campo :attribute es obligatorio.",
             "nombre.max"=>'El campo :attribute no puede tener más de :max caracteres.',

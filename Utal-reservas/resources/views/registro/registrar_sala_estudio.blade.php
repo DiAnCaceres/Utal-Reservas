@@ -17,20 +17,24 @@
 
     <div class="box_registro_ligteblue">
         <h1> Registrar las salas de estudio</h1>
-        <form action="{{route("registro_sala_estudio.store")}}" method="POST">
+        <form action="{{route('registro_sala_estudio.store')}}" method="POST">
             @csrf
-            <input type="text" placeholder="Nombre de sala" name="nombre">
-
+            <input type="text" placeholder="Nombre" name="nombre">
+            {{-- ES LA MISMA ESTRUCTURA PARA LOS DEMAS CAM´POS QUE PUEDEN GENERAR ERROR --}}
             @if ($errors->has('nombre'))
                 <div class="invalid-feedback">
                     {{ $errors->first('nombre') }}
                 </div>
             @endif
-
             <input type="text" placeholder="Capacidad" name="capacidad">
             
-            <button class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
-
+            <label for="ubicacion" style="margin-right: 10px;">Ubicacion:</label>
+            <select name="nombre_ubicacion" id="ubicacion">
+                @foreach($ubicacionesEstudio as $ubicacion)
+                    <option name="nombre_ubicacion" value="{{ $ubicacion->nombre_ubicacion }}">{{ $ubicacion->nombre_ubicacion }}</option>
+                @endforeach
+            </select>
+            <button type="submit" class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
 
             @if (session('success'))
                 <div class="alert alert-success">
@@ -42,9 +46,10 @@
                     {{ session('error') }}
                 </div>
             @endif
-
         </form>
     </div>
+    
+
 </div>
 
 @endsection 
