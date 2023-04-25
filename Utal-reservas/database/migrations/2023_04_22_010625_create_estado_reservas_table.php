@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('estado_reservas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_estado');
-            $table->timestamps();
+            //$table->timestamps();
         });
     }
 
