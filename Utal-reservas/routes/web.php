@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegistroController;
+use App\Http\Controllers\Reservas\CanchaController;
+use App\Http\Controllers\Reservas\ImplementoController;
+use App\Http\Controllers\Reservas\SalaEstudioController;
+use App\Http\Controllers\Reservas\SalaGimnasioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +19,8 @@ use App\Http\Controllers\RegistroController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('registro', [RegistroController::class, 'registro_sala'])->name('registro_btn');
 
 Route::get('/', HomeController::class);
 
@@ -32,3 +38,11 @@ Route::get('registro_sala_estudio', [RegistroController::class, 'sala_estudio'])
 Route::get('registro_sala_gimnasio', [RegistroController::class, 'sala_gimnasio'])->name('registro_sala_gimnasio');
 Route::get('registro_cancha', [RegistroController::class, 'cancha'])->name('registro_cancha');
 Route::get('registro_implemento', [RegistroController::class, 'implemento'])->name('registro_implemento');
+Route::get('registro_estudiante', [RegistroController::class, 'estudiante'])->name('registro_estudiante');
+Route::get('registro_moderador', [RegistroController::class, 'moderador'])->name('registro_moderador');
+
+
+Route::post("registro_sala_estudio",[SalaEstudioController::class,"store"])->name("registro_sala_estudio.store");
+Route::post("registro_cancha",[CanchaController::class,"store"])->name("registro_cancha.store");
+Route::post("registro_sala_gimnasio",[SalaGimnasioController::class,"store"])->name("registro_sala_gimnasio.store");
+Route::post("registro_implemento",[ImplementoController::class,"store"])->name("registro_implemento.store");
