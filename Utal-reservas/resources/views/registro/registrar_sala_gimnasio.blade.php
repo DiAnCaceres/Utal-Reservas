@@ -21,7 +21,7 @@
             @csrf
             <input type="text" placeholder="Nombre" name="nombre">
             <input type="text" placeholder="Capacidad" name="capacidad">
-            <input type="text" placeholder="Ubicacion" name="ubicacion">
+            <input type="text" placeholder="Ubicacion" name="nombre_ubicacion">
             <button type="submit" class="btnEntrar">Entrar<i class="ri-arrow-right-line"></i></button>
         </form>
     </div>

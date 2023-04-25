@@ -20,15 +20,32 @@
         <form action="{{route('registro_sala_estudio.store')}}" method="POST">
             @csrf
             <input type="text" placeholder="Nombre" name="nombre">
+            {{-- ES LA MISMA ESTRUCTURA PARA LOS DEMAS CAM´POS QUE PUEDEN GENERAR ERROR --}}
+            @if ($errors->has('nombre'))
+                <div class="invalid-feedback">
+                    {{ $errors->first('nombre') }}
+                </div>
+            @endif
             <input type="text" placeholder="Capacidad" name="capacidad">
             
             <label for="ubicacion" style="margin-right: 10px;">Ubicacion:</label>
-            <select name="ubicacion" id="ubicacion">
+            <select name="nombre_ubicacion" id="ubicacion">
                 @foreach($ubicacionesEstudio as $ubicacion)
-                <option value="{{ $ubicacion }}">{{ $ubicacion->nombre_ubicacion }}</option>
+                    <option name="nombre_ubicacion" value="{{ $ubicacion->nombre_ubicacion }}">{{ $ubicacion->nombre_ubicacion }}</option>
                 @endforeach
             </select>
             <button type="submit" class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
         </form>
     </div>
     
