@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -26,7 +26,7 @@ Route::get('/', HomeController::class);
 
 // Route::get('/', HomeController::class, 'login');
 
-Route::get('login', [LoginController::class, 'index'])->name('login');
+//Route::get('login', [LoginController::class, 'index'])->name('login');
 
 Route::get('/ayuda', function () {
     return view('ayuda');
@@ -38,7 +38,7 @@ Route::get('registro_sala_estudio', [RegistroController::class, 'sala_estudio'])
 Route::get('registro_sala_gimnasio', [RegistroController::class, 'sala_gimnasio'])->name('registro_sala_gimnasio');
 Route::get('registro_cancha', [RegistroController::class, 'cancha'])->name('registro_cancha');
 Route::get('registro_implemento', [RegistroController::class, 'implemento'])->name('registro_implemento');
-Route::get('registro_estudiante', [RegistroController::class, 'estudiante'])->name('registro_estudiante');
+//Route::get('registro_estudiante', [RegistroController::class, 'estudiante'])->name('registro_estudiante');
 Route::get('registro_moderador', [RegistroController::class, 'moderador'])->name('registro_moderador');
 
 
@@ -46,3 +46,20 @@ Route::post("registro_sala_estudio",[SalaEstudioController::class,"store"])->nam
 Route::post("registro_cancha",[CanchaController::class,"store"])->name("registro_cancha.store");
 Route::post("registro_sala_gimnasio",[SalaGimnasioController::class,"store"])->name("registro_sala_gimnasio.store");
 Route::post("registro_implemento",[ImplementoController::class,"store"])->name("registro_implemento.store");
+
+//------------------------------------------------------------
+Route::get('/welcome', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
