@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('canchas', function (Blueprint $table) {
             $table->id();
             // duplicado $table->string('nombre')->unique();
-            $table->timestamps();
+            //$table->timestamps();
             
             //fk
             $table->foreignId('reserva_id')->constrained();
