@@ -18,9 +18,7 @@ Route::get('register_estudiante', [RegisteredUserController::class, 'createEstud
     
 
 Route::post('register_admin', [RegisteredUserController::class, 'storeAdmin']);
-
 Route::post('register_moderador', [RegisteredUserController::class, 'storeModerador']);
-
 Route::post('register_estudiante', [RegisteredUserController::class, 'storeEstudiante']);
 
 
