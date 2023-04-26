@@ -23,7 +23,7 @@ use App\Http\Controllers\Reservas\SalaGimnasioController;
 |
 */
 
-Route::get('registro', [RegistroController::class, 'registro_sala'])->name('registro_btn');
+// Route::get('registro', [RegistroController::class, 'registro_sala'])->name('registro_btn');
 
 Route::get('/', HomeController::class);
 
@@ -41,10 +41,10 @@ Route::get('home_moderador', [HomeController::class, 'home_moderador'])->name('h
 Route::get('home_admin', [HomeController::class, 'home_admin'])->name('home_admin');
 */
 
-Route::get('registro_sala_estudio', [RegistroController::class, 'sala_estudio'])->name('registro_sala_estudio');
-Route::get('registro_sala_gimnasio', [RegistroController::class, 'sala_gimnasio'])->name('registro_sala_gimnasio');
-Route::get('registro_cancha', [RegistroController::class, 'cancha'])->name('registro_cancha');
-Route::get('registro_implemento', [RegistroController::class, 'implemento'])->name('registro_implemento');
+Route::get('registro_sala_estudio', [RegistroController::class, 'sala_estudio'])->name('registro_sala_estudio')->middleware('moderador');
+Route::get('registro_sala_gimnasio', [RegistroController::class, 'sala_gimnasio'])->name('registro_sala_gimnasio')->middleware('moderador');
+Route::get('registro_cancha', [RegistroController::class, 'cancha'])->name('registro_cancha')->middleware('moderador');
+Route::get('registro_implemento', [RegistroController::class, 'implemento'])->name('registro_implemento')->middleware('moderador');
 
 Route::post("registro_sala_estudio",[SalaEstudioController::class,"store"])->name("registro_sala_estudio.store");
 Route::post("registro_cancha",[CanchaController::class,"store"])->name("registro_cancha.store");
@@ -56,9 +56,9 @@ Route::get('registro_moderador', [RegistroController::class, 'moderador'])->name
 Route::get('registro_admin', [RegistroController::class, 'admin'])->name('registro_admin');*/
 /*---------------------*/
 //------------------------------------------------------------
-Route::get('/welcome', function () {
-    return view('welcome');
-});
+// Route::get('/welcome', function () {
+//     return view('welcome');
+// });
 
 Route::get('/dashboard',[HomeController::class, "dashboard"])->middleware(['auth', 'verified'])->name('dashboard');
 
