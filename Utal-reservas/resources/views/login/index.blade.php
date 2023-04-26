@@ -1,5 +1,11 @@
 @extends('layouts.plantilla')
 @section('title', 'Login')
+
+@section('estilos')
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"> --}}
+    <link rel="stylesheet" href=" {{ asset('css/app.css') }} "/>
+@endsection
+
 @section('content')
 
     <div class="contenedor">
@@ -23,7 +29,7 @@
                 <hr>
             </div>
 
-            <a href="{{ route('ayuda') }}" class="btnAyuda">¿Necesitas ayuda?</a>
+            <a class="btnAyuda" href="{{ route('ayuda') }}" >¿Necesitas ayuda?</a>
 
         </div>
 

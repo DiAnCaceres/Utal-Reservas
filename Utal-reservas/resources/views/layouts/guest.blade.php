@@ -1,39 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title')</title>
-    <link rel="stylesheet" href=" {{ asset('css/app.css') }} "/>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-</head>
-<body>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- header  -->
-    <header>
-        <img src=" {{asset('img/logo.png')}} " alt="">
-        <div class="header-right">
-            <p><strong>Universidad de Talca</strong></p>
-            @yield('boton-header')
-        </div>
-        <span>
-    </header>
-        <div class="contenedor">
-            <div class="login">
-                {{ $slot }}
-            
-                <div class="separacion">
-                    <hr>
-                    <span>o</span>
-                    <hr>
-                </div>
+        <title>{{ config('app.name', 'Laravel') }}</title>
 
-                <a href="{{ route('ayuda') }}" class="btnAyuda">¿Necesitas ayuda?</a>
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+        <!-- Scripts -->
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="font-sans text-gray-900 antialiased">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
+            <div>
+                <a href="/">
+                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                </a>
             </div>
-            <div class="imagen">
-                <img src=" {{asset('img/login.png')}} " alt="" >
-             </div>
+
+            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+                @yield('content')
+                
+            </div>
         </div>
-</body>
+    </body>
 </html>

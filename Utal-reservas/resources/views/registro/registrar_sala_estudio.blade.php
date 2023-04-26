@@ -1,6 +1,12 @@
 @extends('layouts.plantilla')
 
 @section('title', 'Registar Sala de Estudio')
+
+@section('estilos')
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"> --}}
+    <link rel="stylesheet" href=" {{ asset('css/app.css') }} "/>
+@endsection
+
 @section('content')
 
 <div class="botonera">
@@ -26,9 +32,15 @@
                     {{ $errors->first('nombre') }}
                 </div>
             @endif
+
             <input type="text" placeholder="Capacidad" name="capacidad">
-            
-            <label for="ubicacion" style="margin-right: 10px;">Ubicacion:</label>
+            @if ($errors->has('capacidad'))
+                <div class="invalid-feedback">
+                    {{ $errors->first('capacidad') }}
+                </div>
+            @endif
+            <!--  control + k + c   : comentar  -->
+            <label for="ubicacion" style="margin-right: 280px;">Ubicacion:</label>
             <select name="nombre_ubicacion" id="ubicacion">
                 @foreach($ubicacionesEstudio as $ubicacion)
                     <option name="nombre_ubicacion" value="{{ $ubicacion->nombre_ubicacion }}">{{ $ubicacion->nombre_ubicacion }}</option>
