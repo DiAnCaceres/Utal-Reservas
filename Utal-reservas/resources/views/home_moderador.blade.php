@@ -2,20 +2,18 @@
 
 @section('title', 'Utal-Reservas')
 @section('content')
-    <section class="hero">
-    <div class="hero-body">
-        <p class="title">
-        Bienvenido
-        </p>
-        <p class="subtitle">
-        Moderador: {{ Auth::user()->name }}
-        </p>
-    </div>
-    </section>
-    
     <div class="columns">
         <div class="column">
-            <div class="box">
+            <p class="title">
+                Bienvenido
+            </p>
+            <p class="subtitle">
+                Moderador: {{ Auth::user()->name }}
+            </p>
+
+        </div>
+        <div class="column">
+            <div class="card">
                 <div class="card-content">
                     <div class="content">
                         <p> User ID: {{ Auth::user()->id }} </p>
@@ -23,14 +21,13 @@
                         <p> User Name: {{ Auth::user()->name }} </p>
 
                         <p> User Email: {{ Auth::user()->email }} </p>
+                        
                     </div>
                 </div>
             </div>
 
         </div>
-        <div class="column">
-
-        </div>
+        
         <div class="column">
             <form method="POST" action="{{ route('logout') }}">
                         @csrf
