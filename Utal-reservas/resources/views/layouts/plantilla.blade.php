@@ -16,6 +16,26 @@
         <div class="header-right">
             <p><strong>Universidad de Talca</strong></p>
             @yield('boton-header')
+            <!-- if statement para chequear si hay un usuario logueado  -->
+            @auth
+            <small>Bienvenid@ 
+                @switch(Auth::user()->role)
+                    @case(1)
+                        {{'Admin'}}
+                        @break
+                
+                    @case(2)
+                        {{'Moderador'}}
+                        @break
+
+                    @case(3)
+                        {{'Estudiante'}}
+                        @break
+
+                @endswitch
+                {{Auth::user()->name }}</small>
+            @endauth
+            <!-- ------------------------- -->
         </div>
         <span>
         </header>

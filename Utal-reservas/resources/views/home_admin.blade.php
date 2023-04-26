@@ -2,7 +2,7 @@
 
 @section('title', 'Utal-Reservas')
 @section('content')
-    <h1>Bienvenido admin</h1>
+    <h1>Bienvenido admin: {{ Auth::user()->name }}</h1>
     <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
