@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Validation\Rule;
 
 class RegisteredUserController extends Controller
 {
@@ -66,7 +67,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'rut' => ['required', 'string', 'max:13'],
+            'rut' => ['required', 'regex:/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}-[0-9kK]{1}$/'],
         ]);
 
         $user = User::create([
@@ -89,7 +90,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'rut' => ['required', 'string', 'max:13'],
+            'rut' => ['required', 'regex:/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}-[0-9kK]{1}$/'],
         ]);
 
         $user = User::create([
@@ -112,7 +113,7 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'rut' => ['required', 'string', 'max:13'],
+            'rut' => ['required', 'regex:/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}-[0-9kK]{1}$/'],
         ]);
 
         $user = User::create([
@@ -128,5 +129,28 @@ class RegisteredUserController extends Controller
         //Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME_ESTUDIANTE);
+    }
+
+    public function validarRutChileno($rut) {
+        $rut = preg_replace('/[^0-9kK]/', '', $rut);
+
+        if (strlen($rut) < 8 || strlen($rut) > 9) {
+            return false;
+        }
+
+        $rut = str_pad($rut, 9, '0', STR_PAD_LEFT);
+
+        $factor = 2;
+        $suma = 0;
+
+        for ($i = 8; $i >= 0; $i--) {
+            $suma += $rut[$i] * $factor;
+            $factor = $factor == 7 ? 2 : $factor + 1;
+        }
+
+        $dv = 11 - ($suma % 11);
+        $dv = $dv == 11 ? 0 : ($dv == 10 ? 'K' : $dv);
+
+        return $dv == strtoupper($rut[9]);
     }
 }
