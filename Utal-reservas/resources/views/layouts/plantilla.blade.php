@@ -14,7 +14,9 @@
 
     <!-- header  -->
     <header>
-        <img src=" {{asset('img/logo.png')}} " alt="">
+        <a href="/"><img src=" {{asset('img/logo.png')}} " alt=""></a>
+        
+
         <div class="header-right">
             <p><strong>Universidad de Talca</strong></p>
             @yield('boton-header')
