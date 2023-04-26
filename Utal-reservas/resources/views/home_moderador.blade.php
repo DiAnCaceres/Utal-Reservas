@@ -10,9 +10,11 @@
 
     <p> User Email: {{ Auth::user()->email }} </p>
     <hr>
+    <button type="button" onclick="window.location='{{ route('profile.edit') }}' ">Perfil</button>
     <button type="button" onclick="window.location='{{ route('register_moderador') }}' ">Registrar moderador</button>
     <button type="button" onclick="window.location='{{ route('register_estudiante') }}' ">Registrar estudiante</button>
     <button type="button" onclick="window.location='{{ route('register_admin') }}' ">Registrar admin</button>
+    
     <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
