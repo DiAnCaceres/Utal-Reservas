@@ -26,9 +26,15 @@
                     {{ $errors->first('nombre') }}
                 </div>
             @endif
+
             <input type="text" placeholder="Capacidad" name="capacidad">
-            
-            <label for="ubicacion" style="margin-right: 10px;">Ubicacion:</label>
+            @if ($errors->has('capacidad'))
+                <div class="invalid-feedback">
+                    {{ $errors->first('capacidad') }}
+                </div>
+            @endif
+            <!--  control + k + c   : comentar  -->
+            <label for="ubicacion" style="margin-right: 280px;">Ubicacion:</label>
             <select name="nombre_ubicacion" id="ubicacion">
                 @foreach($ubicacionesEstudio as $ubicacion)
                     <option name="nombre_ubicacion" value="{{ $ubicacion->nombre_ubicacion }}">{{ $ubicacion->nombre_ubicacion }}</option>

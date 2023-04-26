@@ -28,6 +28,11 @@
             @endif
 
             <input type="text" placeholder="Capacidad" name="capacidad">
+            @if ($errors->has('capacidad'))
+                <div class="invalid-feedback">
+                    {{ $errors->first('capacidad') }}
+                </div>
+            @endif
            
             <button class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
 
