@@ -27,7 +27,7 @@
             <input type="email" placeholder="Mail" name="email">
             <input type="text" placeholder="Rut: 12.345.678-9" name="rut">
             <input type="text" placeholder="Matrícula" name="matricula">
-            <input type="password" placeholder="Contraseña" name="password">
+            <input type="password" placeholder= "Contraseña (Mínimo 8 cáracteres)" name="password">
             <input type="password" placeholder="Confirmar Contraseña" name="password_confirmation">
             <button type="submit" class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
