@@ -1,0 +1,230 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    
+    margin: 0;
+    padding: 0;
+    
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 10vh 20px 10vh;
+    background-color: #00cccc;
+    margin-bottom: 5rem;
+    max-height: 120px;
+    position: relative;
+}
+
+
+header img {
+    align-self:flex-start;
+    width: 100px;
+    height: 100px;
+}
+
+header div {
+    align-self: flex-end;
+    font-size: 24px;
+}
+
+header span {
+    position: absolute;
+    background-color: black;
+    width: 99%;
+    height: 1px;
+    bottom: 0%;
+    left: 0%;
+    margin: 0vh 1vh;
+}
+
+.contenedor {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    gap: 80px;
+}
+
+.login {                             /*  caja seleste para los datos del login */ 
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    background-color: #00cccc;
+    padding: 20px 30px;
+    border-radius: 12px;
+}
+
+.registro {
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    background-color: #00cccc;
+    padding: 20px 30px;
+    border-radius: 12px;
+    margin: auto;
+}
+
+.box_registro_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: flex;
+    flex-direction: column;
+    margin-left: 37%;
+    width: 25%;
+    background-color: #00cccc;
+    padding: 20px 30px;
+    border-radius: 12px;
+}
+
+.btnAyuda {
+    width: 75%;
+    margin: auto;
+    padding: 8px;
+    background-color: chocolate;
+    border-width: 0px;
+    border-radius: 4px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    font-style: none;
+}
+
+.separacion {
+    padding: 20px 0px;
+    display: flex;
+    flex: row;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.separacion hr {
+    width: 100%;
+    border: none;
+    height: 3px;
+    background-color: white;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 0px;
+
+}
+
+form input {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: none;
+    outline: 0px;
+    margin: 0px 35px;   
+    padding: 0px 5px;
+}
+
+.btnEntrar{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    width: 30%;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: lighter;
+    background-color: chocolate;
+    color: white;
+}
+
+.imagen {
+    
+    display: flex;
+    width: 65%;
+    background-color: #00ccccd1;
+    justify-content: center;
+
+}
+
+.imagen img {
+    width: 60%;
+    max-height: 400px;
+    margin: auto;
+}
+
+     
+.botonera{                            /* Caja de botones de Servicio Tapia  */ 
+    display: flex;
+    padding: 5px;
+    background-color:#00cccc;
+    width: 70%;
+    height: 10%;
+    border-radius: 15px;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+    
+
+.boton_servicios {                        /* Boton como tal  */ 
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    margin-left: 15%;
+    border: 1px solid #c3cad6; /*anchura, estilo y color borde*/
+    padding: 0px; /*espacio alrededor texto*/
+    background-color: #c3cad6; /*color botón*/
+    color: #000000; /*color texto*/
+    text-transform:unset;
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    transition: 0.2s;
+    cursor: pointer;
+    }
+
+.boton_servicios:hover{                  /* Cuando se pasa por encima del boton  */ 
+    background-color: #d77c26;
+    }
+
+.boton_servicios:active {                /*  Cuando se clikea */ 
+    background: gray;
+    color: #000000; 
+    }
+
+.boton_activo{                          /*  Cuando el boton esta activo */ 
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    margin-left: 15%;
+    border: 1px solid #df7a1b; /*anchura, estilo y color borde*/
+    text-align: center;
+    padding: 0px; /*espacio alrededor texto*/
+    background-color: #df7a1b; /*color botón*/
+    color: #000000; /*color texto*/
+    text-decoration: none; /*decoración texto*/
+    /*text-transform: uppercase; capitalización texto*/
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    }
+
+.button-register{     
+    margin-top: 1.5rem;     
+    margin-bottom: 1.5rem;     
+    padding: 0.5rem;     
+    width: 100%;     
+    background-color: #fff;     
+    border: 1px solid #FF8C40;     
+    color: #FF8C40;     
+    font-size: large;     
+    font-weight: 600px;
+    }
+    
+.button-register:hover{     
+    border: 1px solid #FF8C40;     
+    background-color: #FF8C40;     
+    color: #fff; 
+    } 
