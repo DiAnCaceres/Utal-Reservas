@@ -22,7 +22,7 @@ class RegistroController extends Controller
 
     public function sala_gimnasio(){
         
-        $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->get();
+        $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->whereNotIn('nombre_ubicacion',['aire libre'])->get();
         
         return view('registro.registrar_sala_gimnasio', compact('ubicacionesDeportivas'));
     }
@@ -34,7 +34,7 @@ class RegistroController extends Controller
     }
 
     public function implemento(){
-        $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->get();
+        $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->whereNotIn('nombre_ubicacion',['aire libre'])->get();
         
         return view('registro.registrar_implemento', compact('ubicacionesDeportivas'));
     }

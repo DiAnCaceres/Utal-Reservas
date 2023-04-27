@@ -81,7 +81,7 @@ class UbicacionesSeeder extends Seeder
             ] ,
             [
                 'id' => 14,
-                'nombre_ubicacion' => 'Gimnasio',
+                'nombre_ubicacion' => 'aire libre',
                 'categoria' => 'deportivo',
             ] ,
             
