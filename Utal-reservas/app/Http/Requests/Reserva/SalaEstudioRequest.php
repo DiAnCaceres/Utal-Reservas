@@ -24,14 +24,13 @@ class SalaEstudioRequest extends FormRequest
         return [
             "nombre_ubicacion"=>["required"],
             "nombre"=>["required","max:30","unique:reservas,nombre"],
-            "capacidad"=>["required","max:11","integer"]
+            "capacidad"=>["required","max:20","integer"]
             // 'email' => 'required|email|unique:users,email_address'
         ];
     }
     public function messages()
     {
         return[
-            "nombre.required"=>"El campo :attribute es obligatorio.",
             "nombre.required"=>"El campo :attribute es obligatorio.",
             'nombre.unique' => 'El nombre ya existe en la tabla.',
             "capacidad.required"=>"El campo :attribute es obligatorio.",

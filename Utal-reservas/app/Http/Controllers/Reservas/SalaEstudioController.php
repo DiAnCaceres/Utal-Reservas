@@ -13,31 +13,8 @@ class SalaEstudioController extends Controller
     public function store(SalaEstudioRequest $request){
         $sql=true;
         try {
-            // DB::table("ubicaciones")->insert([
-            //     "nombre_ubicacion"=>$request->nombre_ubicacion,
-            //     "categoria"=>$request->categoria
-            // ]);
-            // $id_ubicacion= DB::getPdo()->lastInsertId();
-
-            // DB::table("estado_reservas")->insert([
-            //     "nombre_estado"=>$request->nombre_estado
-            // ]);
-            // $id_estado = DB::getPdo()->lastInsertId();
-
-            // $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->where('categoria', $cat)->first();
-            // if ($ubi) {
-            //     $id_ubicacion = $ubi->id;
-            // } else {
-            //     $ubi = DB::table("ubicaciones")->insertGetId([
-            //         "nombre_ubicacion"=>$nom_ubi,
-            //         "categoria"=>$cat
-            //     ]);
-            //     $id_ubicacion = $ubi;
-            // }
-            
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
-            $nom_ubi=$request->nombre_ubicacion;
-            // $cat=$request->categoria;
+            $nom_ubi = $request->input('nombre_ubicacion');
             $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
             $id_ubicacion = $ubi->id;
 
@@ -58,14 +35,9 @@ class SalaEstudioController extends Controller
                 "reserva_id" => $id_reserva,
                 "capacidad" => $request->capacidad,
             ]);
+            return back()->with("success","Sala Estudio registrada correctamente");
         } catch (\Throwable $th) {
-            $sql=0;
-        }
-        if($sql == true){
-            return back()->with("correcto","Sala Estudio registrada correctamente");
-        }
-        else{
-            return back()->with("incorrecto","Error al registrar");
+            return back()->with('error', '¡Hubo un error al guardar el registro!');
         }
     }
 }
