@@ -25,7 +25,7 @@
             @csrf
             <input type="text" placeholder="Nombre" name="name">
             <input type="email" placeholder="Mail" name="email">
-            <input type="text" placeholder="Rut" name="rut">
+            <input type="text" placeholder="Rut: 12.345.678-9" name="rut">
             <input type="text" placeholder="Matrícula" name="matricula">
             <input type="password" placeholder= "Contraseña (Mínimo 8 cáracteres)" name="password">
             <input type="password" placeholder="Confirmar Contraseña" name="password_confirmation">
