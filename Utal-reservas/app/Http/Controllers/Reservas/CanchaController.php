@@ -13,50 +13,8 @@ class CanchaController extends Controller
     public function store(CanchaRequest $request){
         $sql=true;
         try {
-            // DB::table("ubicaciones")->insert([
-            //     "nombre_ubicacion"=>$request->nombre_ubicacion,
-            //     "categoria"=>$request->categoria
-            // ]);
-            // $id_ubicacion= DB::getPdo()->lastInsertId();
-
-            // DB::table("estado_reservas")->insert([
-            //     "nombre_estado"=>$request->nombre_estado
-            // ]);
-            // $id_estado = DB::getPdo()->lastInsertId();
-
-            // $nom_ubi=$request->nombre_ubicacion;
-            // $cat=$request->categoria;
-            // $ubi = DB::table("ubicaciones")
-            // ->where('nombre_ubicacion', $nom_ubi)
-            // ->where('categoria', $cat)
-            // ->first();
-            // if ($ubi) {
-            //     $id_ubicacion = $ubi->id;
-            // } else {
-            //     $ubi = DB::table("ubicaciones")->insertGetId([
-            //         "nombre_ubicacion"=>$nom_ubi,
-            //         "categoria"=>$cat
-            //     ]);
-            //     $id_ubicacion = $ubi;
-            // }
-            
-            // $nom_estado=$request->nombre_estado;
-            // $estado = DB::table("estado_reservas")
-            // ->where('nombre_estado',$nom_estado)
-            // ->first();
-
-            // if ($estado) {
-            //     $id_estado = $estado->id;
-            // } else {
-            //     $estado = DB::table("estado_reservas")->insertGetId([
-            //         "nombre_estado"=>$nom_estado
-            //     ]);
-            //     $id_estado = $estado;
-            // }
-
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
             $nom_ubi=$request->nombre_ubicacion;
-            // $cat=$request->categoria;
             $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
             $id_ubicacion = $ubi->id;
 
@@ -76,14 +34,9 @@ class CanchaController extends Controller
             DB::table("canchas")->insert([
                 "reserva_id" => $id_reserva
             ]);
+            return back()->with("success","Cancha registrada correctamente");
         } catch (\Throwable $th) {
-            $sql=0;
-        }
-        if($sql == true){
-            return back()->with("correcto","Cancha registrada correctamente");
-        }
-        else{
-            return back()->with("incorrecto","Error al registrar");
+            return back()->with('error', '¡Hubo un error al guardar el registro!');
         }
     }
 }
