@@ -24,32 +24,27 @@ class SalaEstudioController extends Controller
             // ]);
             // $id_estado = DB::getPdo()->lastInsertId();
 
-            $ubi = DB::table("ubicaciones")
-            ->where('nombre_ubicacion', $request->nombre_ubicacion)
-            ->where('categoria', $request->categoria)
-            ->first();
-            if ($ubi) {
-                $id_ubicacion = $ubi->id;
-            } else {
-                $ubi = DB::table("estado_reservas")->insertGetId([
-                    "nombre_ubicacion"=>$request->nombre_ubicacion,
-                    "categoria"=>$request->categoria
-                ]);
-                $id_ubicacion = $ubi;
-            }
+            // $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->where('categoria', $cat)->first();
+            // if ($ubi) {
+            //     $id_ubicacion = $ubi->id;
+            // } else {
+            //     $ubi = DB::table("ubicaciones")->insertGetId([
+            //         "nombre_ubicacion"=>$nom_ubi,
+            //         "categoria"=>$cat
+            //     ]);
+            //     $id_ubicacion = $ubi;
+            // }
             
-            $estado = DB::table("ubicaciones")
-            ->where('nombre_estado', $request->nombre_estado)
-            ->first();
+            //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
+            $nom_ubi = $request->input('nombre_ubicacion');
+            $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
+            $id_ubicacion = $ubi->id;
 
-            if ($estado) {
-                $id_estado = $estado->id;
-            } else {
-                $estado = DB::table("estado_reservas")->insertGetId([
-                    "nombre_estado"=>$request->nombre_estado
-                ]);
-                $id_estado = $estado;
-            }
+            //OBTENGO EL ID DEL ESTADO DISPONIBLE
+            $estado = DB::table("estado_reservas")
+            ->where('nombre_estado',"Disponible")
+            ->first();
+            $id_estado=$estado->id;
 
             DB::table("reservas")->insert([
                 "nombre" => $request->nombre,
@@ -62,14 +57,15 @@ class SalaEstudioController extends Controller
                 "reserva_id" => $id_reserva,
                 "capacidad" => $request->capacidad,
             ]);
+            return back()->with("success","Sala Estudio registrada correctamente");
         } catch (\Throwable $th) {
-            $sql=0;
+            return back()->with('error', '¡Hubo un error al guardar el registro!');
         }
-        if($sql == true){
-            return back()->with("correcto","Sala Estudio registrada correctamente");
-        }
-        else{
-            return back()->with("incorrecto","Error al registrar");
-        }
+        // if($sql == true){
+            
+        // }
+        // else{
+            
+        // }
     }
 }

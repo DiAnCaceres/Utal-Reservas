@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             // duplicado $table->string('nombre')->unique();
             $table->integer('capacidad');
-            $table->timestamps();
+            //$table->timestamps();
             
             // fk
             $table->foreignId('reserva_id')->constrained();

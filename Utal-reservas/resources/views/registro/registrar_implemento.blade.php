@@ -1,6 +1,12 @@
 @extends('layouts.plantilla')
 
 @section('title', 'Registar Implemento')
+
+@section('estilos')
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"> --}}
+    <link rel="stylesheet" href=" {{ asset('css/app.css') }} "/>
+@endsection
+
 @section('content')
 
 <div class="botonera">
@@ -17,11 +23,37 @@
 
     <div class="box_registro_ligteblue">
         <h1> Registrar Implemento</h1>
-        <form action="{{route("registro_implemento.store")}}" method="POST">
-            @csrf
-            <input type="text" placeholder="Nombre" name="nombre">
+        <form action="{{route('registro_implemento.store')}}" method="POST">
+        @csrf
+            <input type="text" placeholder="Nombre de implemento" name="nombre">
+
+            @if ($errors->has('nombre'))
+                <div class="invalid-feedback">
+                    {{ $errors->first('nombre') }}
+                </div>
+            @endif
+
             <input type="text" placeholder="Cantidad" name="cantidad">
-            <button type="submit" class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
+            @if ($errors->has('cantidad'))
+                <div class="invalid-feedback">
+                    {{ $errors->first('cantidad') }}
+                </div>
+            @endif
+           
+            <button class="btnEntrar">Registar<i class="ri-arrow-right-line"></i></button>
+
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
         </form>
     </div>
 </div>

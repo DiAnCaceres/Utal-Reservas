@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nombre_ubicacion',50);
             $table->string('categoria',10);
-            $table->timestamps();
+            //$table->timestamps();
         });
     }
 
