@@ -74,6 +74,16 @@ class UbicacionesSeeder extends Seeder
                 'nombre_ubicacion' => 'Edificio C.T.A',
                 'categoria' => 'educativo',
             ] ,
+            [
+                'id' => 13,
+                'nombre_ubicacion' => 'Gimnasio',
+                'categoria' => 'deportivo',
+            ] ,
+            [
+                'id' => 14,
+                'nombre_ubicacion' => 'Gimnasio',
+                'categoria' => 'deportivo',
+            ] ,
             
         ]);
     }

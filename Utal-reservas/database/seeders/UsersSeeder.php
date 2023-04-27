@@ -17,7 +17,7 @@ class UsersSeeder extends Seeder
             [
                 'id' => 1,
                 'name' => 'Sr. Administrador',
-                'rut' => 111111111,
+                'rut' => '11.111.111-1',
                 'email' => 'administrador@utalca.cl',
                 'role' => 1,
                 'password' => '$2y$10$QhMMhf9EjYcHA83r4uDT/.sMnb4oNF5ZmtSytSPBmWqeTXHaWoFQ2',
@@ -25,11 +25,20 @@ class UsersSeeder extends Seeder
             [
                 'id' => 2,
                 'name' => 'Sr. Moderador',
-                'rut' => 22222222,
+                'rut' => '22.222.222-2',
                 'email' => 'moderador@utalca.cl',
                 'role' => 2,
                 'password' => '$2y$10$CYg2utzpf/HcRcOP0DbJjepMQdkaNThxjYTnq9Fys6zOt.3BkODtm',
             ],
+            [
+                'id' => 3,
+                'name' => 'Sr. Estudiante',
+                'rut' => '33.333.333-3',
+                'email' => 'estudiante@utalca.cl',
+                'role' => 3,
+                'password' => '$2y$10$n00aZJ.73HusAOLE39ZQKuttWDCpGOrGwPubG4kAUUc7PgaWA494q',
+            ],
+            
         ]);
     }
 }
