@@ -16,11 +16,11 @@ class EstadoReservasSeeder extends Seeder
     DB::table('estado_reservas')->insert([
             [
                 'id' => 1,
-                'nombre_estado' => 'deshabilitado',
+                'nombre_estado' => 'No Disponible',
             ],
             [
                 'id' => 2,
-                'nombre_estado' => 'habilitado',
+                'nombre_estado' => 'Disponible',
             ]
         ]);
     }

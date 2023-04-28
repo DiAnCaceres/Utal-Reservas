@@ -13,28 +13,6 @@ class SalaEstudioController extends Controller
     public function store(SalaEstudioRequest $request){
         $sql=true;
         try {
-            // DB::table("ubicaciones")->insert([
-            //     "nombre_ubicacion"=>$request->nombre_ubicacion,
-            //     "categoria"=>$request->categoria
-            // ]);
-            // $id_ubicacion= DB::getPdo()->lastInsertId();
-
-            // DB::table("estado_reservas")->insert([
-            //     "nombre_estado"=>$request->nombre_estado
-            // ]);
-            // $id_estado = DB::getPdo()->lastInsertId();
-
-            // $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->where('categoria', $cat)->first();
-            // if ($ubi) {
-            //     $id_ubicacion = $ubi->id;
-            // } else {
-            //     $ubi = DB::table("ubicaciones")->insertGetId([
-            //         "nombre_ubicacion"=>$nom_ubi,
-            //         "categoria"=>$cat
-            //     ]);
-            //     $id_ubicacion = $ubi;
-            // }
-            
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
             $nom_ubi = $request->input('nombre_ubicacion');
             $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
@@ -61,11 +39,5 @@ class SalaEstudioController extends Controller
         } catch (\Throwable $th) {
             return back()->with('error', '¡Hubo un error al guardar el registro!');
         }
-        // if($sql == true){
-            
-        // }
-        // else{
-            
-        // }
     }
 }

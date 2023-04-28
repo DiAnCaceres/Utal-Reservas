@@ -33,6 +33,13 @@
                 </div>
             @endif
            
+            <label for="ubicacion" style="margin-right: 150px;">Ubicacion:</label>
+            <select name="nombre_ubicacion" id="ubicacion">
+                @foreach($ubicacionesDeportivas as $ubicacion)
+                <option name="nombre_ubicacion" value="{{ $ubicacion->nombre_ubicacion }}">{{ $ubicacion->nombre_ubicacion }}</option>
+                @endforeach
+            </select>
+            
             <button class="btnEntrar">Registar<i class="ri-arrow-right-line"></i></button>
 
 
