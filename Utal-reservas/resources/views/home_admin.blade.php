@@ -23,6 +23,7 @@
 
         <div class="buttons column">
             {{-- <button class="button" type="button" onclick="window.location='{{ route('profile.edit') }}' ">Perfil</button> --}}
+            <button class="button" type="button" onclick="window.location='{{ route('registro_sala_estudio') }}'">Ir al Registro</button>
             <button class="button" type="button" onclick="window.location='{{ route('register_moderador') }}' ">
                 Registrar moderador
             </button>
