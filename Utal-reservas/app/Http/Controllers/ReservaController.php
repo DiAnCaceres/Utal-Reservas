@@ -3,20 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Ubicacion;
+use App\Models\Bloques;
 
 class ReservaController extends Controller
 {
     public function sala_estudio(){
-        return view('reservar.sala_estudio');
+        $bloquesDisponibles = Bloques::all();
+        return view('reservar.sala_estudio',compact('bloquesDisponibles'));
     }
+
     public function sala_gimnasio(){
-        return view('reservar.sala_gimnasio');
+        $bloquesDisponibles = Bloques::all();
+        return view('reservar.sala_gimnasio',compact('bloquesDisponibles'));
     }
     public function cancha(){
-        return view('reservar.cancha');
+        $bloquesDisponibles = Bloques::all();
+        return view('reservar.cancha',compact('bloquesDisponibles'));
     }
     public function implemento(){
-        return view('reservar.implemento');
+        $bloquesDisponibles = Bloques::all();
+        return view('reservar.implemento',compact('bloquesDisponibles'));
     }
 }
