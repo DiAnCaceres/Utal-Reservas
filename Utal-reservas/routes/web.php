@@ -11,6 +11,9 @@ use App\Http\Controllers\Reservas\CanchaController;
 use App\Http\Controllers\Reservas\ImplementoController;
 use App\Http\Controllers\Reservas\SalaEstudioController;
 use App\Http\Controllers\Reservas\SalaGimnasioController;
+use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\ModificarCantidadController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -41,10 +44,10 @@ Route::get('home_moderador', [HomeController::class, 'home_moderador'])->name('h
 Route::get('home_admin', [HomeController::class, 'home_admin'])->name('home_admin');
 */
 
-Route::get('registro_sala_estudio', [RegistroController::class, 'sala_estudio'])->name('registro_sala_estudio')->middleware('moderador');
-Route::get('registro_sala_gimnasio', [RegistroController::class, 'sala_gimnasio'])->name('registro_sala_gimnasio')->middleware('moderador');
-Route::get('registro_cancha', [RegistroController::class, 'cancha'])->name('registro_cancha')->middleware('moderador');
-Route::get('registro_implemento', [RegistroController::class, 'implemento'])->name('registro_implemento')->middleware('moderador');
+Route::get('registro_sala_estudio', [RegistroController::class, 'sala_estudio'])->name('registro_sala_estudio')->middleware('admin');
+Route::get('registro_sala_gimnasio', [RegistroController::class, 'sala_gimnasio'])->name('registro_sala_gimnasio')->middleware('admin');
+Route::get('registro_cancha', [RegistroController::class, 'cancha'])->name('registro_cancha')->middleware('admin');
+Route::get('registro_implemento', [RegistroController::class, 'implemento'])->name('registro_implemento')->middleware('admin');
 
 Route::post("registro_sala_estudio",[SalaEstudioController::class,"store"])->name("registro_sala_estudio.store");
 Route::post("registro_cancha",[CanchaController::class,"store"])->name("registro_cancha.store");
@@ -73,3 +76,12 @@ Route::get('/estudiante', [EstudianteController::class, 'index'])->name('estudia
 Route::get('/admin', [AdminController::class, 'index'])->name('admin')->middleware('admin');
 Route::get('/moderador', [ModeradorController::class, 'index'])->name('moderador')->middleware('moderador');
 require __DIR__.'/auth.php';
+
+
+Route::get('/reservar_sala_estudio', [ReservaController::class, 'sala_estudio'])->name('reservar_sala_estudio');
+Route::get('/reservar_sala_gimnasio', [ReservaController::class, 'sala_gimnasio'])->name('reservar_sala_gimnasio');
+Route::get('/reservar_cancha', [ReservaController::class, 'cancha'])->name('reservar_cancha');
+Route::get('/reservar_implemento', [ReservaController::class, 'implemento'])->name('reservar_implemento');
+
+Route::get('/agregar_implemento', [ModificarCantidadController::class, 'agregar'])->name('agregar_implemento');
+Route::get('/eliminar_implemento', [ModificarCantidadController::class, 'eliminar'])->name('eliminar_implemento');
