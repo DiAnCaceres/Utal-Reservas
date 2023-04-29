@@ -9,8 +9,40 @@
 
 @section('content')
 
+<div class="botonera">
+    <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('reservar_sala_estudio') }}'">Salas de estudio</button>
+    <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('reservar_sala_gimnasio') }}'"> Salas del gimnasio</button>
+    <button type="button" class="btn btn-default col-xs-4 boton_activo">Canchas</button>
+    <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('reservar_implemento') }}'">Implementos</button>
+</div>
 
-<h1> Sección reservar cancha </h1>
+<div class="separacion">
+</div>
+
+<div class="contenedorReserva">
+    <div class="box_reserva_ligteblue">
+        <h1><b> Reservar cancha </b></h1>
+            <form action="{{route('reservar_cancha')}}" method="POST">
+                @csrf
+
+                <label for='bloques' style="margin-right: 140px;">Bloques:</label>
+                <select name=bloques" id="bloques">
+                 @foreach($bloquesDisponibles as $bloque)
+                    <option name="bloque" values="[{{ $bloque->hora_inicio }}{{ $bloque->hora_fin }}]">{{ $bloque->hora_inicio }} - {{ $bloque->hora_fin }}</option>
+                @endforeach
+                </select>
 
 
+                <button class="button-register">Reservar<i class="ri-arrow-right-line"></i></button>
+
+            </form>       
+
+
+    </div>
+
+        <div class="imagenReserva">
+            <img src=" {{asset('img/ubicaciones.png')}} " alt="" >
+        </div>
+
+</div>
 @endsection
