@@ -46,7 +46,7 @@
                     <option name="nombre_ubicacion" value="{{ $ubicacion->nombre_ubicacion }}">{{ $ubicacion->nombre_ubicacion }}</option>
                 @endforeach
             </select>
-            <button type="submit" class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
+            <button type="submit" class="button-register">Registrar<i class="ri-arrow-right-line"></i></button>
 
             @if (session('success'))
                 <div class="alert alert-success">
