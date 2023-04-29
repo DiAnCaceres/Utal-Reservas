@@ -19,17 +19,32 @@
 <div class="separacion">
 </div>
 
-<div class="contenedor">
-    <div class="box_registro_ligteblue">
+<div class="contenedorReserva">
+    <div class="box_reserva_ligteblue">
 
         <h1><b> Reservar sala del gimancio </b></h1>
-        <label for='bloques' style="margin-right: 150px;">Bloques:</label>
-        <select name=bloques" id="bloques">
-            @foreach($bloquesDisponibles as $bloque)
-                <option name="bloque" value="{{ $bloque }}">{{ $bloque->hora_inicio }} - {{ $bloque->hora_fin }}</option>
-            @endforeach
-        </select>
+        <form action="{{route('reservar_sala_gimnasio')}}" method="POST">
+                @csrf
+
+                <label for='bloques' style="margin-right: 150px;">Bloques:</label>
+                <select name=bloques" id="bloques">
+                @foreach($bloquesDisponibles as $bloque)
+                    <option name="bloque" value="{{ $bloque }}">{{ $bloque->hora_inicio }} - {{ $bloque->hora_fin }}</option>
+                @endforeach
+                </select>
+
+
+                <button class="button-register">Reservar<i class="ri-arrow-right-line"></i></button>
+
+            </form>      
 
     </div>
+
+
+    <div class="imagenReserva">
+                <img src=" {{asset('img/ubicaciones.png')}} " alt="" >
+        </div>
+
 </div>
 @endsection
+
