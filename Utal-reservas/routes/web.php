@@ -54,10 +54,27 @@ Route::get('registro_cancha', [RegistroController::class, 'cancha'])->name('regi
 //Route::get('registro_implemento', [RegistroController::class, 'implemento'])->name('registro_implemento')->middleware('admin');
 Route::get('registro_implemento', [ImplementoController::class, 'implemento'])->name('registro_implemento')->middleware('admin');
 
-Route::post("registro_sala_estudio",[SalaEstudioController::class,"store"])->name("registro_sala_estudio.store");
-Route::post("registro_cancha",[CanchaController::class,"store"])->name("registro_cancha.store");
-Route::post("registro_sala_gimnasio",[SalaGimnasioController::class,"store"])->name("registro_sala_gimnasio.store");
-Route::post("registro_implemento",[ImplementoController::class,"store"])->name("registro_implemento.store");
+// Route::post("registro_sala_estudio",[SalaEstudioController::class,"store"])->name("registro_sala_estudio.store");
+// Route::post("registro_cancha",[CanchaController::class,"store"])->name("registro_cancha.store");
+// Route::post("registro_sala_gimnasio",[SalaGimnasioController::class,"store"])->name("registro_sala_gimnasio.store");
+// Route::post("registro_implemento",[ImplementoController::class,"store"])->name("registro_implemento.store");
+
+//SE AGRUPARON LOS REGISTROS PARA UN MEJOR ORDEN
+Route::group(['prefix' => 'registro'], function () {
+    Route::post("sala_estudio",[SalaEstudioController::class,"store"])->name("registro_sala_estudio.store");
+    Route::post("cancha",[CanchaController::class,"store"])->name("registro_cancha.store");
+    Route::post("sala_gimnasio",[SalaGimnasioController::class,"store"])->name("registro_sala_gimnasio.store");
+    Route::post("implemento",[ImplementoController::class,"store"])->name("registro_implemento.store");
+})->name('registro.');
+
+//SE AGRUPAN LAS RESERVAS
+Route::group(['prefix' => 'reserva'], function () {
+    Route::post("sala_estudio",[SalaEstudioController::class,"reservar"])->name("reservar_sala_estudio");
+    Route::post("cancha",[CanchaController::class,"reservar"])->name("registro_cancha.store");
+    Route::post("sala_gimnasio",[SalaGimnasioController::class,"reservar"])->name("reservar_sala_gimnasio");
+    Route::post("implemento",[ImplementoController::class,"reservar"])->name("registro_implemento.store");
+})->name('reserva.');
+
 /*---------------------*/
 /*Route::get('registro_estudiante', [RegistroController::class, 'estudiante'])->name('registro_estudiante');
 Route::get('registro_moderador', [RegistroController::class, 'moderador'])->name('registro_moderador');
