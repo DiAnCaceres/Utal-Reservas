@@ -34,12 +34,12 @@ class UsersSeeder extends Seeder
                 'id' => 3,
                 'name' => 'Sr. Estudiante',
                 'rut' => '33.333.333-3',
+                'numero_matricula'=>'2020407001',
                 'email' => 'estudiante@utalca.cl',
                 'role' => 3,
                 'password' => '$2y$10$n00aZJ.73HusAOLE39ZQKuttWDCpGOrGwPubG4kAUUc7PgaWA494q',
             ],
-            
+
         ]);
     }
 }
-    
