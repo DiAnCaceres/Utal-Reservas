@@ -70,9 +70,9 @@ Route::group(['prefix' => 'registro'], function () {
 //SE AGRUPAN LAS RESERVAS
 Route::group(['prefix' => 'reserva'], function () {
     Route::post("sala_estudio",[SalaEstudioController::class,"reservar"])->name("reservar_sala_estudio");
-    Route::post("cancha",[CanchaController::class,"reservar"])->name("registro_cancha.store");
+    //Route::post("cancha",[CanchaController::class,"reservar"])->name("registro_cancha.store");
     Route::post("sala_gimnasio",[SalaGimnasioController::class,"reservar"])->name("reservar_sala_gimnasio");
-    Route::post("implemento",[ImplementoController::class,"reservar"])->name("registro_implemento.store");
+    //Route::post("implemento",[ImplementoController::class,"reservar"])->name("registro_implemento.store");
 })->name('reserva.');
 
 /*---------------------*/
