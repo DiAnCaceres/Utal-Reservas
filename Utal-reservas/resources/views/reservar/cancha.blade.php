@@ -26,7 +26,7 @@
         <label for='bloques' style="margin-right: 150px;">Bloques:</label>
         <select name=bloques" id="bloques">
             @foreach($bloquesDisponibles as $bloque)
-                <option name="bloque" values="[{{ $bloque->hora_inicio }}{{ $bloque->hora_fin }}]">{{ $bloque->hora_inicio }} - {{ $bloque->hora_fin }}</option>
+                <option name="bloque" value="{{ $bloque }}">{{ $bloque->hora_inicio }} - {{ $bloque->hora_fin }}</option>
             @endforeach
         </select>
 
