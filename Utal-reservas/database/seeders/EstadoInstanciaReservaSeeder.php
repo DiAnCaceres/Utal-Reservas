@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class EstadoInstanciaReserva extends Seeder
+class EstadoInstanciaReservaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
