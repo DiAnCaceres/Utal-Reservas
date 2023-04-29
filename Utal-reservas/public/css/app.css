@@ -145,18 +145,40 @@ form input {
 }
 
 .imagen {
-    
     display: flex;
     width: 65%;
     background-color: #00ccccd1;
     justify-content: center;
-
 }
 
 .imagen img {
     width: 60%;
     max-height: 400px;
     margin: auto;
+}
+
+.contenedorReserva {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    gap: 80px;
+}
+
+.box_reserva_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: flex;
+    flex-direction: column;
+    margin-left: 15%;
+    width: 25%;
+    background-color: #00cccc;
+    padding: 20px 30px;
+    border-radius: 12px;
+}
+
+.imagenReserva {   
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500%;
 }
 
      
