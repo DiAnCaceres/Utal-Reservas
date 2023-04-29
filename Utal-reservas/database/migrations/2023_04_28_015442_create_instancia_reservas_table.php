@@ -13,13 +13,15 @@ return new class extends Migration
     {
         Schema::create('instancia_reservas', function (Blueprint $table) {
             $table->date('fecha_reserva');
+            // fk a reserva
+            $table->foreignId('reserva_id');
             // fk del usuario que la reserva
-            $table->foreignId('usuario_id');
+            $table->foreignId('user_id');
             // fk del bloque que esta reservado
             $table->foreignId('bloque_id')->constrained();
 
             // recordar que la primary es compuesta
-            $table->primary(array('fecha_reserva','usuario_id','bloque_id'));
+            $table->primary(array('fecha_reserva','user_id','bloque_id'));
         });
     }
 

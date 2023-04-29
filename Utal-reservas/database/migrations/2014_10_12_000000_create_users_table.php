@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('rut');
+            $table->integer('numero_matricula')->nullable();
             $table->string('email')->unique();
             $table->integer('role');
             $table->timestamp('email_verified_at')->nullable();

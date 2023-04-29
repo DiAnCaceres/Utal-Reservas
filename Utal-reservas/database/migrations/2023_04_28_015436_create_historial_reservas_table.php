@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('historial_reservas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('instancia_reserva_fecha_reserva');
-            $table->foreignId('instancia_reserva_usuario_id');
+            $table->foreignId('instancia_reserva_user_id');
             $table->foreignId('instancia_reserva_bloque_id');
             $table->foreignId('estado_instancia_reserva_id');
             $table->date('fecha');
