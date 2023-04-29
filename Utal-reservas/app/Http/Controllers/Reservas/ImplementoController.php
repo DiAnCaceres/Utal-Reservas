@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Reserva\ImplementoRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Ubicacion;
 
 class ImplementoController extends Controller
 {
@@ -39,5 +40,10 @@ class ImplementoController extends Controller
         } catch (\Throwable $th) {
             return back()->with('error', '¡Hubo un error al guardar el registro!');
         }
+    }
+    public function implemento(){
+        $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->whereNotIn('nombre_ubicacion',['aire libre'])->get();
+        
+        return view('registro.registrar_implemento', compact('ubicacionesDeportivas'));
     }
 }
