@@ -40,7 +40,7 @@
                 </div>
             @endif
             <!--  control + k + c   : comentar  -->
-            <label for="ubicacion" style="margin-right: 280px;">Ubicacion:</label>
+            <label for="ubicacion" style="margin-right: 150px;">Ubicacion:</label>
             <select name="nombre_ubicacion" id="ubicacion">
                 @foreach($ubicacionesEstudio as $ubicacion)
                     <option name="nombre_ubicacion" value="{{ $ubicacion->nombre_ubicacion }}">{{ $ubicacion->nombre_ubicacion }}</option>

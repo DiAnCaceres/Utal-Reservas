@@ -13,20 +13,8 @@ class SalaGimnasioController extends Controller
     public function store(SalaGimnasioRequest $request){
         $sql=true;
         try {
-            // DB::table("ubicaciones")->insert([
-            //     "nombre_ubicacion"=>$request->nombre_ubicacion,
-            //     "categoria"=>$request->categoria
-            // ]);
-            // $id_ubicacion= DB::getPdo()->lastInsertId();
-
-            // DB::table("estado_reservas")->insert([
-            //     "nombre_estado"=>$request->nombre_estado
-            // ]);
-            // $id_estado = DB::getPdo()->lastInsertId();
-
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
             $nom_ubi=$request->nombre_ubicacion;
-            // $cat=$request->categoria;
             $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
             $id_ubicacion = $ubi->id;
 
@@ -48,14 +36,9 @@ class SalaGimnasioController extends Controller
                 "reserva_id" => $id_reserva,
                 "capacidad" => $request->capacidad,
             ]);
+            return back()->with("success","Sala Gimnasio registrada correctamente");
         } catch (\Throwable $th) {
-            $sql=0;
-        }
-        if($sql == true){
-            return back()->with("correcto","Sala Gimnasio registrada correctamente");
-        }
-        else{
-            return back()->with("incorrecto","Error al registrar");
+            return back()->with('error', '¡Hubo un error al guardar el registro!');
         }
     }
 }
