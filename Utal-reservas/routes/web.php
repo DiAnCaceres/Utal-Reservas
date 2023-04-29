@@ -11,6 +11,7 @@ use App\Http\Controllers\Reservas\CanchaController;
 use App\Http\Controllers\Reservas\ImplementoController;
 use App\Http\Controllers\Reservas\SalaEstudioController;
 use App\Http\Controllers\Reservas\SalaGimnasioController;
+use App\Http\Controllers\Reservas\PruebasController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\ModificarCantidadController;
 
@@ -43,11 +44,15 @@ Route::get('/ayuda', function () {
 Route::get('home_moderador', [HomeController::class, 'home_moderador'])->name('home_moderador');
 Route::get('home_admin', [HomeController::class, 'home_admin'])->name('home_admin');
 */
+//CONTROLADOR DE PRUEBA, NO TOCAR
+Route::get('/pruebas', [PruebasController::class, 'pruebas'])->name('pruebas')->middleware('admin');
+//CONTROLADOR DE PRUEBA, NO TOCAR
 
 Route::get('registro_sala_estudio', [RegistroController::class, 'sala_estudio'])->name('registro_sala_estudio')->middleware('admin');
 Route::get('registro_sala_gimnasio', [RegistroController::class, 'sala_gimnasio'])->name('registro_sala_gimnasio')->middleware('admin');
 Route::get('registro_cancha', [RegistroController::class, 'cancha'])->name('registro_cancha')->middleware('admin');
-Route::get('registro_implemento', [RegistroController::class, 'implemento'])->name('registro_implemento')->middleware('admin');
+//Route::get('registro_implemento', [RegistroController::class, 'implemento'])->name('registro_implemento')->middleware('admin');
+Route::get('registro_implemento', [ImplementoController::class, 'implemento'])->name('registro_implemento')->middleware('admin');
 
 Route::post("registro_sala_estudio",[SalaEstudioController::class,"store"])->name("registro_sala_estudio.store");
 Route::post("registro_cancha",[CanchaController::class,"store"])->name("registro_cancha.store");
@@ -85,3 +90,4 @@ Route::get('/reservar_implemento', [ReservaController::class, 'implemento'])->na
 
 Route::get('/agregar_implemento', [ModificarCantidadController::class, 'agregar'])->name('agregar_implemento');
 Route::get('/eliminar_implemento', [ModificarCantidadController::class, 'eliminar'])->name('eliminar_implemento');
+

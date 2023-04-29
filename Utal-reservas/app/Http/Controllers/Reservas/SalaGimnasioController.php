@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Reservas;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reserva\SalaGimnasioRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SalaGimnasioController extends Controller
@@ -41,4 +42,33 @@ class SalaGimnasioController extends Controller
             return back()->with('error', '¡Hubo un error al guardar el registro!');
         }
     }
+
+    public function reservar(Request $request){
+        try {
+            //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
+            $id_bloque=$request->bloque;
+
+            //OBTENER EL ESTUDIANTE
+            $id_usuario=$request->user()->id;
+
+            //OBTENER FECHA
+            $fecha=$request->fecha;
+
+            //OBTENER ID DE LA RESERVA
+            $id_sala_gimnasio = $request->sala;
+
+            //OBTENGO EL ID DEL ESTADO DISPONIBLE
+            
+            DB::table("instancia_reservas")->insert([
+                "bloque_id" => $id_bloque,
+                "user_id" => $id_usuario,
+                "fecha_reserva" => $fecha,
+                "reserva_id" => $id_sala_gimnasio,
+            ]);
+            return back()->with("success","Reserva de Sala Gimnasio registrada correctamente");
+        } catch (\Throwable $th) {
+            return back()->with('error', '¡Hubo un error al reservar!');
+        }
+    }
+    
 }
