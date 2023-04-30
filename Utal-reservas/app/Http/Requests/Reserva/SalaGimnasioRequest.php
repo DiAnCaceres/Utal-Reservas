@@ -32,8 +32,9 @@ class SalaGimnasioRequest extends FormRequest
     {
         return[
             "nombre.required"=>"El campo :attribute es obligatorio.",
-            "nombre.required"=>"El campo :attribute es obligatorio.",
             'nombre.unique' => 'El nombre ya existe en la tabla.',
+            "fecha.required"=>"El campo :attribute es obligatorio.",
+            "bloque.required"=>"El campo :attribute es obligatorio.",
             "capacidad.required"=>"El campo :attribute es obligatorio.",
             "nombre.max"=>'El campo :attribute no puede tener más de :max caracteres.',
             "capacidad.integer"=>'El campo :attribute debe ser un número entero.'
