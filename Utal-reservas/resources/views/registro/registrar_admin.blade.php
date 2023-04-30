@@ -29,7 +29,7 @@
             <input type="text" placeholder="Matrícula" name="matricula">
             <input type="password" placeholder="Contraseña (Mínimo 8 cáracteres)" name="password">
             <input type="password" placeholder="Confirmar Contraseña" name="password_confirmation">
-            <button type="submit" class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
+            <button type="submit" class="button-register">Registrar<i class="ri-arrow-right-line"></i></button>
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />

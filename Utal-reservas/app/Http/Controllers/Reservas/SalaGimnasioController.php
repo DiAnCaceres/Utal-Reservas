@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Reservas;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reserva\SalaGimnasioRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SalaGimnasioController extends Controller
@@ -41,4 +42,43 @@ class SalaGimnasioController extends Controller
             return back()->with('error', '¡Hubo un error al guardar el registro!');
         }
     }
+
+    public function reservar(SalaGimnasioRequest $request){
+        try {
+            //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
+            $id_bloque=$request->bloque->id;
+
+            //OBTENER EL ESTUDIANTE
+            $id_usuario=$request->user()->id;
+
+            //OBTENER FECHA DE LA RESERVA
+            $fecha_reserva=$request->fecha;
+
+            //OBTENER ID DE LA RESERVA
+            $id_sala_gimnasio = $request->sala->id;
+
+            //CREAR EL REGISTRO
+            DB::table("instancia_reservas")->insert([
+                "bloque_id" => $id_bloque,
+                "user_id" => $id_usuario,
+                "fecha_reserva" => $fecha_reserva,
+                "reserva_id" => $id_sala_gimnasio,
+            ]);
+
+            $estado_instancia_reserva = DB::table("estado_instancia_reserva")->where('nombre_estado', "reservado")->first();
+            $id_estado_instancia = $estado_instancia_reserva->id;
+
+            DB::table("historial_reservas")->insert([
+                "instancia_reserva_fecha_reserva"=>$fecha_reserva,
+                "instancia_reserva_user_id"=>$id_usuario,
+                "instancia_reserva_bloque_id"=>$id_bloque,
+                "estado_instancia_reserva_id"=>$id_estado_instancia,
+                "fecha"=>date('Y-m-d')      //ESTA ES EL DÍA EN QUE SER RESERVÓ
+            ]);
+            return back()->with("success","Reserva de Sala Gimnasio registrada correctamente");
+        } catch (\Throwable $th) {
+            return back()->with('error', '¡Hubo un error al reservar!');
+        }
+    }
+    
 }
