@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Bloques;
+use Illuminate\Support\Facades\Blade;
 
 class ReservaController extends Controller
 {
