@@ -9,8 +9,24 @@
 
 @section('content')
 
+<div class="botonera_implementos">
+    <button type="button" class="btn btn-default col-xs-4 boton_implementos_activo">Agregar</button>
+    <button type="button" class="btn btn-default col-xs-4 boton_implementos" onclick="window.location='{{ route('eliminar_implemento') }}'">Eliminar</button>
+</div>
 
-<h1> Sección agregar implementos </h1>
+<div class="separacion">
+</div>
 
+<div class="box_cantidades_ligteblue">
+<label for="implemento" style="margin-right: 150px;">Implemento:</label>
+            <select name="nombre_implemento" id="implemento">
+
+
+
+<input type="text" placeholder="Cantidad" name="cantidad">
+
+<button class="button-register">Agregar<i class="ri-arrow-right-line"></i></button>
+
+</div>
 
 @endsection
