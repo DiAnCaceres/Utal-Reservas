@@ -1,3 +1,4 @@
+@import "~flatpickr/dist/flatpickr.min.css";
 * {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
@@ -310,3 +311,4 @@ form input {
     /*text-transform: uppercase; capitalización texto*/
     font-family: 'Helvetica', sans-serif; /*tipografía texto*/
     }
+
