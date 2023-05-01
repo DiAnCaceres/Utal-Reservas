@@ -5,6 +5,7 @@
 @section('estilos')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href=" {{ asset('css/app.css') }} "/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 @endsection
 
 @section('content')
@@ -34,6 +35,9 @@
                 </select>
 
 
+                <input class="form-control" type="fecha-local" placeholder="Seleccionar fecha">
+
+
                 <button class="button-register">Reservar<i class="ri-arrow-right-line"></i></button>
 
             </form>      
@@ -44,6 +48,9 @@
     <div class="imagenReserva">
         <img src=" {{asset('img/ubicaciones.png')}} " alt="" >
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>flatpickr("input[type=fecha-local]",{})</script>
 
 </div>
 @endsection
