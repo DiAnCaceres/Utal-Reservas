@@ -47,7 +47,7 @@
                 @endforeach
             </select>
             
-            <button class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
+            <button class="button-register">Registrar<i class="ri-arrow-right-line"></i></button>
 
 
             @if (session('success'))
