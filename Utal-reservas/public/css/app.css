@@ -79,6 +79,16 @@ header span {
     border-radius: 12px;
 }
 
+.box_reserva_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: flex;
+    flex-direction: column; 
+    margin-left: 37%;       
+    width: 25%;
+    background-color: #00cccc;
+    padding: 20px 30px;
+    border-radius: 12px;
+}
+
 .btnAyuda {
     width: 75%;
     margin: auto;
@@ -164,15 +174,6 @@ form input {
     gap: 80px;
 }
 
-.box_reserva_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
-    display: flex;
-    flex-direction: column;
-    margin-left: 15%;
-    width: 25%;
-    background-color: #00cccc;
-    padding: 20px 30px;
-    border-radius: 12px;
-}
 
 .imagenReserva {   
     display: block;
