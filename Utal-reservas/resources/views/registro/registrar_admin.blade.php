@@ -1,6 +1,12 @@
 @extends('layouts.plantilla')
 
 @section('title', 'Registrar admin')
+
+@section('estilos')
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"> --}}
+    <link rel="stylesheet" href=" {{ asset('css/app.css') }} "/>
+@endsection
+
 @section('content')
 
 {{-- <div class="botonera">
@@ -19,11 +25,11 @@
             @csrf
             <input type="text" placeholder="Nombre" name="name">
             <input type="email" placeholder="Mail" name="email">
-            <input type="text" placeholder="Rut" name="rut">
+            <input type="text" placeholder="Rut: 12.345.678-9" name="rut">
             <input type="text" placeholder="Matrícula" name="matricula">
-            <input type="password" placeholder="Contraseña" name="password">
+            <input type="password" placeholder="Contraseña (Mínimo 8 cáracteres)" name="password">
             <input type="password" placeholder="Confirmar Contraseña" name="password_confirmation">
-            <button type="submit" class="btnEntrar">Registrar<i class="ri-arrow-right-line"></i></button>
+            <button type="submit" class="button-register">Registrar<i class="ri-arrow-right-line"></i></button>
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />

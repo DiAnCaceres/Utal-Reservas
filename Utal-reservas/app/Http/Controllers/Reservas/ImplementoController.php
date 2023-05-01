@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Reserva\ImplementoRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Ubicacion;
 
 class ImplementoController extends Controller
 {
@@ -13,20 +14,8 @@ class ImplementoController extends Controller
     public function store(ImplementoRequest $request){
         $sql=true;
         try {
-            // DB::table("ubicaciones")->insert([
-            //     "nombre_ubicacion"=>$request->nombre_ubicacion,
-            //     "categoria"=>$request->categoria
-            // ]);
-            // $id_ubicacion= DB::getPdo()->lastInsertId();
-
-            // DB::table("estado_reservas")->insert([
-            //     "nombre_estado"=>$request->nombre_estado
-            // ]);
-            // $id_estado = DB::getPdo()->lastInsertId();
-            
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
             $nom_ubi=$request->nombre_ubicacion;
-            // $cat=$request->categoria;
             $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
             $id_ubicacion = $ubi->id;
 
@@ -47,14 +36,14 @@ class ImplementoController extends Controller
                 "reserva_id" => $id_reserva,
                 "cantidad" => $request->cantidad,
             ]);
+            return back()->with("success","Implemento registrado correctamente");
         } catch (\Throwable $th) {
-            $sql=0;
+            return back()->with('error', '¡Hubo un error al guardar el registro!');
         }
-        if($sql == true){
-            return back()->with("correcto","Implemento registrado correctamente");
-        }
-        else{
-            return back()->with("incorrecto","Error al registrar");
-        }
+    }
+    public function implemento(){
+        $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->whereNotIn('nombre_ubicacion',['aire libre'])->get();
+        
+        return view('registro.registrar_implemento', compact('ubicacionesDeportivas'));
     }
 }

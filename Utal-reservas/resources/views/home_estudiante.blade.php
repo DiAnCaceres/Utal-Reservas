@@ -1,18 +1,45 @@
 @extends('layouts.plantilla')
 
 @section('title', 'Utal-Reservas')
+
+@section('estilos')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href=" {{ asset('css/app.css') }} "/>
+@endsection
+
 @section('content')
-    <h1>Bienvenido estudiante: {{ Auth::user()->name }}</h1>
 
-    <button type="button" onclick="window.location='{{ route('register_admin') }}' ">Perfil</button>
     
-    <form method="POST" action="{{ route('logout') }}">
-                    @csrf
+    <div class="columns">
 
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-    </form>
+        <div class="column">
+            <p class="title">
+                Bienvenido
+            </p>
+            <p class="subtitle">
+                Bienvenido estudiante: {{ Auth::user()->name }}
+            </p>
+
+        </div>
+
+        <div class="buttons column">
+            {{-- <button class="button" type="button" onclick="window.location='{{ route('profile.edit') }}' ">Perfil</button> --}}
+            <div>No hay servicios disponibles por el momento</div>
+            
+        </div>
+
+        <div class="column">
+            <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+
+                        <button class="button is-danger" :href="route('logout')"
+                                onclick="event.preventDefault();
+                                            this.closest('form').submit();">
+                            {{ __('Log Out') }}
+                        </button>
+            </form>
+        </div>
+
+    </div>
+    
 @endsection
