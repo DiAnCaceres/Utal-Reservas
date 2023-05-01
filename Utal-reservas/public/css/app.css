@@ -79,6 +79,16 @@ header span {
     border-radius: 12px;
 }
 
+.box_reserva_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: flex;
+    flex-direction: column; 
+    margin-left: 37%;       
+    width: 25%;
+    background-color: #00cccc;
+    padding: 20px 30px;
+    border-radius: 12px;
+}
+
 .btnAyuda {
     width: 75%;
     margin: auto;
@@ -164,15 +174,6 @@ form input {
     gap: 80px;
 }
 
-.box_reserva_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
-    display: flex;
-    flex-direction: column;
-    margin-left: 15%;
-    width: 25%;
-    background-color: #00cccc;
-    padding: 20px 30px;
-    border-radius: 12px;
-}
 
 .imagenReserva {   
     display: block;
@@ -250,3 +251,63 @@ form input {
     background-color: #FF8C40;     
     color: #fff; 
     } 
+
+.box_cantidades_ligteblue {                   /*  Caja celeste para la seccion de agregar o eliminar implementos */ 
+    display: flex;
+    flex-direction: column;
+    margin-left: 40%;
+    width: 20%;
+    background-color: #00cccc;
+    padding: 20px 30px;
+    border-radius: 12px;
+}
+
+.botonera_implementos{                            /* Caja de botones de agregar o eliminar implementos */ 
+    display: flex;
+    padding: 5px;
+    background-color:#00cccc;
+    width: 50%;
+    height: 10%;
+    border-radius: 15px;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.boton_implementos {                        /* Boton como tal  */ 
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    margin-left: 25%;
+    border: 1px solid #c3cad6; /*anchura, estilo y color borde*/
+    padding: 0px; /*espacio alrededor texto*/
+    background-color: #c3cad6; /*color botón*/
+    color: #000000; /*color texto*/
+    text-transform:unset;
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    transition: 0.2s;
+    cursor: pointer;
+    }
+
+.boton_implementos:hover{                  /* Cuando se pasa por encima del boton  */ 
+    background-color: #d77c26;
+    }
+
+.boton_implementos:active {                /*  Cuando se clikea */ 
+    background: gray;
+    color: #000000; 
+    }
+
+.boton_implementos_activo{                          /*  Cuando el boton esta activo */ 
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    margin-left: 25%;
+    border: 1px solid #df7a1b; /*anchura, estilo y color borde*/
+    text-align: center;
+    padding: 0px; /*espacio alrededor texto*/
+    background-color: #df7a1b; /*color botón*/
+    color: #000000; /*color texto*/
+    text-decoration: none; /*decoración texto*/
+    /*text-transform: uppercase; capitalización texto*/
+    font-family: 'Helvetica', sans-serif; /*tipografía texto*/
+    }

@@ -108,3 +108,8 @@ Route::get('/reservar_implemento', [ReservaController::class, 'implemento'])->na
 Route::get('/agregar_implemento', [ModificarCantidadController::class, 'agregar'])->name('agregar_implemento');
 Route::get('/eliminar_implemento', [ModificarCantidadController::class, 'eliminar'])->name('eliminar_implemento');
 
+Route::get('/reservar_salas_estudios_disponibles', [ReservaController::class, 'sala_estudio_disponibles'])->name('reservar_salas_estudios_disponibles');
+Route::get('/reservar_salas_gimnasio_disponibles', [ReservaController::class, 'sala_gimnasio_disponibles'])->name('reservar_salas_gimnasio_disponibles');
+Route::get('/reservar_canchas_disponibles', [ReservaController::class, 'canchas_disponibles'])->name('reservar_canchas_disponibles');
+Route::get('/reservar_implementos_disponibles', [ReservaController::class, 'implemento_disponibles'])->name('reservar_implementos_disponibles');
+
