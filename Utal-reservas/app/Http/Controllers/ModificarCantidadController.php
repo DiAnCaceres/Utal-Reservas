@@ -20,7 +20,7 @@ class ModificarCantidadController extends Controller
     }
 
     public function eliminar(){
-        $implementosDisponibles = Implemento::select('cantidad')->join('reservas','implementos.id','=','reservas.id')->select('reservas.*','implementos.*')->get();
+        $implementosDisponibles = Implemento::select('cantidad')->join('reservas','implementos.id','=','reservas.id')->select('reservas.*','implementos.*')->where('cantidad',">",0)->get();
         return view('modificar_cantidad_implemento.eliminar',compact('implementosDisponibles'));
     }
 
