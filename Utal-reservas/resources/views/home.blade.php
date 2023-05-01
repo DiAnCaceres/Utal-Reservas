@@ -20,6 +20,7 @@
 
     <button type="button" onclick="window.location='{{ route('agregar_implemento') }}'">agregar implemento</button>
     <button type="button" onclick="window.location='{{ route('eliminar_implemento') }}'">eliminar implemento</button>
-
-
+    
+    <h1>Segundo vista reservar AUN NO CONECTAR AUN!!! ALONSO !</h1>
+    
 @endsection
