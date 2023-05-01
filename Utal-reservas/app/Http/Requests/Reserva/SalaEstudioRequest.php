@@ -25,8 +25,8 @@ class SalaEstudioRequest extends FormRequest
             "nombre_ubicacion"=>["required"],
             "nombre"=>["required","max:30","unique:reservas,nombre"],
             "capacidad"=>["required","max:20","integer"],
-            "fecha"=>["required","date"],
-            "bloque"=>["required"],
+            // "fecha"=>["required","date"],
+            // "bloque"=>["required"],
             // 'email' => 'required|email|unique:users,email_address'
         ];
     }
