@@ -16,19 +16,18 @@
 
 <div class="separacion">
 </div>
+<div class=box_cantidades_ligteblue>
+    <label for="implementosDisponibles" style="margin-right: 150px;">Implemento:</label>
+    <select name="implementosDisponibles" id="implementosDisponibles">
+        @foreach($implementosDisponibles as $implemento)
+            <option name="implemento" value="{{ $implemento->id}}"> Nombre: {{$implemento->nombre}} / Cantidad actual: {{ $implemento->cantidad }}</option>
+        @endforeach
+    </select>
 
-<label for="implementosDisponibles" style="margin-right: 150px;">Implemento:</label>
-<select name="implementosDisponibles" id="implementosDisponibles">
-    @foreach($implementosDisponibles as $implemento)
-        <option name="implemento" value="{{ $implemento->id}}"> Nombre: {{$implemento->nombre}} / Cantidad actual: {{ $implemento->cantidad }}</option>
-    @endforeach
-</select>
-
-    
-<input type="text" placeholder="Cantidad" name="cantidad">
+<input type="number" placeholder="Cantidad" name="cantidad">
 
 <button class="button-register">Agregar<i class="ri-arrow-right-line"></i></button> 
-
+</div>
 </div>
 
 @endsection
