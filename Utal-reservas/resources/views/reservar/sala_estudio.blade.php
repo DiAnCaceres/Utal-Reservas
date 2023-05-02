@@ -37,9 +37,9 @@
 
             <button type="submit">Buscar</button>
             {{-- <button type="button" onclick="window.location='{{ route('reservar_salas_estudios_disponibles') }}'">Buscar canchas disponibles</button> --}}
-        </form>      
+        </form>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>flatpickr("input[type=fecha-local]",{})</script>
 
