@@ -16,6 +16,7 @@
     <div class="box_registro_ligteblue">                <!-- Caja celeste que engloba a los datos  -->
 
         <h1><b> Resultados busqueda sala de estudio </b></h1>
+        
         <form action="{{route('reservar_sala_estudio.disponibilidad')}}" method="POST">
             @csrf
             <label for='textoSalas' style="margin-right: 200px;">Salas disponibles:</label>

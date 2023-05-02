@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Reservas;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reserva\SalaEstudioRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SalaEstudioController extends Controller
@@ -31,6 +32,7 @@ class SalaEstudioController extends Controller
                 "estado_reserva_id" => $id_estado,
                 "ubicacione_id" => $id_ubicacion
             ]);
+            
             $id_reserva = DB::getPdo()->lastInsertId();
 
             DB::table("sala_estudios")->insert([
