@@ -17,11 +17,11 @@ return new class extends Migration
             //$table->unsignedBigInteger('estado_reserva_id');
             //$table->unsignedBigInteger('tipo_reserva_id');
             //$table->timestamps();
-            
+
             // fk (laravel 10)
             $table->foreignId('estado_reserva_id')->constrained();
             /* Laravel permite crear las foreing key poniendo el nombre de la tabla en singular_id
-            claro esta que en español no todas las palabras suenan bien, como por ejemplo la tabla 
+            claro esta que en español no todas las palabras suenan bien, como por ejemplo la tabla
             ubicaciones en singular es ubicacion, pero lo interpretará como ubicacione|s
             */
             $table->foreignId('ubicacione_id')->constrained();
