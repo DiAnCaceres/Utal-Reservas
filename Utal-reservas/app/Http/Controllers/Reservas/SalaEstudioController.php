@@ -32,29 +32,29 @@ class SalaEstudioController extends Controller
                 "ubicacione_id" => $id_ubicacion
             ]);
             $id_reserva = DB::getPdo()->lastInsertId();
-            
+
             DB::table("sala_estudios")->insert([
                 "reserva_id" => $id_reserva,
                 "capacidad" => $request->capacidad,
             ]);
             return back()->with("success","Sala Estudio registrada correctamente");
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             return back()->with('error', '¡Hubo un error al guardar el registro!');
         }
     }
     public function reservar(Request $request){
         try {
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
-            $id_bloque=$request->bloque->id;
-            //$id_bloque=1;
+            //$id_bloque=$request->bloque->id;
+            $id_bloque=1;
 
             //OBTENER EL ESTUDIANTE
-            $id_usuario=$request->user()->id;
+            //$id_usuario=$request->user()->id;
             //$id_usuario=2;
 
             //OBTENER FECHA DE LA RESERVA
-            $fecha_reserva=$request->fecha;
-            //$fecha_reserva="2023-07-13";
+            //$fecha_reserva=$request->fecha;
+            $fecha_reserva="2023-07-13";
 
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
 
@@ -80,8 +80,17 @@ class SalaEstudioController extends Controller
             //     "fecha"=>date('Y-m-d')      //ESTA ES EL DÍA EN QUE SER RESERVÓ
             // ]);
             // return back()->with("success","Reserva de Sala Gimnasio registrada correctamente");
-            return view('reservar.reservarDisponible.sala_estudio_disponible')->with(['fecha_reserva' => $fecha_reserva,'id_usuario'=>$id_usuario,'id_bloque'=>$fecha_reserva]);
-        } catch (\Throwable $th) {
+            $salasEstudioDisponible=DB::select("
+                SELECT * FROM sala_estudios
+                INNER JOIN reservas ON reservas.id = sala_estudios.reserva_id
+                WHERE reservas.id NOT IN (
+                    SELECT reservas.id FROM instancia_reservas
+                    INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
+                    WHERE instancia_reservas.fecha_reserva='1111-11-11' AND instancia_reservas.bloque_id=1
+                )
+            ");
+            return view('reservar.reservarDisponible.sala_estudio_disponible',compact('salasEstudioDisponible'));
+        } catch (Throwable $th) {
             return back()->with('error', '¡Hubo un error al reservar!');
         }
     }
@@ -108,7 +117,7 @@ class SalaEstudioController extends Controller
                 "estado_instancia_reserva_id"=>$id_estado_instancia,
                 "fecha"=>date('Y-m-d')      //ESTA ES EL DÍA EN QUE SER RESERVÓ
             ]);
-        }catch (\Throwable $th){
+        }catch (Throwable $th){
 
         }
     }
