@@ -17,19 +17,16 @@ class Estudiante
     {
         if (!Auth::check()) {
             return redirect()->route('login');
-        }
-
-        if (Auth::user()->role == 1) {
-            return redirect()->route('admin');
-        }
-
-        if (Auth::user()->role == 3) {
+        }else if (Auth::user()->role == 1) {
+            return redirect()->route('usuario_menuadministrador');
+        }else if (Auth::user()->role == 3) {
             return $next($request);
+        }else if (Auth::user()->role == 2) {
+            return redirect()->route('usuario_menumoderador');
         }
 
         if (Auth::user()->role == 2) {
-            return redirect()->route('moderador');
+            return redirect()->route('post_implemento_reservar_filtrado');
         }
     }
-
 }
