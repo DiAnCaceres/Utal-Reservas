@@ -18,14 +18,30 @@
         <h1><b> Resultados busqueda sala de estudio </b></h1>
         <form action="{{route('reservar_sala_estudio.disponibilidad')}}" method="POST">
             @csrf
+
+            
+            <input name="bloque" type="hidden" value="{{$id_bloque}}">
+            <input name="fecha" type="hidden" value="{{$fecha_reserva}}">
+            
+
             <label for='textoSalas' style="margin-right: 200px;">Salas disponibles:</label>
-            <select name=seleccionSala" id="salas">
+            <select name="seleccionSala" id="salas">
                 <!-- -->
                 @foreach($salasEstudioDisponible as $sala)
-                    <option name="sala" value="{{ $sala->nombre }}">{{ $sala->nombre }}</option>
+                    <option name="sala" value="{{ $sala->id }}">{{ $sala->nombre }}</option>
                 @endforeach
             </select>
-
+            <button type="submit">Registrar</button>
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
         </form>
     </div>
 </div>
