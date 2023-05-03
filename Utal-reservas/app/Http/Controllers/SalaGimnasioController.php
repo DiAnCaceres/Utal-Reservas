@@ -131,6 +131,7 @@ class SalaGimnasioController extends Controller
                 "bloque_id"=>$id_bloque,
                 "reserva_id"=>$id_estado_instancia,      //ESTA ES EL DÍA EN QUE SER RESERVÓ
             ]);
+        }catch (\Throwable $th){
 
             return redirect()->route('implemento_reservar');
         }catch (\Throwable $th){

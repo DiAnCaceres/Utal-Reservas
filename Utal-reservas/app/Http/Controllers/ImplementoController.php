@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Reserva\ImplementoRequest;
 use App\Models\Bloques;
+use Illuminate\Http\Request;
 use App\Models\Implemento;
 use App\Models\Ubicacion;
 use Illuminate\Support\Facades\DB;
