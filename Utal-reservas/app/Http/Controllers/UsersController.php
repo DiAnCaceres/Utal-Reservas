@@ -10,19 +10,19 @@ class UsersController extends Controller
 {
     // url por defecto al inicio del programa, retorna la vista home
     public function __invoke(){
-        return view('home');
+        return view('usuario.home');
     }
 
     public function get_menuadministrador(){
-        return view('home_admin');
+        return view('usuario.menuadministrador');
     }
 
     public function get_menuestudiante(){
-        return view('home_estudiante');
+        return view('usuario.menuestudiante');
     }
 
     public function get_menumoderador(){
-        return view('home_moderador');
+        return view('usuario.menumoderador');
     }
 
     public function get_redireccionar(){
@@ -37,7 +37,7 @@ class UsersController extends Controller
                 return redirect(RouteServiceProvider::HOME_ADMIN);
                 break;
             default:
-                return view('home');
+                return view('usuario.home');
         }
     }
 }

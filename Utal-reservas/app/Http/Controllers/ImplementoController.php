@@ -50,28 +50,28 @@ class ImplementoController extends Controller
     public function get_registrar(){
         $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->whereNotIn('nombre_ubicacion',['aire libre'])->get();
         $id_bloque=1;
-        return view('registro.registrar_implemento', compact('ubicacionesDeportivas'));
+        return view('implemento.registrar', compact('ubicacionesDeportivas'));
     }
 
     public function get_reservar(){
         $bloquesDisponibles = Bloques::all();
-        return view('reservar.implemento',compact('bloquesDisponibles'));
+        return view('implemento.reservar',compact('bloquesDisponibles'));
     }
 
     public function get_reservar_filtrado(){
 
-        return view('reservar.reservarDisponible.implemento_disponible');
+        return view('implemento.reservar_filtrado');
     }
 
     public function get_modificarcantidad_agregar(){
         $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->get(['reservas.nombre','implementos.cantidad']);
         //  dd($implementosDisponibles);
-        return view('modificar_cantidad_implemento.agregar',compact('implementosDisponibles'));
+        return view('implemento.agregar',compact('implementosDisponibles'));
     }
 
     public function get_modificarcantidad_eliminar(){
         $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->where('implementos.cantidad','>',0)->get(['reservas.nombre','implementos.cantidad']);
-        return view('modificar_cantidad_implemento.eliminar',compact('implementosDisponibles'));
+        return view('implemento.eliminar',compact('implementosDisponibles'));
     }
 
     public function post_reservar(ImplementoRequest $request){
