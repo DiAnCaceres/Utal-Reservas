@@ -50,15 +50,15 @@ class CanchaController extends Controller
 
     public function get_reservar(){
         $bloquesDisponibles = Bloques::all();
-        return view('reservar.cancha',compact('bloquesDisponibles'));
+        return view('cancha.reservar',compact('bloquesDisponibles'));
     }
     public function get_reservar_filtrado(){
-        return view('reservar.reservarDisponible.cancha_disponible');
+        return view('cancha.reservar_filtrado');
     }
 
     public function get_registrar(){
         $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->get();
-        return view('registro.registrar_cancha', compact('ubicacionesDeportivas'));
+        return view('cancha.registrar', compact('ubicacionesDeportivas'));
     }
 
     public function post_reservar(CanchaRequest $request) {
