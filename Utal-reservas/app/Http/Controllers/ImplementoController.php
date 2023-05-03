@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ImplementoController extends Controller
 {
-    
+
     public function post_registrar(ImplementoRequest $request){
         $sql=true;
         try {
@@ -64,7 +64,7 @@ class ImplementoController extends Controller
 
         } catch (\Throwable $th) {
             //throw $th;
-            // return back()->with('error', 'Salió mal'); 
+            // return back()->with('error', 'Salió mal');
         }
 
         return redirect()->route('implemento_reservar');
@@ -82,7 +82,7 @@ class ImplementoController extends Controller
     }
 
     public function post_reservar(Request $request){
-        
+
         try {
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
             $id_bloque=$request->input('bloques');
@@ -90,20 +90,31 @@ class ImplementoController extends Controller
             //OBTENER FECHA DE LA RESERVA
             $fecha_reserva=$request->input('fecha');
 
-            $consulta = "SELECT * FROM implementos
-                INNER JOIN reservas ON reservas.id = implementos.reserva_id
-                WHERE reservas.id NOT IN (
-                SELECT reservas.id FROM instancia_reservas
-                INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
-                WHERE instancia_reservas.fecha_reserva = ? AND instancia_reservas.bloque_id = ?)";
+            $consulta = "
+                SELECT * FROM implementos
+                INNER JOIN reservas ON reservas.id = implementos.id
+                AND reserva_id NOT IN (
+                SELECT reservas.id
+                FROM instancia_reservas
+                INNER JOIN reservas ON instancia_reservas.reserva_id = reservas.id
+                INNER JOIN implementos ON instancia_reservas.reserva_id = implementos.reserva_id
+                WHERE instancia_reservas.fecha_reserva='2023-05-04' AND instancia_reservas.bloque_id=4 AND implementos.cantidad <= (
+                SELECT COUNT(*)
+                FROM instancia_reservas ir
+                WHERE ir.fecha_reserva = instancia_reservas.fecha_reserva
+                AND ir.reserva_id = instancia_reservas.reserva_id
+                AND ir.bloque_id = instancia_reservas.bloque_id
+                )
+                GROUP BY reservas.id
+            ";
 
             $implementosDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
-            $datos = ["implementosDisponible" => $implementosDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];    
+            $datos = ["implementosDisponible" => $implementosDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
             return redirect()->route('implemento_reservar_filtrado')->with('datos', $datos);
         } catch (\Throwable $th) {
             return back()->with('error', 'Salió mal');
         }
-         
+
     }
 
     public function post_reservar_filtrado(Request $request){
