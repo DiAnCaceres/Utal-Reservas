@@ -15,7 +15,13 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check()) {
+        if (Auth::user()->role == 1) {
+            return $next($request);
+        } else if (Auth::user()->role == 3) {
+            return redirect()->route('usuario_menuestudiante');
+        }else if (Auth::user()->role == 2) {
+            return redirect()->route('usuario_menumoderador');
+        }else if (!Auth::check()) {
             return redirect()->route('login');
         }
 
@@ -24,11 +30,11 @@ class Admin
         }
 
         if (Auth::user()->role == 3) {
-            return redirect()->route('estudiante');
+            return redirect()->route('usuario_menuestudiante');
         }
 
         if (Auth::user()->role == 2) {
-            return redirect()->route('moderador');
+            return redirect()->route('post_implemento_reservar_filtrado');
         }
     }
 }
