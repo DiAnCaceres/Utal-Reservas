@@ -55,8 +55,8 @@ Route::post("post_cancha_reservar_filtrado",[CanchaController::class,"post_reser
 Route::get('/implemento_registrar', [ImplementoController::class, 'get_registrar'])->name('implemento_registrar')->middleware('admin');
 Route::get('/implemento_reservar', [ImplementoController::class, 'get_reservar'])->name('implemento_reservar')->middleware('estudiante');
 Route::get('/implemento_reservar_filtrado', [ImplementoController::class, 'get_reservar_filtrado'])->name('implemento_reservar_filtrado')->middleware('estudiante');
-Route::get('/implemento_modificarcantidad_agregar', [ImplementoController::class, 'get_modificarcantidad_agregar'])->name('implemento_modificarcantidad_agregar')->middleware('estudiante');
-Route::get('/implemento_modificarcantidad_eliminar', [ImplementoController::class, 'get_modificarcantidad_eliminar'])->name('implemento_modificarcantidad_eliminar')->middleware('estudiante');
+Route::get('/implemento_modificarcantidad_agregar', [ImplementoController::class, 'get_modificarcantidad_agregar'])->name('implemento_modificarcantidad_agregar')->middleware('moderador');
+Route::get('/implemento_modificarcantidad_eliminar', [ImplementoController::class, 'get_modificarcantidad_eliminar'])->name('implemento_modificarcantidad_eliminar')->middleware('moderador');
 Route::post("post_implemento_registrar",[ImplementoController::class,"post_registrar"])->name("post_implemento_registrar");
 Route::post("post_implemento_reservar", [ImplementoController::class, "post_reservar"])->name("post_implemento_reservar");
 Route::post("post_implemento_reservar_filtrado",[ImplementoController::class, "post_reservar_filtrado"])->name("post_implemento_reservar_filtrado");
