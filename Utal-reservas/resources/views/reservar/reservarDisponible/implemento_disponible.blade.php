@@ -18,14 +18,24 @@
         <h1><b> Resultados busqueda de implementos </b></h1>
         <form action="{{route('reservar_implemento.disponibilidad')}}" method="POST">
             @csrf
-            <label for='textoImplementos' style="margin-right: 200px;">Implementos disponibles:</label>
+            <div> 
+            <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
+            </div>
+
+            <label for='textoImplementos' style="margin-right: 200px;">Implementos disponibles:
             <select name=seleccionImplemento" id="implementos">
                 <!-- -->
                 @foreach($implementoDisponible as $implemento)
                     <option name="implemento" value="{{ $implemento->nombre }}">{{ $implemento->nombre }}</option>
                 @endforeach
             </select>
-           
+          
+            <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
+            </div>
+            
+            <button type="submit" class="button-reservar">Reservar<i class="ri-arrow-right-line"></i></button>
+            <button type="button" class="button-volver" onclick="window.location='{{ route('reservar_implemento') }}'">Volver</button>
+ 
         </form>      
     </div>
 </div>

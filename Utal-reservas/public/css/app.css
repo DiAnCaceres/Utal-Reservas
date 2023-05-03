@@ -73,7 +73,7 @@ header span {
     display: flex;
     flex-direction: column;
     margin-left: 37%;
-    width: 25%;
+    width: 30%;
     background-color: #00cccc;
     padding: 20px 30px;
     border-radius: 12px;
@@ -81,8 +81,7 @@ header span {
 
 .box_reserva_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
     display: flex;
-    flex-direction: column; 
-    margin-left: 37%;       
+    flex-direction: column;     
     width: 25%;
     background-color: #00cccc;
     padding: 20px 30px;
@@ -234,19 +233,48 @@ form input {
     font-family: 'Helvetica', sans-serif; /*tipografía texto*/
     }
 
-.button-register{     
-    margin-top: 1.5rem;     
-    margin-bottom: 1.5rem;     
+.button-register{    
+    
+    margin-top: 1.5rem;        
     padding: 0.5rem;     
-    width: 100%;     
+    width: 50%;     
     background-color: #fff;     
     border: 1px solid #FF8C40;     
     color: #FF8C40;     
-    font-size: large;     
-    font-weight: 600px;
+    font-size: large;  
+    }
+
+.button-reservar{    
+    margin-left: 25%;
+    margin-top: 1.5rem;        
+    padding: 0.5rem;     
+    width: 50%;     
+    background-color: #fff;     
+    border: 1px solid #FF8C40;     
+    color: #FF8C40;     
+    font-size: large;  
+    }
+
+.button-volver{    
+    margin-left: 35%; 
+    margin-top: 1.5rem;     
+    margin-bottom: 1.5rem;     
+    padding: 0.05rem;     
+    width: 30%;     
+    background-color: #fff;     
+    border: 1px solid #FF8C40;     
+    color: #FF8C40;     
+    font-size: large;  
     }
     
 .button-register:hover{     
+    border: 1px solid #FF8C40;     
+    background-color: #FF8C40;     
+    color: #fff; 
+    } 
+
+.button-reserver:hover{   
+    display: flex;  
     border: 1px solid #FF8C40;     
     background-color: #FF8C40;     
     color: #fff; 

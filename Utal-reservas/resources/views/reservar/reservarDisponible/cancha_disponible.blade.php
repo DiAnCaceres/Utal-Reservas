@@ -18,7 +18,11 @@
         <h1><b> Resultados busqueda de cancha </b></h1>
         <form action="{{route('reservar_cancha.disponibilidad')}}" method="POST">
             @csrf
-            <label for='textoSalas' style="margin-right: 200px;">Canchas disponibles:</label>
+            <div> 
+            <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
+            </div>
+
+            <label for='textoSalas' style="margin-right: 200px;">Canchas disponibles:
             <select name=seleccionCancha" id="salas">
 
                 @foreach($canchasDisponible as $cancha)
@@ -26,8 +30,13 @@
                 @endforeach
             </select>
 
-        </form>
+            <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
+            </div>
+            
+            <button type="submit" class="button-reservar">Reservar<i class="ri-arrow-right-line"></i></button>
+            <button type="button" class="button-volver" onclick="window.location='{{ route('reservar_cancha') }}'">Volver</button>
 
+        </form>
     </div>
 </div>
 @endsection
