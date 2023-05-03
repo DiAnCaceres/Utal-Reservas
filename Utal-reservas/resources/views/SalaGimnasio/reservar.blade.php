@@ -24,7 +24,7 @@
     <div class="box_registro_ligteblue">                   <!-- Caja celeste que engloba a los datos  -->
 
         <h1><b> Reservar sala del gimnasio </b></h1>
-        <form action="{{route('reservar_sala_gimnasio.reservar')}}" method="POST">
+        <form action="{{route('post_salagimnasio_reservar')}}" method="POST">
             @csrf
             <input class="form-control" type="fecha-local" placeholder="Seleccionar fecha" name="fecha">
 
@@ -37,7 +37,7 @@
 
             <button type="submit">Buscar sala disponible</button>
 
-            <!-- <button type="button" onclick="window.location='{{ route('reservar_salas_gimnasio_disponibles') }}'">Buscar canchas disponibles</button> -->
+            <!-- <button type="button" onclick="window.location='{{ route('salagimnasio_reservar_filtrado') }}'">Buscar canchas disponibles</button> -->
         </form>
     </div>
 

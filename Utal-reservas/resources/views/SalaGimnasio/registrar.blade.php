@@ -23,7 +23,7 @@
 
     <div class="box_registro_ligteblue">
         <h1> Registrar las salas de Gimnasio</h1>
-        <form action="{{route('registro_sala_gimnasio.store')}}" method="POST">
+        <form action="{{route('post_salagimnasio_registrar')}}" method="POST">
             @csrf
             <input type="text" placeholder="Nombre de sala" name="nombre">
 

@@ -17,16 +17,16 @@
 
         <h1><b> Resultados busqueda sala de gimansio </b></h1>
 
-        <form action="{{route('reservar_sala_gimnasio.disponibilidad')}}" method="POST">
+        <form action="{{route('post_salagimnasio_reservar_filtrado')}}" method="POST">
             @csrf
-            <div> 
+            <div>
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
 
             <label for='textoSalas' style="margin-right: 200px;">Salas disponibles:
 
             <select name=seleccionSala" id="salas">
-                
+
                 @foreach($salasGimnasioDisponible as $sala)
                     <option name="sala" value="{{ $sala->nombre }}">{{ $sala->nombre }}</option>
                 @endforeach
@@ -34,11 +34,11 @@
 
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
-           
-            <button type="submit" class="button-reservar">Reservar<i class="ri-arrow-right-line"></i></button>
-            <button type="button" class="button-volver" onclick="window.location='{{ route('reservar_sala_gimnasio') }}'">Volver</button>
 
-        </form>  
+            <button type="submit" class="button-reservar">Reservar<i class="ri-arrow-right-line"></i></button>
+            <button type="button" class="button-volver" onclick="window.location='{{ route('salagimnasio_reservar') }}'">Volver</button>
+
+        </form>
     </div>
 </div>
 @endsection

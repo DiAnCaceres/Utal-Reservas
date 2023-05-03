@@ -38,12 +38,12 @@ Route::post("/post_salaestudio_registrar",[SalaEstudioController::class,"post_re
 Route::post("/post_salaestudio_reservar",[SalaEstudioController::class,"post_reservar"])->name("post_salaestudio_reservar");
 Route::post("/post_salaestudio_reservar_filtrado",[SalaEstudioController::class,"post_reservar_filtrado"])->name("post_salaestudio_reservar_filtrado");
 
-Route::get('/salagimnasio_registrar', [SalaGimnasioController::class, 'get_registrar'])->name('registro_sala_gimnasio')->middleware('admin');
-Route::get('/salagimnasio_reservar', [SalaGimnasioController::class, 'get_reservar'])->name('reservar_sala_gimnasio');
-Route::get('/salagimnasio_reservar_filtrado', [SalaGimnasioController::class, 'get_reservar_filtrado'])->name('reservar_salas_gimnasio_disponibles');
-Route::post("/post_salagimnasio_registrar",[SalaGimnasioController::class,"post_registrar"])->name("registro_sala_gimnasio.store");
-Route::post("/post_salagimnasio_reservar",[SalaGimnasioController::class,"post_reservar"])->name("reservar_sala_gimnasio.reservar");
-Route::post("/post_salagimnasio_reservar_filtrado",[SalaGimnasioController::class,"post_reservar_filtrado"])->name("reservar_sala_gimnasio.disponibilidad");
+Route::get('/salagimnasio_registrar', [SalaGimnasioController::class, 'get_registrar'])->name('salagimnasio_registrar')->middleware('admin');
+Route::get('/salagimnasio_reservar', [SalaGimnasioController::class, 'get_reservar'])->name('salagimnasio_reservar');
+Route::get('/salagimnasio_reservar_filtrado', [SalaGimnasioController::class, 'get_reservar_filtrado'])->name('salagimnasio_reservar_filtrado');
+Route::post("/post_salagimnasio_registrar",[SalaGimnasioController::class,"post_registrar"])->name("post_salagimnasio_registrar");
+Route::post("/post_salagimnasio_reservar",[SalaGimnasioController::class,"post_reservar"])->name("post_salagimnasio_reservar");
+Route::post("/post_salagimnasio_reservar_filtrado",[SalaGimnasioController::class,"post_reservar_filtrado"])->name("post_salagimnasio_reservar_filtrado");
 
 Route::get('/cancha_registrar', [CanchaController::class, 'get_registrar'])->name('registro_cancha')->middleware('admin');
 Route::get('/cancha_reservar', [CanchaController::class, 'get_reservar'])->name('reservar_cancha');
