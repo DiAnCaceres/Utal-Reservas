@@ -11,8 +11,12 @@ use App\Models\Ubicacion;
 
 class ImplementoController extends Controller
 {
+    // atributos para la reserva
     private $id_bloque;
     private $fecha_reserva;
+    private $id_usuario;
+    private $id_cancha;
+
     //
     public function store(ImplementoRequest $request){
         $sql=true;
@@ -49,56 +53,49 @@ class ImplementoController extends Controller
         $id_bloque=1;
         return view('registro.registrar_implemento', compact('ubicacionesDeportivas'));
     }
-    public function reservar(Request $request){
+
+    public function reservar(ImplementoRequest $request){
+
+        
         try {
             
-            $id_bloque=1;
+            //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
+            $this->id_bloque=$request->bloque->id;
 
-            $fecha_reserva="2023-07-13";
+            //OBTENER EL ESTUDIANTE
+            $this->id_usuario=$request->user()->id;
 
-            $id_implemento =1;
-            
-            $implementoDisponible=DB::select("
-                SELECT * FROM implementos
-                INNER JOIN reservas ON reservas.id = implementos.reserva_id
-                WHERE reservas.id NOT IN (
-                    SELECT reservas.id FROM instancia_reservas
-                    INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
-                    WHERE instancia_reservas.fecha_reserva='1111-11-11' AND instancia_reservas.bloque_id=1
-                )
-            ");
-            return view('reservar.reservarDisponible.implemento_disponible',compact('implementoDisponible'));
-        } catch (Throwable $th) {
-            return back()->with('error', '¡Hubo un error al reservar!');
-        }
-    }
-    public function disponibilidad(){
-        try{
-            $id_usuario=1;
-            $id_bloque=1;
-            $id_implemento=2;
-            $fecha_reserva="2023-01-05";
+            //OBTENER FECHA DE LA RESERVA
+            $this->fecha_reserva=$request->fecha;
+
+            //OBTENER ID DE LA RESERVA
+            $this->id_cancha = $request->cancha->id;
+
             DB::table("instancia_reservas")->insert([
-                "bloque_id" => $this->id_bloque,
-                "user_id" => $id_usuario,
-                "fecha_reserva" => $fecha_reserva,
-                "reserva_id" => $id_implemento,
+                "bloque_id" => $this->id_bloque, 
+                "user_id" => $this->id_usuario,
+                "fecha_reserva" => $this->fecha_reserva,
+                "reserva_id" => $this->id_cancha, 
             ]);
 
-            $estado_instancia_reserva = DB::table("estado_instancia_reserva")->where('nombre_estado', "reservado")->first();
+            $estado_instancia_reserva = DB::table("estado_instancia_reservas")->where('nombre_estado', 'reservado')->first();
+
             $id_estado_instancia = $estado_instancia_reserva->id;
 
             DB::table("historial_reservas")->insert([
-                "instancia_reserva_fecha_reserva"=>$fecha_reserva,
-                "instancia_reserva_user_id"=>$id_usuario,
+                "instancia_reserva_fecha_reserva"=>$this->fecha_reserva,
+                "instancia_reserva_user_id"=>$this->id_usuario,
                 "instancia_reserva_bloque_id"=>$this->id_bloque,
                 "estado_instancia_reserva_id"=>$id_estado_instancia,
                 "fecha"=>date('Y-m-d')      //ESTA ES EL DÍA EN QUE SER RESERVÓ
             ]);
-        }catch (Throwable $th){
 
+            return back()->with('success', "Reserva de cancha registrada correctamente");
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+            return back()->with('error', '¡Hubo un error al reservar!');
         }
+
     }
-
-
 }

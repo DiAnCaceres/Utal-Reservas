@@ -24,7 +24,6 @@ class CanchaRequest extends FormRequest
         return [
             "nombre_ubicacion"=>["required",],
             "nombre"=>["required","max:30","unique:reservas,nombre"],
-            // 'email' => 'required|email|unique:users,email_address'
         ];
     }
     public function messages()
