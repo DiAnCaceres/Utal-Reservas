@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sala_gimnasios', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             // duplicado $table->string('nombre')->unique();
             $table->integer('capacidad');
             //$table->timestamps();
-            
+
             // fk
             $table->foreignId('reserva_id')->constrained();
         });
