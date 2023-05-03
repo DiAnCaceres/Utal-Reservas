@@ -1,20 +1,21 @@
 <?php
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegistroController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ModeradorController;
-use App\Http\Controllers\EstudianteController;
-use App\Http\Controllers\Reservas\CanchaController;
-use App\Http\Controllers\Reservas\ImplementoController;
-use App\Http\Controllers\Reservas\SalaEstudioController;
-use App\Http\Controllers\Reservas\SalaGimnasioController;
-use App\Http\Controllers\Reservas\PruebasController;
-use App\Http\Controllers\ReservaController;
-use App\Http\Controllers\ModificarCantidadController;
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CanchaController;
+use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ImplementoController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ModeradorController;
+use App\Http\Controllers\ModificarCantidadController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegistroController;
+use App\Http\Controllers\ReservaController;
+use App\Http\Controllers\Reservas\PruebasController;
+use App\Http\Controllers\SalaEstudioController;
+use App\Http\Controllers\SalaGimnasioController;
+use App\Http\Controllers\UsersController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ use App\Http\Controllers\ModificarCantidadController;
 
 // Route::get('registro', [RegistroController::class, 'registro_sala'])->name('registro_btn');
 
-Route::get('/', HomeController::class);
+Route::get('/', UsersController::class);
 
 // Route::get('/', HomeController::class, 'login');
 
@@ -48,9 +49,9 @@ Route::get('home_admin', [HomeController::class, 'home_admin'])->name('home_admi
 Route::get('/pruebas', [PruebasController::class, 'pruebas'])->name('pruebas')->middleware('admin');
 //CONTROLADOR DE PRUEBA, NO TOCAR
 
-Route::get('registro_sala_estudio', [RegistroController::class, 'sala_estudio'])->name('registro_sala_estudio')->middleware('admin');
-Route::get('registro_sala_gimnasio', [RegistroController::class, 'sala_gimnasio'])->name('registro_sala_gimnasio')->middleware('admin');
-Route::get('registro_cancha', [RegistroController::class, 'cancha'])->name('registro_cancha')->middleware('admin');
+Route::get('registro_sala_estudio', [SalaEstudioController::class, 'registrar'])->name('registro_sala_estudio')->middleware('admin');
+Route::get('registro_sala_gimnasio', [SalaGimnasioController::class, 'registrar'])->name('registro_sala_gimnasio')->middleware('admin');
+Route::get('registro_cancha', [CanchaController::class, 'registrar'])->name('registro_cancha')->middleware('admin');
 //Route::get('registro_implemento', [RegistroController::class, 'implemento'])->name('registro_implemento')->middleware('admin');
 Route::get('registro_implemento', [ImplementoController::class, 'implemento'])->name('registro_implemento')->middleware('admin');
 
@@ -97,7 +98,7 @@ Route::get('registro_admin', [RegistroController::class, 'admin'])->name('regist
 //     return view('welcome');
 // });
 
-Route::get('/dashboard',[HomeController::class, "dashboard"])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard',[UsersController::class, "dashboard"])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -106,22 +107,26 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('/estudiante', [EstudianteController::class, 'index'])->name('estudiante')->middleware('estudiante');
-Route::get('/admin', [AdminController::class, 'index'])->name('admin')->middleware('admin');
-Route::get('/moderador', [ModeradorController::class, 'index'])->name('moderador')->middleware('moderador');
+Route::get('/estudiante', [UsersController::class, 'index_estudiante'])->name('estudiante')->middleware('estudiante');
+Route::get('/admin', [UsersController::class, 'index_administrador'])->name('admin')->middleware('admin');
+Route::get('/moderador', [UsersController::class, 'index_moderador'])->name('moderador')->middleware('moderador');
 require __DIR__.'/auth.php';
 
 
-Route::get('/reservar_sala_estudio', [ReservaController::class, 'sala_estudio'])->name('reservar_sala_estudio');
-Route::get('/reservar_sala_gimnasio', [ReservaController::class, 'sala_gimnasio'])->name('reservar_sala_gimnasio');
-Route::get('/reservar_cancha', [ReservaController::class, 'cancha'])->name('reservar_cancha');
-Route::get('/reservar_implemento', [ReservaController::class, 'implemento'])->name('reservar_implemento');
+Route::get('/reservar_sala_estudio', [SalaEstudioController::class, 'reservar_seleccionar_fechaBloque'])->name('reservar_sala_estudio');
+Route::get('/reservar_salas_estudios_disponibles', [SalaEstudioController::class, 'reservar_salas_disponibles'])->name('reservar_salas_estudios_disponibles');
 
-Route::get('/agregar_implemento', [ModificarCantidadController::class, 'agregar'])->name('agregar_implemento');
-Route::get('/eliminar_implemento', [ModificarCantidadController::class, 'eliminar'])->name('eliminar_implemento');
+Route::get('/reservar_sala_gimnasio', [SalaGimnasioController::class, 'reservar_seleccionar_fechaBloque'])->name('reservar_sala_gimnasio');
+Route::get('/reservar_salas_gimnasio_disponibles', [SalaGimnasioController::class, 'reservar_salas_disponibles'])->name('reservar_salas_gimnasio_disponibles');
 
-Route::get('/reservar_salas_estudios_disponibles', [ReservaController::class, 'sala_estudio_disponibles'])->name('reservar_salas_estudios_disponibles');
-Route::get('/reservar_salas_gimnasio_disponibles', [ReservaController::class, 'sala_gimnasio_disponibles'])->name('reservar_salas_gimnasio_disponibles');
-Route::get('/reservar_canchas_disponibles', [ReservaController::class, 'canchas_disponibles'])->name('reservar_canchas_disponibles');
-Route::get('/reservar_implementos_disponibles', [ReservaController::class, 'implemento_disponibles'])->name('reservar_implementos_disponibles');
+Route::get('/reservar_cancha', [CanchaController::class, 'reservar_seleccionar_fechaBloque'])->name('reservar_cancha');
+Route::get('/reservar_canchas_disponibles', [CanchaController::class, 'reservar_canchas_disponibles'])->name('reservar_canchas_disponibles');
+
+Route::get('/reservar_implemento', [ImplementoController::class, 'reservar_seleccionar_fechaBloque'])->name('reservar_implemento');
+Route::get('/reservar_implementos_disponibles', [ImplementoController::class, 'reservar_implementos_disponibles'])->name('reservar_implementos_disponibles');
+
+
+Route::get('/agregar_implemento', [ImplementoController::class, 'agregar_cantidad_implementoExistente'])->name('agregar_implemento');
+Route::get('/eliminar_implemento', [ImplementoController::class, 'eliminar_cantidad_implementoExistente'])->name('eliminar_implemento');
+
 

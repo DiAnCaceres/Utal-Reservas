@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Reservas;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Reserva\ImplementoRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Bloques;
+use App\Models\Implemento;
 use App\Models\Ubicacion;
+use Illuminate\Support\Facades\DB;
 
 class ImplementoController extends Controller
 {
@@ -38,7 +37,7 @@ class ImplementoController extends Controller
                 "ubicacione_id" => $id_ubicacion
             ]);
             $id_reserva = DB::getPdo()->lastInsertId();
-            
+
             DB::table("implementos")->insert([
                 "reserva_id" => $id_reserva,
                 "cantidad" => $request->cantidad,
@@ -54,11 +53,32 @@ class ImplementoController extends Controller
         return view('registro.registrar_implemento', compact('ubicacionesDeportivas'));
     }
 
+    public function reservar_seleccionar_fechaBloque(){
+        $bloquesDisponibles = Bloques::all();
+        return view('reservar.implemento',compact('bloquesDisponibles'));
+    }
+
+    public function reservar_implementos_disponibles(){
+
+        return view('reservar.reservarDisponible.implemento_disponible');
+    }
+
+    public function agregar_cantidad_implementoExistente(){
+        $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->get(['reservas.nombre','implementos.cantidad']);
+        //  dd($implementosDisponibles);
+        return view('modificar_cantidad_implemento.agregar',compact('implementosDisponibles'));
+    }
+
+    public function eliminar_cantidad_implementoExistente(){
+        $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->where('implementos.cantidad','>',0)->get(['reservas.nombre','implementos.cantidad']);
+        return view('modificar_cantidad_implemento.eliminar',compact('implementosDisponibles'));
+    }
+
     public function reservar(ImplementoRequest $request){
 
-        
+
         try {
-            
+
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
             $this->id_bloque=$request->bloque->id;
 
@@ -72,10 +92,10 @@ class ImplementoController extends Controller
             $this->id_cancha = $request->cancha->id;
 
             DB::table("instancia_reservas")->insert([
-                "bloque_id" => $this->id_bloque, 
+                "bloque_id" => $this->id_bloque,
                 "user_id" => $this->id_usuario,
                 "fecha_reserva" => $this->fecha_reserva,
-                "reserva_id" => $this->id_cancha, 
+                "reserva_id" => $this->id_cancha,
             ]);
 
             $estado_instancia_reserva = DB::table("estado_instancia_reservas")->where('nombre_estado', 'reservado')->first();
@@ -91,7 +111,7 @@ class ImplementoController extends Controller
             ]);
 
             return back()->with('success', "Reserva de cancha registrada correctamente");
-            
+
         } catch (\Throwable $th) {
             //throw $th;
             return back()->with('error', '¡Hubo un error al reservar!');

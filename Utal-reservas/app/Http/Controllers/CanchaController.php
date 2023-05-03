@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Reservas;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Reserva\CanchaRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Bloques;
+use App\Models\Ubicacion;
 use Illuminate\Support\Facades\DB;
 
 class CanchaController extends Controller
-{   
+{
     // Atributos para la reserva
     private $id_bloque;
     private $fecha_reserva;
@@ -49,10 +48,23 @@ class CanchaController extends Controller
         }
     }
 
+    public function reservar_seleccionar_fechaBloque(){
+        $bloquesDisponibles = Bloques::all();
+        return view('reservar.cancha',compact('bloquesDisponibles'));
+    }
+    public function reservar_canchas_disponibles(){
+        return view('reservar.reservarDisponible.cancha_disponible');
+    }
+
+    public function registrar(){
+        $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->get();
+        return view('registro.registrar_cancha', compact('ubicacionesDeportivas'));
+    }
+
     public function reservar(CanchaRequest $request) {
 
         try {
-            
+
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
             $this->id_bloque=$request->bloque->id;
 
@@ -66,10 +78,10 @@ class CanchaController extends Controller
             $this->id_cancha = $request->cancha->id;
 
             DB::table("instancia_reservas")->insert([
-                "bloque_id" => $this->id_bloque, 
+                "bloque_id" => $this->id_bloque,
                 "user_id" => $this->id_usuario,
                 "fecha_reserva" => $this->fecha_reserva,
-                "reserva_id" => $this->id_cancha, 
+                "reserva_id" => $this->id_cancha,
             ]);
 
             $estado_instancia_reserva = DB::table("estado_instancia_reservas")->where('nombre_estado', 'reservado')->first();

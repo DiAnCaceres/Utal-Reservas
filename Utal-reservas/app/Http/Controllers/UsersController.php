@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Providers\RouteServiceProvider;
 
-class HomeController extends Controller
+class UsersController extends Controller
 {
-    //
+    // url por defecto al inicio del programa, retorna la vista home
     public function __invoke(){
         return view('home');
     }
 
-    public function login(){
-        return view('login.index');
+    public function index_administrador(){
+        return view('home_admin');
+    }
+
+    public function index_estudiante(){
+        return view('home_estudiante');
+    }
+
+    public function index_moderador(){
+        return view('home_moderador');
     }
 
     public function home_estudiante(){
@@ -24,14 +32,21 @@ class HomeController extends Controller
     public function home_moderador(){
         return view('home_moderador');
     }
-    
+
     public function home_admin(){
         return view('home_admin');
     }
 
+    public function login(){
+        return view('login.index');
+    }
+
+    /*
     public function registrar_sala_estudio(){
         return view('registro.registrar_sala_estudio');
     }
+    */
+
     public function dashboard(){
         switch(Auth::user()->role){
             case 2:
@@ -44,7 +59,7 @@ class HomeController extends Controller
                 return redirect(RouteServiceProvider::HOME_ADMIN);
                 break;
             default:
-            return view('home');
-        } 
+                return view('home');
+        }
     }
 }
