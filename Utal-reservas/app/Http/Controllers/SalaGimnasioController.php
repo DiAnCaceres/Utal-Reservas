@@ -101,11 +101,20 @@ class SalaGimnasioController extends Controller
             // return back()->with("success","Reserva de Sala Gimnasio registrada correctamente");
             $salasGimnasioDisponible=DB::select("
                 SELECT * FROM sala_gimnasios
-                INNER JOIN reservas ON reservas.id = sala_gimnasios.reserva_id
-                WHERE reservas.id NOT IN (
-                    SELECT reservas.id FROM instancia_reservas
-                    INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
-                    WHERE instancia_reservas.fecha_reserva='1111-11-11' AND instancia_reservas.bloque_id=1
+                INNER JOIN reservas ON reservas.id = sala_gimnasios.id
+                AND reserva_id NOT IN (
+                SELECT reservas.id
+                FROM instancia_reservas
+                INNER JOIN reservas ON instancia_reservas.reserva_id = reservas.id
+                INNER JOIN sala_gimnasios ON instancia_reservas.reserva_id = sala_gimnasios.reserva_id
+                WHERE instancia_reservas.fecha_reserva='2023-05-04' AND instancia_reservas.bloque_id=2 AND sala_gimnasios.capacidad <= (
+                SELECT COUNT(*)
+                FROM instancia_reservas ir
+                WHERE ir.fecha_reserva = instancia_reservas.fecha_reserva
+                AND ir.reserva_id = instancia_reservas.reserva_id
+                AND ir.bloque_id = instancia_reservas.bloque_id
+                )
+                GROUP BY reservas.id
                 )
             ");
             return view('salagimnasio.reservar_filtrado',compact('salasGimnasioDisponible'));
