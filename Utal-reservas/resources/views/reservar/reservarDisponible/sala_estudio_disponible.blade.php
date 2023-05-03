@@ -18,13 +18,15 @@
         <h1><b> Resultados busqueda sala de estudio </b></h1>
         <form action="{{route('reservar_sala_estudio.disponibilidad')}}" method="POST">
             @csrf
-            
-            <!--  ACA IRAN LAS SALAS DISPONIBLES JUNTO A LOS DEATALLES DE CADA SALA  -->
-            <label for='bloques' style="margin-right: 200px;">{{$fecha_reserva}}</label>
-            <button type="button" onclick="window.location='{{ route('reservar_sala_estudio') }}'">Realizar nueva busqueda</button>
-            <button class="button-register">Reservar<i class="ri-arrow-right-line"></i></button>
+            <label for='textoSalas' style="margin-right: 200px;">Salas disponibles:</label>
+            <select name=seleccionSala" id="salas">
+                <!-- -->
+                @foreach($salasEstudioDisponible as $sala)
+                    <option name="sala" value="{{ $sala->nombre }}">{{ $sala->nombre }}</option>
+                @endforeach
+            </select>
 
-        </form>      
+        </form>
     </div>
 </div>
 @endsection
