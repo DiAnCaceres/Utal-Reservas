@@ -24,11 +24,11 @@ Route::get('/ayuda', function () {
 
 Route::get('/', UsersController::class); // <-- ruta default
 // ruta para redireccionar cuando cierran sesión
-Route::get('/usuario_redireccionar',[UsersController::class, "get_redireccionar"])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/usuario_redireccionar',[UsersController::class, "get_redireccionar"])->middleware(['auth', 'verified'])->name('usuario_redireccionar');
 // rutas posterior a inicio de sesión
-Route::get('/usuario_menuestudiante', [UsersController::class, 'get_menuestudiante'])->name('estudiante')->middleware('estudiante');
-Route::get('/usuario_menuadministrador', [UsersController::class, 'get_menuadministrador'])->name('admin')->middleware('admin');
-Route::get('/usuario_menumoderador', [UsersController::class, 'get_menumoderador'])->name('moderador')->middleware('moderador');
+Route::get('/usuario_menuestudiante', [UsersController::class, 'get_menuestudiante'])->name('estudiante')->middleware('usuario_estudiante');
+Route::get('/usuario_menuadministrador', [UsersController::class, 'get_menuadministrador'])->name('admin')->middleware('usuario_administrador');
+Route::get('/usuario_menumoderador', [UsersController::class, 'get_menumoderador'])->name('moderador')->middleware('usuario_menumoderador');
 require __DIR__.'/auth.php';
 
 Route::get('/salaestudio_registrar', [SalaEstudioController::class, 'get_registrar'])->name('registro_sala_estudio')->middleware('admin');

@@ -24,11 +24,11 @@ class Admin
         }
 
         if (Auth::user()->role == 3) {
-            return redirect()->route('estudiante');
+            return redirect()->route('usuario_menuestudiante');
         }
 
         if (Auth::user()->role == 2) {
-            return redirect()->route('moderador');
+            return redirect()->route('usuario_menumoderador');
         }
     }
 }
