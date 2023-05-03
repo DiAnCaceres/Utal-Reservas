@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Reserva\ImplementoRequest;
 use App\Models\Bloques;
+use Illuminate\Http\Request;
 use App\Models\Implemento;
 use App\Models\Ubicacion;
 use Illuminate\Support\Facades\DB;
@@ -65,9 +66,10 @@ class ImplementoController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
             // return back()->with('error', 'Salió mal');
+            return redirect()->route('implemento_reservar');
         }
 
-        return redirect()->route('implemento_reservar');
+        
     }
 
     public function get_modificarcantidad_agregar(){
@@ -90,23 +92,8 @@ class ImplementoController extends Controller
             //OBTENER FECHA DE LA RESERVA
             $fecha_reserva=$request->input('fecha');
 
-            $consulta = "
-                SELECT * FROM implementos
-                INNER JOIN reservas ON reservas.id = implementos.id
-                AND reserva_id NOT IN (
-                SELECT reservas.id
-                FROM instancia_reservas
-                INNER JOIN reservas ON instancia_reservas.reserva_id = reservas.id
-                INNER JOIN implementos ON instancia_reservas.reserva_id = implementos.reserva_id
-                WHERE instancia_reservas.fecha_reserva='2023-05-04' AND instancia_reservas.bloque_id=4 AND implementos.cantidad <= (
-                SELECT COUNT(*)
-                FROM instancia_reservas ir
-                WHERE ir.fecha_reserva = instancia_reservas.fecha_reserva
-                AND ir.reserva_id = instancia_reservas.reserva_id
-                AND ir.bloque_id = instancia_reservas.bloque_id
-                )
-                GROUP BY reservas.id
-            ";
+            // Esta wea no funciona
+            $consulta = "SELECT * FROM implementos INNER JOIN reservas ON reservas.id = implementos.reserva_id AND reserva_id NOT IN ( SELECT reservas.id FROM instancia_reservas INNER JOIN reservas ON instancia_reservas.reserva_id = reservas.id INNER JOIN implementos ON instancia_reservas.reserva_id = implementos.reserva_id WHERE instancia_reservas.fecha_reserva= ? AND instancia_reservas.bloque_id = ? AND implementos.cantidad <= ( SELECT COUNT(*) FROM instancia_reservas ir WHERE ir.fecha_reserva = instancia_reservas.fecha_reserva AND ir.reserva_id = instancia_reservas.reserva_id AND ir.bloque_id = instancia_reservas.bloque_id) GROUP BY reservas.id)";
 
             $implementosDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
             $datos = ["implementosDisponible" => $implementosDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];

@@ -15,7 +15,7 @@
 <div class="contenedorReserva">                 <!-- Contenedor general  -->
     <div class="box_registro_ligteblue">                <!-- Caja celeste que engloba a los datos  -->
 
-        <h1><b> Resultados busqueda sala de gimansio </b></h1>
+        <h1><b> Resultados busqueda sala de gimnasio </b></h1>
 
         <form action="{{route('post_salagimnasio_reservar_filtrado')}}" method="POST">
             @csrf
@@ -23,12 +23,15 @@
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
 
+            <input name="bloque" type="hidden" value="{{$id_bloque}}">
+            <input name="fecha" type="hidden" value="{{$fecha_reserva}}">
+
             <label for='textoSalas' style="margin-right: 200px;">Salas disponibles:
 
-            <select name=seleccionSala" id="salas">
+            <select name="seleccionSala" id="salas">
 
                 @foreach($salasGimnasioDisponible as $sala)
-                    <option name="sala" value="{{ $sala->nombre }}">{{ $sala->nombre }}</option>
+                    <option name="sala" value="{{ $sala->id }}">{{ $sala->nombre }}</option>
                 @endforeach
             </select>
 

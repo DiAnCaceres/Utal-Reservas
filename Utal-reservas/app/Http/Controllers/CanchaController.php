@@ -34,9 +34,8 @@ class CanchaController extends Controller
 
             $id_reserva = DB::getPdo()->lastInsertId();
 
-            DB::table("cancha")->insert([
-                "reserva_id" => $id_reserva,
-                "capacidad" => $request->capacidad,
+            DB::table("canchas")->insert([
+                "reserva_id" => $id_reserva
             ]);
             return back()->with("success","Cancha registrada correctamente");
         } catch (\Throwable $th) {
