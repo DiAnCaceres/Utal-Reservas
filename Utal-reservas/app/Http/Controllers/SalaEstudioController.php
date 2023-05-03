@@ -48,16 +48,16 @@ class SalaEstudioController extends Controller
 
     public function get_registrar(){
         $ubicacionesEstudio = Ubicacion::where('categoria', 'educativo')->get();
-        return view('registro.registrar_sala_estudio', compact('ubicacionesEstudio'));
+        return view('salaestudio.registrar', compact('ubicacionesEstudio'));
     }
 
     public function get_reservar(){
         $bloquesDisponibles = Bloques::all();
-        return view('reservar.sala_estudio',compact('bloquesDisponibles'));
+        return view('salaestudio.reservar',compact('bloquesDisponibles'));
     }
 
     public function get_reservar_filtrado(){
-        return view('reservar.reservarDisponible.sala_estudio_disponible');
+        return view('salaestudio.reservar_filtrado');
     }
 
     public function post_reservar(Request $request){
@@ -107,7 +107,7 @@ class SalaEstudioController extends Controller
                     WHERE instancia_reservas.fecha_reserva='1111-11-11' AND instancia_reservas.bloque_id=1
                 )
             ");
-            return view('reservar.reservarDisponible.sala_estudio_disponible',compact('salasEstudioDisponible'));
+            return view('salaestudio.reservar_filtrado',compact('salasEstudioDisponible'));
         } catch (Throwable $th) {
             return back()->with('error', '¡Hubo un error al reservar!');
         }
