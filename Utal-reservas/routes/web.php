@@ -60,3 +60,7 @@ Route::get('/implemento_modificarcantidad_eliminar', [ImplementoController::clas
 Route::post("post_implemento_registrar",[ImplementoController::class,"post_registrar"])->name("post_implemento_registrar");
 Route::post("post_implemento_reservar", [ImplementoController::class, "post_reservar"])->name("post_implemento_reservar");
 Route::post("post_implemento_reservar_filtrado",[ImplementoController::class, "post_reservar_filtrado"])->name("post_implemento_reservar_filtrado");
+
+
+
+Route::post("/login",[UsersController::class, "post_login"])->name("post_login");
