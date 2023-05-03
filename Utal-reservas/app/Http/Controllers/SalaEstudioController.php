@@ -57,7 +57,7 @@ class SalaEstudioController extends Controller
     }
 
     public function get_reservar_filtrado(){
-        return view('salaestudio.reservar_filtrado');
+        return view('Salaestudio.reservar_filtrado');
     }
 
     public function post_reservar(Request $request){
