@@ -109,7 +109,7 @@ class SalaGimnasioController extends Controller
                 )
             ");
             return view('salagimnasio.reservar_filtrado',compact('salasGimnasioDisponible'));
-        } catch (Throwable $th) {
+        } catch (\Throwable $th) {
             return back()->with('error', '¡Hubo un error al reservar!');
         }
     }
@@ -136,7 +136,7 @@ class SalaGimnasioController extends Controller
                 "estado_instancia_reserva_id"=>$id_estado_instancia,
                 "fecha"=>date('Y-m-d')      //ESTA ES EL DÍA EN QUE SER RESERVÓ
             ]);
-        }catch (Throwable $th){
+        }catch (\Throwable $th){
 
         }
     }
