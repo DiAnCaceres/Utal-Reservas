@@ -52,11 +52,11 @@ Route::post("/post_cancha_registrar",[CanchaController::class,"post_registrar"])
 Route::post("/post_cancha_reservar",[CanchaController::class,"post_reservar"])->name("post_cancha_reservar");
 Route::post("/post_cancha_reservar_filtrado",[CanchaController::class,"post_reservar_filtrado"])->name("post_cancha_reservar_filtrado");
 
-Route::get('/implemento_registrar', [ImplementoController::class, 'get_registrar'])->name('registro_implemento')->middleware('admin');
-Route::get('/implemento_reservar', [ImplementoController::class, 'get_reservar'])->name('reservar_implemento');
-Route::get('/implemento_reservar_filtrado', [ImplementoController::class, 'get_reservar_filtrado'])->name('reservar_implementos_disponibles');
-Route::get('/implemento_modificarcantidad_agregar', [ImplementoController::class, 'get_modificarcantidad_agregar'])->name('agregar_implemento');
-Route::get('/implemento_modificarcantidad_eliminar', [ImplementoController::class, 'get_modificarcantidad_eliminar'])->name('eliminar_implemento');
-Route::post("/post_implemento_registrar",[ImplementoController::class,"post_registrar"])->name("registro_implemento.store");
-Route::post("/post_implemento_reservar",[ImplementoController::class,"post_reservar"])->name("reservar_implemento.reservar");
-Route::post("/post_implemento_reservar_filtrado",[ImplementoController::class,"post_reservar_filtrado"])->name("reservar_implemento.disponibilidad");
+Route::get('/implemento_registrar', [ImplementoController::class, 'get_registrar'])->name('implemento_registrar')->middleware('admin');
+Route::get('/implemento_reservar', [ImplementoController::class, 'get_reservar'])->name('implemento_reservar');
+Route::get('/implemento_reservar_filtrado', [ImplementoController::class, 'get_reservar_filtrado'])->name('implemento_reservar_filtrado');
+Route::get('/implemento_modificarcantidad_agregar', [ImplementoController::class, 'get_modificarcantidad_agregar'])->name('implemento_modificarcantidad_agregar');
+Route::get('/implemento_modificarcantidad_eliminar', [ImplementoController::class, 'get_modificarcantidad_eliminar'])->name('implemento_modificarcantidad_eliminar');
+Route::post("/post_implemento_registrar",[ImplementoController::class,"post_registrar"])->name("post_implemento_registrar");
+Route::post("/post_implemento_reservar",[ImplementoController::class,"post_reservar"])->name("post_implemento_reservar");
+Route::post("/post_implemento_reservar_filtrado",[ImplementoController::class,"post_reservar_filtrado"])->name("post_implemento_reservar_filtrado");

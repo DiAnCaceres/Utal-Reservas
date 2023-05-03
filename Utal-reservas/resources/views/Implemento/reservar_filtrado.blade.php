@@ -16,9 +16,9 @@
     <div class="box_registro_ligteblue">                <!-- Caja celeste que engloba a los datos  -->
 
         <h1><b> Resultados busqueda de implementos </b></h1>
-        <form action="{{route('reservar_implemento.disponibilidad')}}" method="POST">
+        <form action="{{route('post_implemento_reservar_filtrado')}}" method="POST">
             @csrf
-            <div> 
+            <div>
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
 
@@ -29,14 +29,14 @@
                     <option name="implemento" value="{{ $implemento->nombre }}">{{ $implemento->nombre }}</option>
                 @endforeach
             </select>
-          
+
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
-            
+
             <button type="submit" class="button-reservar">Reservar<i class="ri-arrow-right-line"></i></button>
-            <button type="button" class="button-volver" onclick="window.location='{{ route('reservar_implemento') }}'">Volver</button>
- 
-        </form>      
+            <button type="button" class="button-volver" onclick="window.location='{{ route('implemento_reservar') }}'">Volver</button>
+
+        </form>
     </div>
 </div>
 @endsection

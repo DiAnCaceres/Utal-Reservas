@@ -14,7 +14,7 @@
     <button type="button" class="btn btn-default col-xs-4 boton_activo">Salas de estudio</button>
     <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('salagimnasio_reservar') }}'"> Salas del gimnasio</button>
     <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('cancha_reservar') }}'">Canchas</button>
-    <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('reservar_implemento') }}'">Implementos</button>
+    <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('implemento_reservar') }}'">Implementos</button>
 </div>
 
 <div class="separacion">                        <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->

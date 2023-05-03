@@ -23,7 +23,7 @@
 
     <div class="box_registro_ligteblue">
         <h1> Registrar Implemento</h1>
-        <form action="{{route('registro_implemento.store')}}" method="POST">
+        <form action="{{route('post_implemento_registrar')}}" method="POST">
         @csrf
             <input type="text" placeholder="Nombre de implemento" name="nombre">
 

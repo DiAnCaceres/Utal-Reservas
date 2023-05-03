@@ -11,7 +11,7 @@
 
 <div class="botonera_implementos">
     <button type="button" class="btn btn-default col-xs-4 boton_implementos_activo">Agregar</button>
-    <button type="button" class="btn btn-default col-xs-4 boton_implementos" onclick="window.location='{{ route('eliminar_implemento') }}'">Eliminar</button>
+    <button type="button" class="btn btn-default col-xs-4 boton_implementos" onclick="window.location='{{ route('implemento_modificarcantidad_eliminar') }}'">Eliminar</button>
 </div>
 
 <div class="separacion">
@@ -26,7 +26,7 @@
 
 <input type="number" placeholder="Cantidad" name="cantidad">
 
-<button class="button-register">Agregar<i class="ri-arrow-right-line"></i></button> 
+<button class="button-register">Agregar<i class="ri-arrow-right-line"></i></button>
 </div>
 </div>
 

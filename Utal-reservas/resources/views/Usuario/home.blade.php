@@ -16,10 +16,10 @@
     <button type="button" onclick="window.location='{{ route('salaestudio_reservar') }}'">Reservar sala estudio</button>
     <button type="button" onclick="window.location='{{ route('cancha_reservar') }}'">Reservar cancha</button>
     <button type="button" onclick="window.location='{{ route('salagimnasio_reservar') }}'">Reservar sala gimnasio</button>
-    <button type="button" onclick="window.location='{{ route('reservar_implemento') }}'">Reservar implemento</button>
+    <button type="button" onclick="window.location='{{ route('implemento_reservar') }}'">Reservar implemento</button>
 
-    <button type="button" onclick="window.location='{{ route('agregar_implemento') }}'">agregar implemento</button>
-    <button type="button" onclick="window.location='{{ route('eliminar_implemento') }}'">eliminar implemento</button>
+    <button type="button" onclick="window.location='{{ route('implemento_modificarcantidad_agregar') }}'">agregar implemento</button>
+    <button type="button" onclick="window.location='{{ route('implemento_modificarcantidad_eliminar') }}'">eliminar implemento</button>
 
     <h1>Segundo vista reservar AUN NO CONECTAR AUN!!! ALONSO !</h1>
 

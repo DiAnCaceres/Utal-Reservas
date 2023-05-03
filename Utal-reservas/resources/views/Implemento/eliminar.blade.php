@@ -10,7 +10,7 @@
 @section('content')
 
 <div class="botonera_implementos">
-    <button type="button" class="btn btn-default col-xs-4 boton_implementos" onclick="window.location='{{ route('agregar_implemento') }}'">Agregar</button>
+    <button type="button" class="btn btn-default col-xs-4 boton_implementos" onclick="window.location='{{ route('implemento_modificarcantidad_agregar') }}'">Agregar</button>
     <button type="button" class="btn btn-default col-xs-4 boton_implementos_activo">Eliminar</button>
 </div>
 
@@ -21,12 +21,12 @@
     <select name="implementosDisponibles" id="implementosDisponibles">
         @foreach($implementosDisponibles as $implemento)
             <option name="implemento" value="{{ $implemento->id}}"> Nombre: {{$implemento->nombre}} / Cantidad actual: {{ $implemento->cantidad }}</option>
-        @endforeach 
+        @endforeach
     </select>
-    
+
 <input type="number" placeholder="Cantidad" name="cantidad">
 
-<button class="button-register">Eliminar<i class="ri-arrow-right-line"></i></button> 
+<button class="button-register">Eliminar<i class="ri-arrow-right-line"></i></button>
 
 </div>
 </div>
