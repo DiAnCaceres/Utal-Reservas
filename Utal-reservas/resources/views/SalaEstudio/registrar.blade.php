@@ -23,7 +23,7 @@
 
     <div class="box_registro_ligteblue">
         <h1> Registrar las salas de estudio</h1>
-        <form action="{{route('registro_sala_estudio.store')}}" method="POST">
+        <form action="{{route('post_salaestudio_registrar')}}" method="POST">
             @csrf
             <input type="text" placeholder="Nombre" name="nombre">
             {{-- ES LA MISMA ESTRUCTURA PARA LOS DEMAS CAM´POS QUE PUEDEN GENERAR ERROR --}}
@@ -60,8 +60,8 @@
             @endif
         </form>
     </div>
-    
+
 
 </div>
 
-@endsection 
+@endsection

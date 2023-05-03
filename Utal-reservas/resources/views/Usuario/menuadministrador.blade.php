@@ -23,17 +23,17 @@
 
         <div class="buttons column">
             {{-- <button class="button" type="button" onclick="window.location='{{ route('profile.edit') }}' ">Perfil</button> --}}
-            <button class="button" type="button" onclick="window.location='{{ route('registro_sala_estudio') }}'">Ir al Registro</button>
+            <button class="button" type="button" onclick="window.location='{{ route('salaestudio_registrar') }}'">Ir al Registro</button>
             <button class="button" type="button" onclick="window.location='{{ route('register_moderador') }}' ">
                 Registrar moderador
             </button>
-    
+
         </div>
 
         <div class="column">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-    
+
                 <x-responsive-nav-link :href="route('logout')"
                         onclick="event.preventDefault();
                                     this.closest('form').submit();">
@@ -41,6 +41,6 @@
                 </x-responsive-nav-link>
             </form>
         </div>
-       
+
     </div>
 @endsection

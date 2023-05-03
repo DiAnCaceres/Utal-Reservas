@@ -31,12 +31,12 @@ Route::get('/usuario_menuadministrador', [UsersController::class, 'get_menuadmin
 Route::get('/usuario_menumoderador', [UsersController::class, 'get_menumoderador'])->name('moderador')->middleware('usuario_menumoderador');
 require __DIR__.'/auth.php';
 
-Route::get('/salaestudio_registrar', [SalaEstudioController::class, 'get_registrar'])->name('registro_sala_estudio')->middleware('admin');
-Route::get('/salaestudio_reservar', [SalaEstudioController::class, 'get_reservar'])->name('reservar_sala_estudio');
-Route::get('/salaestudio_reservar_filtrado', [SalaEstudioController::class, 'get_reservar_filtrado'])->name('reservar_salas_estudios_disponibles');
-Route::post("/post_salaestudio_registrar",[SalaEstudioController::class,"post_registrar"])->name("registro_sala_estudio.store");
-Route::post("/post_salaestudio_reservar",[SalaEstudioController::class,"post_reservar"])->name("reservar_sala_estudio.reservar");
-Route::post("/post_salaestudio_reservar_filtrado",[SalaEstudioController::class,"post_reservar_filtrado"])->name("reservar_sala_estudio.disponibilidad");
+Route::get('/salaestudio_registrar', [SalaEstudioController::class, 'get_registrar'])->name('salaestudio_registrar')->middleware('admin');
+Route::get('/salaestudio_reservar', [SalaEstudioController::class, 'get_reservar'])->name('salaestudio_reservar');
+Route::get('/salaestudio_reservar_filtrado', [SalaEstudioController::class, 'get_reservar_filtrado'])->name('salaestudio_reservar_filtrado');
+Route::post("/post_salaestudio_registrar",[SalaEstudioController::class,"post_registrar"])->name("post_salaestudio_registrar");
+Route::post("/post_salaestudio_reservar",[SalaEstudioController::class,"post_reservar"])->name("post_salaestudio_reservar");
+Route::post("/post_salaestudio_reservar_filtrado",[SalaEstudioController::class,"post_reservar_filtrado"])->name("post_salaestudio_reservar_filtrado");
 
 Route::get('/salagimnasio_registrar', [SalaGimnasioController::class, 'get_registrar'])->name('registro_sala_gimnasio')->middleware('admin');
 Route::get('/salagimnasio_reservar', [SalaGimnasioController::class, 'get_reservar'])->name('reservar_sala_gimnasio');

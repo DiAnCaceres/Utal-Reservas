@@ -16,15 +16,15 @@
     <div class="box_registro_ligteblue">                <!-- Caja celeste que engloba a los datos  -->
 
         <h1><b> Resultados busqueda sala de estudio </b></h1>
-        
-        <form action="{{route('reservar_sala_estudio.disponibilidad')}}" method="POST">
+
+        <form action="{{route('post_salaestudio_reservar_filtrado')}}" method="POST">
             @csrf
-            <div> 
+            <div>
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
 
             <label for='textoSalas' style="margin-right: 200px;">Salas disponibles:
-            
+
             <select name=seleccionSala" id="salas">
                 <!-- -->
                 @foreach($salasEstudioDisponible as $sala)
@@ -34,9 +34,9 @@
 
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
-            
+
             <button type="submit" class="button-reservar">Reservar<i class="ri-arrow-right-line"></i></button>
-            <button type="button" class="button-volver" onclick="window.location='{{ route('reservar_sala_estudio') }}'">Volver</button>
+            <button type="button" class="button-volver" onclick="window.location='{{ route('salaestudio_reservar') }}'">Volver</button>
 
         </form>
     </div>
