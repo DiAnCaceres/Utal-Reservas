@@ -28,7 +28,7 @@
 
             <label for='textoSalas' style="margin-right: 200px;">Salas disponibles:
 
-            <select name=seleccionSala" id="salas">
+            <select name="seleccionSala" id="salas">
                 <!-- -->
                 @foreach($salasEstudioDisponible as $sala)
                     <option name="sala" value="{{ $sala->id }}">{{ $sala->nombre }}</option>
@@ -40,6 +40,17 @@
 
             <button type="submit" class="button-reservar">Reservar<i class="ri-arrow-right-line"></i></button>
             <button type="button" class="button-volver" onclick="window.location='{{ route('salaestudio_reservar') }}'">Volver</button>
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
 
         </form>
     </div>

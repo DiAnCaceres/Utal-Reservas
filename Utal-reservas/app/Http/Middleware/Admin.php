@@ -25,6 +25,16 @@ class Admin
             return redirect()->route('login');
         }
 
-        return redirect()->route('login');
+        if (Auth::user()->role == 1) {
+            return $next($request);
+        }
+
+        if (Auth::user()->role == 3) {
+            return redirect()->route('usuario_menuestudiante');
+        }
+
+        if (Auth::user()->role == 2) {
+            return redirect()->route('post_implemento_reservar_filtrado');
+        }
     }
 }

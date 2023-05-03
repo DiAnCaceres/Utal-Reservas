@@ -109,18 +109,18 @@ class SalaGimnasioController extends Controller
                 )
             ");
             return view('salagimnasio.reservar_filtrado',compact('salasGimnasioDisponible'));
-        } catch (Throwable $th) {
+        } catch (\Throwable $th) {
             return back()->with('error', '¡Hubo un error al reservar!');
         }
     }
     public function post_reservar_filtrado(){
         try{
-            $id_usuario=1;
-            $id_bloque=1;
-            $id_sala_estudio=2;
+            $id_usuario=6;
+            $id_bloque=2;
+            $id_sala_estudio=11;
             $fecha_reserva="2023-01-05";
             DB::table("instancia_reservas")->insert([
-                "bloque_id" => $this->id_bloque,
+                "bloque_id" => $id_bloque,
                 "user_id" => $id_usuario,
                 "fecha_reserva" => $fecha_reserva,
                 "reserva_id" => $id_sala_estudio,
