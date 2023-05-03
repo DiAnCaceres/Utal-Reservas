@@ -7,6 +7,7 @@
     <title>@yield('title')</title>
     @yield('estilos')
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="icon" href="{{ asset('img/favicon.png') }}">
     
 </head>
 <body>
