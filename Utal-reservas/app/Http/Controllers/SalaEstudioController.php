@@ -18,8 +18,10 @@ class SalaEstudioController extends Controller
     public function post_registrar(SalaEstudioRequest $request){
         $sql=true;
         try {
+            $validatedData = $request->validated();
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
-            $nom_ubi = $request->input('nombre_ubicacion');
+            //$nom_ubi = $request->input('nombre_ubicacion');
+            $nom_ubi=$validatedData['nombre_ubicacion'];
             $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
             $id_ubicacion = $ubi->id;
 
@@ -78,13 +80,16 @@ class SalaEstudioController extends Controller
     public function post_reservar(Request $request){
         
         try {
+            $validatedData = $request->validated();
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
-            $bloque=$request->bloques;
+            //$bloque=$request->bloques;
+            $bloque = $validatedData['id_bloque'];
             $id_bloque = DB::table("bloques")->find($bloque);
             $id_bloque = $id_bloque->id;
 
             //OBTENER FECHA DE LA RESERVA
-            $fecha_reserva=$request->fecha;
+            //$fecha_reserva=$request->fecha;
+            $fecha_reserva=$validatedData['fecha'];
 
             $consulta = "SELECT * FROM sala_estudios
                 INNER JOIN reservas ON reservas.id = sala_estudios.reserva_id

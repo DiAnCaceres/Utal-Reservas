@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Reserva\ImplementoRequest;
 use App\Models\Bloques;
-use Illuminate\Http\Request;
 use App\Models\Implemento;
 use App\Models\Ubicacion;
 use Illuminate\Support\Facades\DB;
@@ -17,8 +16,10 @@ class ImplementoController extends Controller
     public function post_registrar(ImplementoRequest $request){
         $sql=true;
         try {
+            $validatedData = $request->validated();
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
-            $nom_ubi = $request->input('nombre_ubicacion');
+            // $nom_ubi = $request->input('nombre_ubicacion');
+            $nom_ubi=$validatedData['nombre_ubicacion'];
             $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
             $id_ubicacion = $ubi->id;
 
@@ -85,11 +86,15 @@ class ImplementoController extends Controller
     public function post_reservar(Request $request){
         
         try {
-            //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
-            $id_bloque=$request->input('bloques');
-
+            $validatedData = $request->validated();
+            // //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
+            // $id_bloque=$request->input('bloques');
+            $bloque = $validatedData['id_bloque'];
+            $id_bloque = DB::table("bloques")->find($bloque);
+            $id_bloque = $id_bloque->id;
             //OBTENER FECHA DE LA RESERVA
-            $fecha_reserva=$request->input('fecha');
+            // $fecha_reserva=$request->input('fecha');
+            $fecha_reserva=$validatedData['fecha'];
 
             $consulta = "SELECT * FROM implementos
                 INNER JOIN reservas ON reservas.id = implementos.reserva_id
