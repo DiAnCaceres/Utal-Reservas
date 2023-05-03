@@ -21,12 +21,12 @@
 </div>
 
 <div class="contenedorReserva">                      <!-- Contenedor general  -->
-    <div class="box_reserva_ligteblue">             <!-- Caja celeste que engloba a los datos  -->
+    <div class="box_registro_ligteblue">             <!-- Caja celeste que engloba a los datos  -->
 
         <h1><b> Reservar implementos </b></h1>
-        <form action="{{route('reservar_implemento')}}" method="POST">
+        <form action="{{route('reservar_implemento.reservar')}}" method="POST">
             @csrf
-            <input class="form-control" type="fecha-local" placeholder="Seleccionar fecha">
+            <input class="form-control" type="fecha-local" placeholder="Seleccionar fecha" name="fecha">
 
             <label for='bloques' style="margin-right: 200px;">Bloques:</label>
             <select name=bloques" id="bloques">
@@ -35,7 +35,9 @@
             @endforeach
             </select>
 
-            <button type="button" onclick="window.location='{{ route('reservar_implementos_disponibles') }}'">Buscar canchas disponibles</button>
+            <button type="submit">Buscar implemento disponible</button>
+            
+            <!-- <button type="button" onclick="window.location='{{ route('reservar_implementos_disponibles') }}'">Buscar canchas disponibles</button> -->
         </form>      
     </div>
         

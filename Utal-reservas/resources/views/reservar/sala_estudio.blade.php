@@ -35,8 +35,9 @@
             @endforeach
             </select>
 
-            <button type="submit">Buscar</button>
-            {{-- <button type="button" onclick="window.location='{{ route('reservar_salas_estudios_disponibles') }}'">Buscar canchas disponibles</button> --}}
+            <button type="submit">Buscar sala disponible</button>
+
+            <!--  {{-- <button type="button" onclick="window.location='{{ route('reservar_salas_estudios_disponibles') }}'">Buscar canchas disponibles</button> --}}  -->
         </form>
     </div>
 

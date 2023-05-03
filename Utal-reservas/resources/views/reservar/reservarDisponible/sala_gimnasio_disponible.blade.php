@@ -16,15 +16,29 @@
     <div class="box_registro_ligteblue">                <!-- Caja celeste que engloba a los datos  -->
 
         <h1><b> Resultados busqueda sala de gimansio </b></h1>
-        <form action="{{route('registro_sala_estudio.store')}}" method="POST">
+
+        <form action="{{route('reservar_sala_gimnasio.disponibilidad')}}" method="POST">
             @csrf
-            
-              <!--  ACA IRAN LAS SALAS DISPONIBLES JUNTO A LOS DEATALLES DE CADA SALA  -->
+            <div> 
+            <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
+            </div>
 
-            <button type="button" onclick="window.location='{{ route('reservar_sala_gimnasio') }}'">Realizar nueva busqueda</button>
-            <button class="button-register">Reservar<i class="ri-arrow-right-line"></i></button>
+            <label for='textoSalas' style="margin-right: 200px;">Salas disponibles:
 
-        </form>      
+            <select name=seleccionSala" id="salas">
+                
+                @foreach($salasGimnasioDisponible as $sala)
+                    <option name="sala" value="{{ $sala->nombre }}">{{ $sala->nombre }}</option>
+                @endforeach
+            </select>
+
+            <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
+            </div>
+           
+            <button type="submit" class="button-reservar">Reservar<i class="ri-arrow-right-line"></i></button>
+            <button type="button" class="button-volver" onclick="window.location='{{ route('reservar_sala_gimnasio') }}'">Volver</button>
+
+        </form>  
     </div>
 </div>
 @endsection
