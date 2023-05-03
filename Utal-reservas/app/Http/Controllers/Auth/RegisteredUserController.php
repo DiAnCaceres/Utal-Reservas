@@ -25,15 +25,15 @@ class RegisteredUserController extends Controller
     }*/
     public function createAdmin(): View
     {
-        return view('registro.registrar_admin');
+        return view('usuario.registrar_admin');
     }
     public function createModerador(): View
     {
-        return view('registro.registrar_moderador');
+        return view('usuario.registrar_moderador');
     }
     public function createEstudiante(): View
     {
-        return view('registro.registrar_estudiante');
+        return view('usuario.registrar_estudiante');
     }
 
     /**

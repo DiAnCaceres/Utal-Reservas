@@ -20,7 +20,7 @@ class Estudiante
         }
 
         if (Auth::user()->role == 1) {
-            return redirect()->route('admin');
+            return redirect()->route('usuario_menuadministrador');
         }
 
         if (Auth::user()->role == 3) {
@@ -28,7 +28,7 @@ class Estudiante
         }
 
         if (Auth::user()->role == 2) {
-            return redirect()->route('moderador');
+            return redirect()->route('usuario_menumoderador');
         }
     }
 
