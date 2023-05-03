@@ -48,17 +48,17 @@ class SalaGimnasioController extends Controller
 
     public function get_reservar(){
         $bloquesDisponibles = Bloques::all();
-        return view('reservar.sala_gimnasio',compact('bloquesDisponibles'));
+        return view('salagimnasio.reservar',compact('bloquesDisponibles'));
     }
     public function get_reservar_filtrado(){
-        return view('reservar.reservarDisponible.sala_gimnasio_disponible');
+        return view('salagimnasio.reservar_filtrado');
     }
 
     public function get_registrar(){
 
         $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->whereNotIn('nombre_ubicacion',['aire libre'])->get();
 
-        return view('registro.registrar_sala_gimnasio', compact('ubicacionesDeportivas'));
+        return view('salagimnasio.registrar', compact('ubicacionesDeportivas'));
     }
 
     public function post_reservar(Request $request){
@@ -108,7 +108,7 @@ class SalaGimnasioController extends Controller
                     WHERE instancia_reservas.fecha_reserva='1111-11-11' AND instancia_reservas.bloque_id=1
                 )
             ");
-            return view('reservar.reservarDisponible.sala_gimnasio_disponible',compact('salasGimnasioDisponible'));
+            return view('salagimnasio.reservar_filtrado',compact('salasGimnasioDisponible'));
         } catch (Throwable $th) {
             return back()->with('error', '¡Hubo un error al reservar!');
         }
