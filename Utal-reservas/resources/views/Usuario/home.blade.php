@@ -14,7 +14,7 @@
     ->Botones provisionales que despues se borran (hace mas facil el testeo)->
     <h1>NO PROTEGER ESTAS RUTAS HASTA QUE ESTEN COMPLETAS PORFAVOR ALONSO!</h1>
     <button type="button" onclick="window.location='{{ route('salaestudio_reservar') }}'">Reservar sala estudio</button>
-    <button type="button" onclick="window.location='{{ route('reservar_cancha') }}'">Reservar cancha</button>
+    <button type="button" onclick="window.location='{{ route('cancha_reservar') }}'">Reservar cancha</button>
     <button type="button" onclick="window.location='{{ route('salagimnasio_reservar') }}'">Reservar sala gimnasio</button>
     <button type="button" onclick="window.location='{{ route('reservar_implemento') }}'">Reservar implemento</button>
 

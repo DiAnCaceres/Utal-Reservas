@@ -13,7 +13,7 @@
 <div class="botonera">
     <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('salaestudio_reservar') }}'">Salas de estudio</button>
     <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('salagimnasio_reservar') }}'"> Salas del gimnasio</button>
-    <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('reservar_cancha') }}'">Canchas</button>
+    <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('cancha_reservar') }}'">Canchas</button>
     <button type="button" class="btn btn-default col-xs-4 boton_activo">Implementos</button>
 </div>
 

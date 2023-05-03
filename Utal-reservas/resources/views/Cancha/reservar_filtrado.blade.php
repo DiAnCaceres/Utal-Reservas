@@ -16,9 +16,9 @@
     <div class="box_registro_ligteblue">            <!-- Caja celeste que engloba a los datos  -->
 
         <h1><b> Resultados busqueda de cancha </b></h1>
-        <form action="{{route('reservar_cancha.disponibilidad')}}" method="POST">
+        <form action="{{route('post_cancha_reservar_filtrado')}}" method="POST">
             @csrf
-            <div> 
+            <div>
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
 
@@ -32,9 +32,9 @@
 
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
-            
+
             <button type="submit" class="button-reservar">Reservar<i class="ri-arrow-right-line"></i></button>
-            <button type="button" class="button-volver" onclick="window.location='{{ route('reservar_cancha') }}'">Volver</button>
+            <button type="button" class="button-volver" onclick="window.location='{{ route('cancha_reservar') }}'">Volver</button>
 
         </form>
     </div>

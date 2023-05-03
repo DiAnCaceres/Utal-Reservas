@@ -23,7 +23,7 @@
 
     <div class="box_registro_ligteblue">
         <h1> Registrar Cancha</h1>
-        <form action="{{route('registro_cancha.store')}}" method="POST">
+        <form action="{{route('post_cancha_registrar')}}" method="POST">
         @csrf
             <input type="text" placeholder="Nombre" name="nombre">
 

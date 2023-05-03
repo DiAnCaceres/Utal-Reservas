@@ -45,12 +45,12 @@ Route::post("/post_salagimnasio_registrar",[SalaGimnasioController::class,"post_
 Route::post("/post_salagimnasio_reservar",[SalaGimnasioController::class,"post_reservar"])->name("post_salagimnasio_reservar");
 Route::post("/post_salagimnasio_reservar_filtrado",[SalaGimnasioController::class,"post_reservar_filtrado"])->name("post_salagimnasio_reservar_filtrado");
 
-Route::get('/cancha_registrar', [CanchaController::class, 'get_registrar'])->name('registro_cancha')->middleware('admin');
-Route::get('/cancha_reservar', [CanchaController::class, 'get_reservar'])->name('reservar_cancha');
-Route::get('/cancha_reservar_filtrado', [CanchaController::class, 'get_reservar_filtrado'])->name('reservar_canchas_disponibles');
-Route::post("/post_cancha_registrar",[CanchaController::class,"post_registrar"])->name("registro_cancha.store");
-Route::post("/post_cancha_reservar",[CanchaController::class,"post_reservar"])->name("reservar_cancha.reservar");
-Route::post("/post_cancha_reservar_filtrado",[CanchaController::class,"post_reservar_filtrado"])->name("reservar_cancha.disponibilidad");
+Route::get('/cancha_registrar', [CanchaController::class, 'get_registrar'])->name('cancha_registrar')->middleware('admin');
+Route::get('/cancha_reservar', [CanchaController::class, 'get_reservar'])->name('cancha_reservar');
+Route::get('/cancha_reservar_filtrado', [CanchaController::class, 'get_reservar_filtrado'])->name('cancha_reservar_filtrado');
+Route::post("/post_cancha_registrar",[CanchaController::class,"post_registrar"])->name("post_cancha_registrar");
+Route::post("/post_cancha_reservar",[CanchaController::class,"post_reservar"])->name("post_cancha_reservar");
+Route::post("/post_cancha_reservar_filtrado",[CanchaController::class,"post_reservar_filtrado"])->name("post_cancha_reservar_filtrado");
 
 Route::get('/implemento_registrar', [ImplementoController::class, 'get_registrar'])->name('registro_implemento')->middleware('admin');
 Route::get('/implemento_reservar', [ImplementoController::class, 'get_reservar'])->name('reservar_implemento');
