@@ -71,8 +71,12 @@ Route::group(['prefix' => 'registro'], function () {
 Route::post("reservar_sala_estudio",[SalaEstudioController::class,"reservar"])->name("reservar_sala_estudio.reservar");
 Route::post("disponibilidad_sala_estudio",[SalaEstudioController::class,"disponibilidad"])->name("reservar_sala_estudio.disponibilidad");
 
-Route::post("reservar_sala_gimnasio",[SalaEstudioController::class,"reservar"])->name("reservar_sala_gimnasio.reservar");
-Route::post("disponibilidad_sala_gimnasio",[SalaEstudioController::class,"disponibilidad"])->name("reservar_sala_gimnasio.disponibilidad");
+Route::post("reservar_sala_gimnasio",[SalaGimnasioController::class,"reservar"])->name("reservar_sala_gimnasio.reservar");
+Route::post("disponibilidad_sala_gimnasio",[SalaGimnasioController::class,"disponibilidad"])->name("reservar_sala_gimnasio.disponibilidad");
+
+Route::post("reservar_cancha",[CanchaController::class,"reservar"])->name("reservar_cancha.reservar");
+Route::post("disponibilidad_cancha",[CanchaController::class,"disponibilidad"])->name("reservar_cancha.disponibilidad");
+
 // Route::group(['prefix' => 'reserva'], function () {
 //     Route::post("sala_estudio",[SalaEstudioController::class,"reservar"])->name("reservar_sala_estudio.reservar");
 //     //Route::post("cancha",[CanchaController::class,"reservar"])->name("registro_cancha.store");

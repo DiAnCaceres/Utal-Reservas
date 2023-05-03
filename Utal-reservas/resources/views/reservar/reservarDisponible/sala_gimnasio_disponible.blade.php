@@ -16,18 +16,6 @@
     <div class="box_registro_ligteblue">                <!-- Caja celeste que engloba a los datos  -->
 
         <h1><b> Resultados busqueda sala de gimansio </b></h1>
-        
-        <!-- <form action="{{route('reservar_sala_estudio.disponibilidad')}}" method="POST">
-            @csrf
-            <label for='textoSalas' style="margin-right: 200px;">Salas disponibles:</label>
-            <select name=seleccionSala" id="salas">
-              
-                @foreach($salasEstudioDisponible as $sala)
-                    <option name="sala" value="{{ $sala->nombre }}">{{ $sala->nombre }}</option>
-                @endforeach
-            </select>
-
-        </form> -->
 
         <form action="{{route('reservar_sala_gimnasio.disponibilidad')}}" method="POST">
             @csrf
@@ -39,7 +27,8 @@
                 @endforeach
             </select>
 
-        </form>       
+        </form>  
+
 
     </div>
 </div>

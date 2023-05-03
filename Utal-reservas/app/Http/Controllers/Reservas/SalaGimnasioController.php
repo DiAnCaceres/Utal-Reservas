@@ -82,7 +82,7 @@ class SalaGimnasioController extends Controller
             //     "fecha"=>date('Y-m-d')      //ESTA ES EL DÍA EN QUE SER RESERVÓ
             // ]);
             // return back()->with("success","Reserva de Sala Gimnasio registrada correctamente");
-            $salasGimnacioDisponible=DB::select("
+            $salasGimnasioDisponible=DB::select("
                 SELECT * FROM sala_gimnasios
                 INNER JOIN reservas ON reservas.id = sala_gimnasios.reserva_id
                 WHERE reservas.id NOT IN (
@@ -91,7 +91,7 @@ class SalaGimnasioController extends Controller
                     WHERE instancia_reservas.fecha_reserva='1111-11-11' AND instancia_reservas.bloque_id=1
                 )
             ");
-            return view('reservar.reservarDisponible.sala_gimnasio_disponible',compact('salasGimnacioDisponible'));
+            return view('reservar.reservarDisponible.sala_gimnasio_disponible',compact('salasGimnasioDisponible'));
         } catch (Throwable $th) {
             return back()->with('error', '¡Hubo un error al reservar!');
         }

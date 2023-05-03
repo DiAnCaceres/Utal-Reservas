@@ -16,15 +16,18 @@
     <div class="box_registro_ligteblue">            <!-- Caja celeste que engloba a los datos  -->
 
         <h1><b> Resultados busqueda de cancha </b></h1>
-        <form action="{{route('registro_sala_estudio.store')}}" method="POST">
+        <form action="{{route('reservar_cancha.disponibilidad')}}" method="POST">
             @csrf
-            
-              <!--  ACA IRAN LAS SALAS DISPONIBLES JUNTO A LOS DEATALLES DE CADA SALA  -->
+            <label for='textoSalas' style="margin-right: 200px;">Canchas disponibles:</label>
+            <select name=seleccionCancha" id="salas">
 
-            <button type="button" onclick="window.location='{{ route('reservar_cancha') }}'">Realizar nueva busqueda</button>   <!--  Boton para volver  -->
-            <button class="button-register">Reservar<i class="ri-arrow-right-line"></i></button>    <!--  boton para registrar -->
-            
-        </form>      
+                @foreach($canchasDisponible as $cancha)
+                    <option name="cancha" value="{{ $cancha->nombre }}">{{ $cancha->nombre }}</option>
+                @endforeach
+            </select>
+
+        </form>
+
     </div>
 </div>
 @endsection
