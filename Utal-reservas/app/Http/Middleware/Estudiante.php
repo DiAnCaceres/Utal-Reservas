@@ -25,6 +25,8 @@ class Estudiante
             return redirect()->route('usuario_menumoderador');
         }
 
-        return redirect()->route('login');
+        if (Auth::user()->role == 2) {
+            return redirect()->route('post_implemento_reservar_filtrado');
+        }
     }
 }
