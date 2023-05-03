@@ -17,7 +17,7 @@ class ImplementoController extends Controller
     private $id_cancha;
 
     //
-    public function store(ImplementoRequest $request){
+    public function post_registrar(ImplementoRequest $request){
         $sql=true;
         try {
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
@@ -47,34 +47,34 @@ class ImplementoController extends Controller
             return back()->with('error', '¡Hubo un error al guardar el registro!');
         }
     }
-    public function implemento(){
+    public function get_registrar(){
         $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->whereNotIn('nombre_ubicacion',['aire libre'])->get();
         $id_bloque=1;
         return view('registro.registrar_implemento', compact('ubicacionesDeportivas'));
     }
 
-    public function reservar_seleccionar_fechaBloque(){
+    public function get_reservar(){
         $bloquesDisponibles = Bloques::all();
         return view('reservar.implemento',compact('bloquesDisponibles'));
     }
 
-    public function reservar_implementos_disponibles(){
+    public function get_reservar_filtrado(){
 
         return view('reservar.reservarDisponible.implemento_disponible');
     }
 
-    public function agregar_cantidad_implementoExistente(){
+    public function get_modificarcantidad_agregar(){
         $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->get(['reservas.nombre','implementos.cantidad']);
         //  dd($implementosDisponibles);
         return view('modificar_cantidad_implemento.agregar',compact('implementosDisponibles'));
     }
 
-    public function eliminar_cantidad_implementoExistente(){
+    public function get_modificarcantidad_eliminar(){
         $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->where('implementos.cantidad','>',0)->get(['reservas.nombre','implementos.cantidad']);
         return view('modificar_cantidad_implemento.eliminar',compact('implementosDisponibles'));
     }
 
-    public function reservar(ImplementoRequest $request){
+    public function post_reservar(ImplementoRequest $request){
 
 
         try {
@@ -116,6 +116,10 @@ class ImplementoController extends Controller
             //throw $th;
             return back()->with('error', '¡Hubo un error al reservar!');
         }
+
+    }
+
+    public function post_reservar_filtrado(Request $request){
 
     }
 }

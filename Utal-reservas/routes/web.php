@@ -17,57 +17,46 @@ use App\Http\Controllers\SalaGimnasioController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-
-Route::get('/', UsersController::class);
-
 Route::get('/ayuda', function () {
     return view('ayuda');
 
 })->name('ayuda');
 
-Route::get('/dashboard',[UsersController::class, "dashboard"])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/estudiante', [UsersController::class, 'index_estudiante'])->name('estudiante')->middleware('estudiante');
-Route::get('/admin', [UsersController::class, 'index_administrador'])->name('admin')->middleware('admin');
-Route::get('/moderador', [UsersController::class, 'index_moderador'])->name('moderador')->middleware('moderador');
+Route::get('/', UsersController::class); // <-- ruta default
+// ruta para redireccionar cuando cierran sesión
+Route::get('/usuario_redireccionar',[UsersController::class, "get_redireccionar"])->middleware(['auth', 'verified'])->name('dashboard');
+// rutas posterior a inicio de sesión
+Route::get('/usuario_menuestudiante', [UsersController::class, 'get_menuestudiante'])->name('estudiante')->middleware('estudiante');
+Route::get('/usuario_menuadministrador', [UsersController::class, 'get_menuadministrador'])->name('admin')->middleware('admin');
+Route::get('/usuario_menumoderador', [UsersController::class, 'get_menumoderador'])->name('moderador')->middleware('moderador');
+require __DIR__.'/auth.php';
 
-Route::get('registro_sala_estudio', [SalaEstudioController::class, 'registrar'])->name('registro_sala_estudio')->middleware('admin');
-Route::get('/reservar_sala_estudio', [SalaEstudioController::class, 'reservar_seleccionar_fechaBloque'])->name('reservar_sala_estudio');
-Route::get('/reservar_salas_estudios_disponibles', [SalaEstudioController::class, 'reservar_salas_disponibles'])->name('reservar_salas_estudios_disponibles');
-Route::post("sala_estudio",[SalaEstudioController::class,"store"])->name("registro_sala_estudio.store");
-Route::post("reservar_sala_estudio",[SalaEstudioController::class,"reservar"])->name("reservar_sala_estudio.reservar");
-Route::post("disponibilidad_sala_estudio",[SalaEstudioController::class,"disponibilidad"])->name("reservar_sala_estudio.disponibilidad");
+Route::get('/salaestudio_registrar', [SalaEstudioController::class, 'get_registrar'])->name('registro_sala_estudio')->middleware('admin');
+Route::get('/salaestudio_reservar', [SalaEstudioController::class, 'get_reservar'])->name('reservar_sala_estudio');
+Route::get('/salaestudio_reservar_filtrado', [SalaEstudioController::class, 'get_reservar_filtrado'])->name('reservar_salas_estudios_disponibles');
+Route::post("/post_salaestudio_registrar",[SalaEstudioController::class,"post_registrar"])->name("registro_sala_estudio.store");
+Route::post("/post_salaestudio_reservar",[SalaEstudioController::class,"post_reservar"])->name("reservar_sala_estudio.reservar");
+Route::post("/post_salaestudio_reservar_filtrado",[SalaEstudioController::class,"post_reservar_filtrado"])->name("reservar_sala_estudio.disponibilidad");
 
-Route::get('registro_sala_gimnasio', [SalaGimnasioController::class, 'registrar'])->name('registro_sala_gimnasio')->middleware('admin');
-Route::get('/reservar_sala_gimnasio', [SalaGimnasioController::class, 'reservar_seleccionar_fechaBloque'])->name('reservar_sala_gimnasio');
-Route::get('/reservar_salas_gimnasio_disponibles', [SalaGimnasioController::class, 'reservar_salas_disponibles'])->name('reservar_salas_gimnasio_disponibles');
-Route::post("sala_gimnasio",[SalaGimnasioController::class,"store"])->name("registro_sala_gimnasio.store");
-Route::post("reservar_sala_gimnasio",[SalaGimnasioController::class,"reservar"])->name("reservar_sala_gimnasio.reservar");
-Route::post("disponibilidad_sala_gimnasio",[SalaGimnasioController::class,"disponibilidad"])->name("reservar_sala_gimnasio.disponibilidad");
+Route::get('/salagimnasio_registrar', [SalaGimnasioController::class, 'get_registrar'])->name('registro_sala_gimnasio')->middleware('admin');
+Route::get('/salagimnasio_reservar', [SalaGimnasioController::class, 'get_reservar'])->name('reservar_sala_gimnasio');
+Route::get('/salagimnasio_reservar_filtrado', [SalaGimnasioController::class, 'get_reservar_filtrado'])->name('reservar_salas_gimnasio_disponibles');
+Route::post("/post_salagimnasio_registrar",[SalaGimnasioController::class,"post_registrar"])->name("registro_sala_gimnasio.store");
+Route::post("/post_salagimnasio_reservar",[SalaGimnasioController::class,"post_reservar"])->name("reservar_sala_gimnasio.reservar");
+Route::post("/post_salagimnasio_reservar_filtrado",[SalaGimnasioController::class,"post_reservar_filtrado"])->name("reservar_sala_gimnasio.disponibilidad");
 
-Route::get('registro_cancha', [CanchaController::class, 'registrar'])->name('registro_cancha')->middleware('admin');
-Route::get('/reservar_cancha', [CanchaController::class, 'reservar_seleccionar_fechaBloque'])->name('reservar_cancha');
-Route::get('/reservar_canchas_disponibles', [CanchaController::class, 'reservar_canchas_disponibles'])->name('reservar_canchas_disponibles');
-Route::post("cancha",[CanchaController::class,"store"])->name("registro_cancha.store");
-Route::post("reservar_cancha",[CanchaController::class,"reservar"])->name("reservar_cancha.reservar");
-Route::post("disponibilidad_cancha",[CanchaController::class,"disponibilidad"])->name("reservar_cancha.disponibilidad");
+Route::get('/cancha_registrar', [CanchaController::class, 'get_registrar'])->name('registro_cancha')->middleware('admin');
+Route::get('/cancha_reservar', [CanchaController::class, 'get_reservar'])->name('reservar_cancha');
+Route::get('/cancha_reservar_filtrado', [CanchaController::class, 'get_reservar_filtrado'])->name('reservar_canchas_disponibles');
+Route::post("/post_cancha_registrar",[CanchaController::class,"post_registrar"])->name("registro_cancha.store");
+Route::post("/post_cancha_reservar",[CanchaController::class,"post_reservar"])->name("reservar_cancha.reservar");
+Route::post("/post_cancha_reservar_filtrado",[CanchaController::class,"post_reservar_filtrado"])->name("reservar_cancha.disponibilidad");
 
-
-Route::get('registro_implemento', [ImplementoController::class, 'implemento'])->name('registro_implemento')->middleware('admin');
-Route::get('/reservar_implemento', [ImplementoController::class, 'reservar_seleccionar_fechaBloque'])->name('reservar_implemento');
-Route::get('/reservar_implementos_disponibles', [ImplementoController::class, 'reservar_implementos_disponibles'])->name('reservar_implementos_disponibles');
-Route::get('/agregar_implemento', [ImplementoController::class, 'agregar_cantidad_implementoExistente'])->name('agregar_implemento');
-Route::get('/eliminar_implemento', [ImplementoController::class, 'eliminar_cantidad_implementoExistente'])->name('eliminar_implemento');
-Route::post("implemento",[ImplementoController::class,"store"])->name("registro_implemento.store");
-Route::post("reservar_implemento",[ImplementoController::class,"reservar"])->name("reservar_implemento.reservar");
-Route::post("disponibilidad_implemento",[ImplementoController::class,"disponibilidad"])->name("reservar_implemento.disponibilidad");
+Route::get('/implemento_registrar', [ImplementoController::class, 'get_registrar'])->name('registro_implemento')->middleware('admin');
+Route::get('/implemento_reservar', [ImplementoController::class, 'get_reservar'])->name('reservar_implemento');
+Route::get('/implemento_reservar_filtrado', [ImplementoController::class, 'get_reservar_filtrado'])->name('reservar_implementos_disponibles');
+Route::get('/implemento_modificarcantidad_agregar', [ImplementoController::class, 'get_modificarcantidad_agregar'])->name('agregar_implemento');
+Route::get('/implemento_modificarcantidad_eliminar', [ImplementoController::class, 'get_modificarcantidad_eliminar'])->name('eliminar_implemento');
+Route::post("/post_implemento_registrar",[ImplementoController::class,"post_registrar"])->name("registro_implemento.store");
+Route::post("/post_implemento_reservar",[ImplementoController::class,"post_reservar"])->name("reservar_implemento.reservar");
+Route::post("/post_implemento_reservar_filtrado",[ImplementoController::class,"post_reservar_filtrado"])->name("reservar_implemento.disponibilidad");

@@ -14,7 +14,7 @@ class SalaEstudioController extends Controller
     private $id_bloque;
     private $fecha_reserva;
     //
-    public function store(SalaEstudioRequest $request){
+    public function post_registrar(SalaEstudioRequest $request){
         $sql=true;
         try {
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
@@ -46,23 +46,21 @@ class SalaEstudioController extends Controller
         }
     }
 
-    public function registrar(){
+    public function get_registrar(){
         $ubicacionesEstudio = Ubicacion::where('categoria', 'educativo')->get();
         return view('registro.registrar_sala_estudio', compact('ubicacionesEstudio'));
     }
 
-    public function reservar_seleccionar_fechaBloque(){
+    public function get_reservar(){
         $bloquesDisponibles = Bloques::all();
         return view('reservar.sala_estudio',compact('bloquesDisponibles'));
     }
 
-    public function reservar_salas_disponibles(){
-
+    public function get_reservar_filtrado(){
         return view('reservar.reservarDisponible.sala_estudio_disponible');
     }
 
-
-    public function reservar(Request $request){
+    public function post_reservar(Request $request){
         try {
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
             //$id_bloque=$request->bloque->id;
@@ -114,7 +112,7 @@ class SalaEstudioController extends Controller
             return back()->with('error', '¡Hubo un error al reservar!');
         }
     }
-    public function disponibilidad(){
+    public function post_reservar_filtrado(){
         try{
             $id_usuario=1;
             $id_bloque=1;

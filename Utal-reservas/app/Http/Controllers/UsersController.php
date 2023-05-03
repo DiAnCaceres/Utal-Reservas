@@ -13,41 +13,19 @@ class UsersController extends Controller
         return view('home');
     }
 
-    public function index_administrador(){
+    public function get_menuadministrador(){
         return view('home_admin');
     }
 
-    public function index_estudiante(){
+    public function get_menuestudiante(){
         return view('home_estudiante');
     }
 
-    public function index_moderador(){
+    public function get_menumoderador(){
         return view('home_moderador');
     }
 
-    public function home_estudiante(){
-        return view('home_estudiante');
-    }
-
-    public function home_moderador(){
-        return view('home_moderador');
-    }
-
-    public function home_admin(){
-        return view('home_admin');
-    }
-
-    public function login(){
-        return view('login.index');
-    }
-
-    /*
-    public function registrar_sala_estudio(){
-        return view('registro.registrar_sala_estudio');
-    }
-    */
-
-    public function dashboard(){
+    public function get_redireccionar(){
         switch(Auth::user()->role){
             case 2:
                 return redirect(RouteServiceProvider::HOME_MODERADOR);

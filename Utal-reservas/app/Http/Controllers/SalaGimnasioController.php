@@ -14,7 +14,7 @@ class SalaGimnasioController extends Controller
     private $id_bloque;
     private $fecha_reserva;
     //
-    public function store(SalaGimnasioRequest $request){
+    public function post_registrar(SalaGimnasioRequest $request){
         $sql=true;
         try {
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
@@ -46,22 +46,22 @@ class SalaGimnasioController extends Controller
         }
     }
 
-    public function reservar_seleccionar_fechaBloque(){
+    public function get_reservar(){
         $bloquesDisponibles = Bloques::all();
         return view('reservar.sala_gimnasio',compact('bloquesDisponibles'));
     }
-    public function reservar_salas_disponibles(){
+    public function get_reservar_filtrado(){
         return view('reservar.reservarDisponible.sala_gimnasio_disponible');
     }
 
-    public function registrar(){
+    public function get_registrar(){
 
         $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->whereNotIn('nombre_ubicacion',['aire libre'])->get();
 
         return view('registro.registrar_sala_gimnasio', compact('ubicacionesDeportivas'));
     }
 
-    public function reservar(Request $request){
+    public function post_reservar(Request $request){
         try {
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
             //$id_bloque=$request->bloque->id;
@@ -113,7 +113,7 @@ class SalaGimnasioController extends Controller
             return back()->with('error', '¡Hubo un error al reservar!');
         }
     }
-    public function disponibilidad(){
+    public function post_reservar_filtrado(){
         try{
             $id_usuario=1;
             $id_bloque=1;

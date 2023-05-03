@@ -16,7 +16,7 @@ class CanchaController extends Controller
     private $id_cancha;
 
     //
-    public function store(CanchaRequest $request){
+    public function post_registrar(CanchaRequest $request){
         $sql=true;
         try {
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
@@ -48,20 +48,20 @@ class CanchaController extends Controller
         }
     }
 
-    public function reservar_seleccionar_fechaBloque(){
+    public function get_reservar(){
         $bloquesDisponibles = Bloques::all();
         return view('reservar.cancha',compact('bloquesDisponibles'));
     }
-    public function reservar_canchas_disponibles(){
+    public function get_reservar_filtrado(){
         return view('reservar.reservarDisponible.cancha_disponible');
     }
 
-    public function registrar(){
+    public function get_registrar(){
         $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->get();
         return view('registro.registrar_cancha', compact('ubicacionesDeportivas'));
     }
 
-    public function reservar(CanchaRequest $request) {
+    public function post_reservar(CanchaRequest $request) {
 
         try {
 
@@ -104,9 +104,7 @@ class CanchaController extends Controller
 
     }
 
-    public function canchas_disponibles(CanchaRequest $request){
-
-        // $this->reservar($request);
+    public function post_reservar_filtrado(CanchaRequest $request){
 
     }
 }
