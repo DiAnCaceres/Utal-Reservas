@@ -15,16 +15,17 @@ use Illuminate\Support\Facades\DB;
 class ModificarCantidadController extends Controller
 {
     public function agregar(){
-        $implementosDisponibles = Implemento::select('cantidad')->join('reservas','implementos.id','=','reservas.id')->select('reservas.*','implementos.*')->get();
+        $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->get(['reservas.nombre','implementos.cantidad']);
+        //  dd($implementosDisponibles);
         return view('modificar_cantidad_implemento.agregar',compact('implementosDisponibles'));
     }
 
     public function eliminar(){
-        $implementosDisponibles = Implemento::select('cantidad')->join('reservas','implementos.id','=','reservas.id')->select('reservas.*','implementos.*')->where('cantidad',">",0)->get();
+        $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->where('implementos.cantidad','>',0)->get(['reservas.nombre','implementos.cantidad']);
         return view('modificar_cantidad_implemento.eliminar',compact('implementosDisponibles'));
     }
 
 
 
-    
+
 }
