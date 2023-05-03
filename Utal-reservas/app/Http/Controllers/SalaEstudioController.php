@@ -8,6 +8,7 @@ use App\Models\Bloques;
 use App\Models\Ubicacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class SalaEstudioController extends Controller
 {
@@ -57,10 +58,25 @@ class SalaEstudioController extends Controller
     }
 
     public function get_reservar_filtrado(){
-        return view('Salaestudio.reservar_filtrado');
+        
+        try {
+            $datos = session('datos');
+            $salasEstudioDisponible = $datos['salasEstudioDisponible'];
+            $id_bloque = $datos['id_bloque'];
+            $fecha_reserva = $datos['fecha_reserva'];
+            return view('salaestudio.reservar_filtrado', compact('salasEstudioDisponible', 'id_bloque', 'fecha_reserva'));
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            // return back()->with('error', 'Salió mal'); 
+        }
+
+        return redirect()->route('salaestudio_reservar');
+        
     }
 
     public function post_reservar(Request $request){
+        
         try {
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
             $bloque=$request->bloques;
@@ -71,30 +87,30 @@ class SalaEstudioController extends Controller
             $fecha_reserva=$request->fecha;
 
             $consulta = "SELECT * FROM sala_estudios
-             INNER JOIN reservas ON reservas.id = sala_estudios.reserva_id
-             WHERE reservas.id NOT IN (
-             SELECT reservas.id FROM instancia_reservas
-             INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
-             WHERE instancia_reservas.fecha_reserva = ? AND instancia_reservas.bloque_id = ?)";
+                INNER JOIN reservas ON reservas.id = sala_estudios.reserva_id
+                WHERE reservas.id NOT IN (
+                SELECT reservas.id FROM instancia_reservas
+                INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
+                WHERE instancia_reservas.fecha_reserva = ? AND instancia_reservas.bloque_id = ?)";
 
             $salasEstudioDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
-
-            return view('salaestudio.reservar_filtrado',compact('salasEstudioDisponible', 'id_bloque', 'fecha_reserva'));
-           
+            $datos = ["salasEstudioDisponible" => $salasEstudioDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];    
+            return redirect()->route('salaestudio_reservar_filtrado')->with('datos', $datos);
         } catch (\Throwable $th) {
-            return back()->with('error', '¡Hubo un error al reservar!');
+            return back()->with('error', 'Salió mal');
         }
+         
     }
     public function post_reservar_filtrado(Request $request){
         try{
-            $id_usuario=3;
+            $id_usuario= Auth::user()->id;
             $id_bloque=$request->input('bloque');
-            $id_sala_estudio = $request->seleccionSala;
-            $sala_estudio = DB::table("reservas")->find($id_sala_estudio); //Busco el registro
+            $id_sala_estudio = $request->input('seleccionSala');
+            // $sala_estudio = DB::table("reservas")->find($id_sala_estudio); //Busco el registro
             $fecha_reserva=$request->input('fecha');
             DB::table("instancia_reservas")->insert([
                 "fecha_reserva" => $fecha_reserva,
-                "reserva_id" => $sala_estudio->id,
+                "reserva_id" => $id_sala_estudio,
                 "user_id" => $id_usuario,
                 "bloque_id" => $id_bloque,
             ]);
@@ -110,7 +126,7 @@ class SalaEstudioController extends Controller
                 "fecha"=>$fecha_reserva,      //ESTA ES EL DÍA EN QUE SER RESERVÓ
             ]);
 
-            return back()->with("success","Sala Estudio reservada correctamente");
+            return redirect()->route('salaestudio_reservar');
         }catch (\Throwable $th){
             return back()->with('error', '¡Hubo un error al reservar!');
         }
