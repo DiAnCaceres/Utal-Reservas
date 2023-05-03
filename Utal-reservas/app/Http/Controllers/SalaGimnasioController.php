@@ -73,18 +73,19 @@ class SalaGimnasioController extends Controller
             return redirect()->route('salagimnasio_reservar');
         }
 
-        
+
     }
 
     public function post_reservar(Request $request){
         try {
-            
+
             $id_bloque=$request->input('bloques');
 
             $fecha_reserva=$request->input('fecha');
 
             $consulta="SELECT * FROM sala_gimnasios
                 INNER JOIN reservas ON reservas.id = sala_gimnasios.reserva_id
+                INNER JOIN ubicaciones ON reservas.ubicaciones_id = ubicaciones.id
                 AND reserva_id NOT IN (
                 SELECT reservas.id
                 FROM instancia_reservas

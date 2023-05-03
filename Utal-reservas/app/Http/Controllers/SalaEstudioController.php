@@ -58,7 +58,7 @@ class SalaEstudioController extends Controller
     }
 
     public function get_reservar_filtrado(){
-        
+
         try {
             $datos = session('datos');
             $salasEstudioDisponible = $datos['salasEstudioDisponible'];
@@ -68,15 +68,15 @@ class SalaEstudioController extends Controller
 
         } catch (\Throwable $th) {
             //throw $th;
-            // return back()->with('error', 'Salió mal'); 
+            // return back()->with('error', 'Salió mal');
         }
 
         return redirect()->route('salaestudio_reservar');
-        
+
     }
 
     public function post_reservar(Request $request){
-        
+
         try {
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
             $bloque=$request->bloques;
@@ -88,18 +88,19 @@ class SalaEstudioController extends Controller
 
             $consulta = "SELECT * FROM sala_estudios
                 INNER JOIN reservas ON reservas.id = sala_estudios.reserva_id
+                INNER JOIN ubicaciones ON reservas.ubicacione_id = ubicaciones.id
                 WHERE reservas.id NOT IN (
                 SELECT reservas.id FROM instancia_reservas
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
                 WHERE instancia_reservas.fecha_reserva = ? AND instancia_reservas.bloque_id = ?)";
 
             $salasEstudioDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
-            $datos = ["salasEstudioDisponible" => $salasEstudioDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];    
+            $datos = ["salasEstudioDisponible" => $salasEstudioDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
             return redirect()->route('salaestudio_reservar_filtrado')->with('datos', $datos);
         } catch (\Throwable $th) {
             return back()->with('error', 'Salió mal');
         }
-         
+
     }
     public function post_reservar_filtrado(Request $request){
         try{
