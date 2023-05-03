@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('historial_reservas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('instancia_reserva_fecha_reserva');
-            $table->foreignId('instancia_reserva_user_id');
-            $table->foreignId('instancia_reserva_bloque_id');
-            $table->foreignId('estado_instancia_reserva_id');
+            $table->foreignId('instancia_reserva_fecha_reserva')->constrained();
+            $table->foreignId('instancia_reserva_user_id')->constrained();
+            $table->foreignId('instancia_reserva_bloque_id')->constrained();
+            $table->foreignId('estado_instancia_reserva_id')->constrained();
             $table->date('fecha');
         });
     }
