@@ -28,7 +28,7 @@ class Estudiante
         }
 
         if (Auth::user()->role == 2) {
-            return redirect()->route('route('post_implemento_reservar_filtrado')r');
+            return redirect()->route('post_implemento_reservar_filtrado');
         }
     }
 
