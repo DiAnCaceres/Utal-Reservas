@@ -16,14 +16,16 @@
     <div class="box_registro_ligteblue">                <!-- Caja celeste que engloba a los datos  -->
 
         <h1><b> Resultados busqueda de implementos </b></h1>
-        <form action="{{route('registro_sala_estudio.store')}}" method="POST">
+        <form action="{{route('reservar_implemento.disponibilidad')}}" method="POST">
             @csrf
-            
-              <!--  ACA IRAN LAS SALAS DISPONIBLES JUNTO A LOS DEATALLES DE CADA SALA  -->
-
-            <button type="button" onclick="window.location='{{ route('reservar_implemento') }}'">Realizar nueva busqueda</button>
-            <button class="button-register">Reservar<i class="ri-arrow-right-line"></i></button>
-
+            <label for='textoImplementos' style="margin-right: 200px;">Implementos disponibles:</label>
+            <select name=seleccionImplemento" id="implementos">
+                <!-- -->
+                @foreach($implementoDisponible as $implemento)
+                    <option name="implemento" value="{{ $implemento->nombre }}">{{ $implemento->nombre }}</option>
+                @endforeach
+            </select>
+           
         </form>      
     </div>
 </div>

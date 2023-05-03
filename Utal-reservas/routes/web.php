@@ -77,6 +77,9 @@ Route::post("disponibilidad_sala_gimnasio",[SalaGimnasioController::class,"dispo
 Route::post("reservar_cancha",[CanchaController::class,"reservar"])->name("reservar_cancha.reservar");
 Route::post("disponibilidad_cancha",[CanchaController::class,"disponibilidad"])->name("reservar_cancha.disponibilidad");
 
+Route::post("reservar_implemento",[ImplementoController::class,"reservar"])->name("reservar_implemento.reservar");
+Route::post("disponibilidad_implemento",[ImplementoController::class,"disponibilidad"])->name("reservar_implemento.disponibilidad");
+
 // Route::group(['prefix' => 'reserva'], function () {
 //     Route::post("sala_estudio",[SalaEstudioController::class,"reservar"])->name("reservar_sala_estudio.reservar");
 //     //Route::post("cancha",[CanchaController::class,"reservar"])->name("registro_cancha.store");
