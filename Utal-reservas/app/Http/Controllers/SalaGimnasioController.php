@@ -113,15 +113,43 @@ class SalaGimnasioController extends Controller
         try{
             $id_usuario= Auth::user()->id;
             $id_bloque=$request->input('bloque');
-            $id_cancha = $request->input('seleccionSala');
+            $id_cancha = $request->input('seleccionCancha');
             // $sala_estudio = DB::table("reservas")->find($id_sala_estudio); //Busco el registro
             $fecha_reserva=$request->input('fecha');
-            DB::table("instancia_reservas")->insert([
-                "fecha_reserva" => $fecha_reserva,
-                "reserva_id" => $id_cancha,
-                "user_id" => $id_usuario,
-                "bloque_id" => $id_bloque,
-            ]);
+
+            $existeRegistro = DB::table("instancia_reservas")->whereDate('fecha_reserva', $fecha_reserva)
+                    ->where('reserva_id', $id_cancha)
+                    ->where('user_id', $id_usuario)
+                    ->where('bloque_id', $id_bloque)
+                    ->doesntExist();
+
+            if ($existeRegistro) {
+                $numReservas = DB::table("instancia_reservas")->where('user_id', $id_usuario)
+                        ->whereDate('fecha_reserva', $fecha_reserva)
+                        ->count();
+
+                    // Verificamos si el número de reservas es menor o igual a 2
+                    if ($numReservas < 2) {
+                        // El estudiante tiene menos de dos reservas para la fecha indicada, puedes proceder a hacer la reserva
+                        DB::table("instancia_reservas")->insert([
+                            "fecha_reserva" => $fecha_reserva,
+                            "reserva_id" => $id_cancha,
+                            "user_id" => $id_usuario,
+                            "bloque_id" => $id_bloque,
+                        ]);
+                    } else {
+                        // El estudiante ya tiene dos reservas para la fecha indicada, no puedes hacer otra reserva
+                    }
+            } else {
+                // El registro ya existe, no es necesario ingresarlo de nuevo
+            }
+
+            // DB::table("instancia_reservas")->insert([
+            //     "fecha_reserva" => $fecha_reserva,
+            //     "reserva_id" => $id_cancha,
+            //     "user_id" => $id_usuario,
+            //     "bloque_id" => $id_bloque,
+            // ]);
 
             $estado_instancia_reserva = DB::table("estado_instancia_reservas")->where('nombre_estado', "reservado")->first();
             $id_estado_instancia = $estado_instancia_reserva->id;
@@ -132,7 +160,8 @@ class SalaGimnasioController extends Controller
                 "bloque_id"=>$id_bloque,
                 "reserva_id"=>$id_estado_instancia,
             ]);
-            return redirect()->route('salagimnasio_reservar');
+
+            return redirect()->route('cancha_reservar');
         }catch (\Throwable $th){
             return back()->with('error', '¡Hubo un error al reservar!');
         }
