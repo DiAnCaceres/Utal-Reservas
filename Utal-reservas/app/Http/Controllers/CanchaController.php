@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Reserva\CanchaRequest;
 use App\Models\Bloques;
 use App\Models\Ubicacion;
+use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,12 +16,18 @@ class CanchaController extends Controller
     public function post_registrar(CanchaRequest $request){
         $sql=true;
         try {
+            $validatedData = $request->validated();
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
-            $nom_ubi = $request->input('nombre_ubicacion');
+            $nom_ubi=$validatedData['nombre_ubicacion'];
             $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
             $id_ubicacion = $ubi->id;
 
-            //OBTENGO EL ID DEL ESTADO DISPONIBLE
+
+            // $nom_ubi = $request->input('nombre_ubicacion');
+            // $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
+            // $id_ubicacion = $ubi->id;
+
+            // //OBTENGO EL ID DEL ESTADO DISPONIBLE
             $estado = DB::table("estado_reservas")
             ->where('nombre_estado',"Disponible")
             ->first();
@@ -73,11 +80,16 @@ class CanchaController extends Controller
         
         try {
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
-            $id_bloque=$request->input('bloques');
+            $validatedData = $request->validated();
+            //$id_bloque=$request->input('bloques');
+            $bloque = $validatedData['id_bloque'];
+            $id_bloque = DB::table("bloques")->find($bloque);
+            $id_bloque = $id_bloque->id;
 
             //OBTENER FECHA DE LA RESERVA
-            $fecha_reserva=$request->input('fecha');
-
+            // $fecha_reserva=$request->input('fecha');
+            $fecha_reserva=$validatedData['fecha'];
+            
             $consulta = "SELECT * FROM canchas
                 INNER JOIN reservas ON reservas.id = canchas.reserva_id
                 WHERE reservas.id NOT IN (
