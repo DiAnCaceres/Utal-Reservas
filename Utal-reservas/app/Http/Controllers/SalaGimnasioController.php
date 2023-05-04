@@ -8,17 +8,19 @@ use App\Models\Bloques;
 use App\Models\Ubicacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class SalaGimnasioController extends Controller
 {
-    private $id_bloque;
-    private $fecha_reserva;
     //
     public function post_registrar(SalaGimnasioRequest $request){
         $sql=true;
         try {
+            $validatedData = $request->validated();
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
-            $nom_ubi=$request->nombre_ubicacion;
+            //$nom_ubi=$request->nombre_ubicacion;
+            $nom_ubi=$validatedData['nombre_ubicacion'];
             $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
             $id_ubicacion = $ubi->id;
 
@@ -50,9 +52,7 @@ class SalaGimnasioController extends Controller
         $bloquesDisponibles = Bloques::all();
         return view('salagimnasio.reservar',compact('bloquesDisponibles'));
     }
-    public function get_reservar_filtrado(){
-        return view('salagimnasio.reservar_filtrado');
-    }
+
 
     public function get_registrar(){
 
@@ -61,122 +61,85 @@ class SalaGimnasioController extends Controller
         return view('salagimnasio.registrar', compact('ubicacionesDeportivas'));
     }
 
-    public function post_reservar(Request $request){
+    public function get_reservar_filtrado(){
         try {
-            //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
-            //$id_bloque=$request->bloque->id;
-            $id_bloque=1;
+            $datos = session('datos');
+            $salasGimnasioDisponible = $datos['salasGimnasioDisponible'];
+            $id_bloque = $datos['id_bloque'];
+            $fecha_reserva = $datos['fecha_reserva'];
+            return view('salagimnasio.reservar_filtrado', compact('salasGimnasioDisponible', 'id_bloque', 'fecha_reserva'));
 
-            //OBTENER EL ESTUDIANTE
-            //$id_usuario=$request->user()->id;
-            //$id_usuario=2;
+        } catch (\Throwable $th) {
+            //throw $th;
+            // return back()->with('error', 'Salió mal');
+            return redirect()->route('salagimnasio_reservar');
+        }
 
             //OBTENER FECHA DE LA RESERVA
             //$fecha_reserva=$request->fecha;
             $fecha_reserva="2023-07-13";
 
-            //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
+    }
 
-            //OBTENER ID DE LA RESERVA
-            // $id_sala_estudio = $request->sala->id;
-            $id_sala_estudio =1;
-            //CREAR EL REGISTRO
-            // DB::table("instancia_reservas")->insert([
-            //     "bloque_id" => 3,
-            //     "user_id" => $id_usuario,
-            //     "fecha_reserva" => $fecha_reserva,
-            //     "reserva_id" => $id_sala_estudio,
-            // ]);
+    public function post_reservar(Request $request){
+        try {
 
-            // $estado_instancia_reserva = DB::table("estado_instancia_reserva")->where('nombre_estado', "reservado")->first();
-            // $id_estado_instancia = $estado_instancia_reserva->id;
+            $id_bloque=$request->input('bloques');
 
-            // DB::table("historial_reservas")->insert([
-            //     "instancia_reserva_fecha_reserva"=>$fecha_reserva,
-            //     "instancia_reserva_user_id"=>$id_usuario,
-            //     "instancia_reserva_bloque_id"=>3,
-            //     "estado_instancia_reserva_id"=>$id_estado_instancia,
-            //     "fecha"=>date('Y-m-d')      //ESTA ES EL DÍA EN QUE SER RESERVÓ
-            // ]);
-            // return back()->with("success","Reserva de Sala Gimnasio registrada correctamente");
-            $salasGimnasioDisponible=DB::select("
-                SELECT * FROM sala_gimnasios
+            $fecha_reserva=$request->input('fecha');
+
+            $consulta= "SELECT * FROM sala_gimnasios
                 INNER JOIN reservas ON reservas.id = sala_gimnasios.reserva_id
-                WHERE reservas.id NOT IN (
-                    SELECT reservas.id FROM instancia_reservas
-                    INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
-                    WHERE instancia_reservas.fecha_reserva='1111-11-11' AND instancia_reservas.bloque_id=1
+                INNER JOIN ubicaciones ON reservas.ubicacione_id = ubicaciones.id
+                AND reserva_id NOT IN (
+                SELECT reservas.id
+                FROM instancia_reservas
+                INNER JOIN reservas ON instancia_reservas.reserva_id = reservas.id
+                INNER JOIN sala_gimnasios ON instancia_reservas.reserva_id = sala_gimnasios.reserva_id
+                WHERE instancia_reservas.fecha_reserva=? AND instancia_reservas.bloque_id=? AND sala_gimnasios.capacidad <= (
+                SELECT COUNT(*)
+                FROM instancia_reservas ir
+                WHERE ir.fecha_reserva = instancia_reservas.fecha_reserva
+                AND ir.reserva_id = instancia_reservas.reserva_id
+                AND ir.bloque_id = instancia_reservas.bloque_id
                 )
-            ");
-            return view('salagimnasio.reservar_filtrado',compact('salasGimnasioDisponible'));
-        } catch (Throwable $th) {
+                GROUP BY reservas.id
+                )
+            ";
+
+            $salasGimnasioDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
+            $datos = ["salasGimnasioDisponible" => $salasGimnasioDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
+            return redirect()->route('salagimnasio_reservar_filtrado')->with('datos', $datos);
+        } catch (\Throwable $th) {
             return back()->with('error', '¡Hubo un error al reservar!');
         }
     }
-    public function post_reservar_filtrado(){
+    public function post_reservar_filtrado(Request $request){
         try{
-            $id_usuario=1;
-            $id_bloque=1;
-            $id_sala_estudio=2;
-            $fecha_reserva="2023-01-05";
+            $id_usuario= Auth::user()->id;
+            $id_bloque=$request->input('bloque');
+            $id_cancha = $request->input('seleccionSala');
+            // $sala_estudio = DB::table("reservas")->find($id_sala_estudio); //Busco el registro
+            $fecha_reserva=$request->input('fecha');
             DB::table("instancia_reservas")->insert([
-                "bloque_id" => $this->id_bloque,
-                "user_id" => $id_usuario,
                 "fecha_reserva" => $fecha_reserva,
-                "reserva_id" => $id_sala_estudio,
+                "reserva_id" => $id_cancha,
+                "user_id" => $id_usuario,
+                "bloque_id" => $id_bloque,
             ]);
 
-            $estado_instancia_reserva = DB::table("estado_instancia_reserva")->where('nombre_estado', "reservado")->first();
+            $estado_instancia_reserva = DB::table("estado_instancia_reservas")->where('nombre_estado', "reservado")->first();
             $id_estado_instancia = $estado_instancia_reserva->id;
 
-            DB::table("historial_reservas")->insert([
-                "instancia_reserva_fecha_reserva"=>$fecha_reserva,
-                "instancia_reserva_user_id"=>$id_usuario,
-                "instancia_reserva_bloque_id"=>$this->id_bloque,
-                "estado_instancia_reserva_id"=>$id_estado_instancia,
-                "fecha"=>date('Y-m-d')      //ESTA ES EL DÍA EN QUE SER RESERVÓ
+            DB::table("historial_instancia_reservas")->insert([
+                "fecha_reserva"=>$fecha_reserva,
+                "user_id"=>$id_usuario,
+                "bloque_id"=>$id_bloque,
+                "reserva_id"=>$id_estado_instancia,      //ESTA ES EL DÍA EN QUE SER RESERVÓ
             ]);
-        }catch (Throwable $th){
-
+            return redirect()->route('salagimnasio_reservar');
+        }catch (\Throwable $th){
+            return back()->with('error', '¡Hubo un error al reservar!');
         }
     }
 }
-//     public function reservar(SalaGimnasioRequest $request){
-//         try {
-//             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
-//             $id_bloque=$request->bloque->id;
-
-//             //OBTENER EL ESTUDIANTE
-//             $id_usuario=$request->user()->id;
-
-//             //OBTENER FECHA DE LA RESERVA
-//             $fecha_reserva=$request->fecha;
-
-//             //OBTENER ID DE LA RESERVA
-//             $id_sala_gimnasio = $request->sala->id;
-
-//             //CREAR EL REGISTRO
-//             DB::table("instancia_reservas")->insert([
-//                 "bloque_id" => $id_bloque,
-//                 "user_id" => $id_usuario,
-//                 "fecha_reserva" => $fecha_reserva,
-//                 "reserva_id" => $id_sala_gimnasio,
-//             ]);
-
-//             $estado_instancia_reserva = DB::table("estado_instancia_reserva")->where('nombre_estado', "reservado")->first();
-//             $id_estado_instancia = $estado_instancia_reserva->id;
-
-//             DB::table("historial_reservas")->insert([
-//                 "instancia_reserva_fecha_reserva"=>$fecha_reserva,
-//                 "instancia_reserva_user_id"=>$id_usuario,
-//                 "instancia_reserva_bloque_id"=>$id_bloque,
-//                 "estado_instancia_reserva_id"=>$id_estado_instancia,
-//                 "fecha"=>date('Y-m-d')      //ESTA ES EL DÍA EN QUE SER RESERVÓ
-//             ]);
-//             return back()->with("success","Reserva de Sala Gimnasio registrada correctamente");
-//         } catch (\Throwable $th) {
-//             return back()->with('error', '¡Hubo un error al reservar!');
-//         }
-//     }
-
-// }

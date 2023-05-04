@@ -23,6 +23,14 @@
                 <button type= "submit" class="button-register">Entrar<i class="ri-arrow-right-line"></i></button>
 
             </form>
+
+            <!-- Mostrar mensaje de error si existe una variable de sesión 'error' -->
+            @if(session('error'))
+            <div class="notification is-danger">
+                {{ session('error') }}
+            </div>
+            @endif
+
             <div class="separacion">
                 <hr>
                 <span>o</span>
