@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CanchaController extends Controller
 {
-   
+
     public function post_registrar(CanchaRequest $request){
         $sql=true;
         try {
@@ -70,14 +70,14 @@ class CanchaController extends Controller
 
         } catch (\Throwable $th) {
             //throw $th;
-            // return back()->with('error', 'Salió mal'); 
+            // return back()->with('error', 'Salió mal');
         }
 
         return redirect()->route('cancha_reservar');
     }
 
     public function post_reservar(Request $request){
-        
+
         try {
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
             $validatedData = $request->validated();
@@ -89,21 +89,22 @@ class CanchaController extends Controller
             //OBTENER FECHA DE LA RESERVA
             // $fecha_reserva=$request->input('fecha');
             $fecha_reserva=$validatedData['fecha'];
-            
+
             $consulta = "SELECT * FROM canchas
                 INNER JOIN reservas ON reservas.id = canchas.reserva_id
+                INNER JOIN ubicaciones ON canchas.ubicacione_id = ubicaciones.id
                 WHERE reservas.id NOT IN (
                 SELECT reservas.id FROM instancia_reservas
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
                 WHERE instancia_reservas.fecha_reserva = ? AND instancia_reservas.bloque_id = ?)";
 
             $canchasDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
-            $datos = ["canchasDisponible" => $canchasDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];    
+            $datos = ["canchasDisponible" => $canchasDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
             return redirect()->route('cancha_reservar_filtrado')->with('datos', $datos);
         } catch (\Throwable $th) {
             return back()->with('error', 'Salió mal');
         }
-         
+
     }
 
     public function post_reservar_filtrado(Request $request){
