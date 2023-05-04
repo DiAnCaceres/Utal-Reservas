@@ -20,11 +20,11 @@ class Moderador
         }
 
         if (Auth::user()->role == 1) {
-            return redirect()->route('admin');
+            return redirect()->route('usuario_menuadministrador');
         }
 
         if (Auth::user()->role == 3) {
-            return redirect()->route('estudiante');
+            return redirect()->route('usuario_menuestudiante');
         }
 
         if (Auth::user()->role == 2) {

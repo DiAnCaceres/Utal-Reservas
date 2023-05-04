@@ -21,21 +21,42 @@ class SalaEstudioRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            "nombre_ubicacion"=>["required"],
-            "nombre"=>["required","max:30","unique:reservas,nombre"],
-            "capacidad"=>["required","max:20","integer"]
-            // 'email' => 'required|email|unique:users,email_address'
-        ];
+        // return [
+        //     "nombre_ubicacion"=>["required"],
+        //     "nombre"=>["required","max:30","unique:reservas,nombre"],
+        //     "capacidad"=>["required","max:20","integer"],
+        //     // "fecha"=>["required","date"],
+        //     // "bloque"=>["required"],
+        //     // 'email' => 'required|email|unique:users,email_address'
+        // ];
+        switch ($this->route()->getActionMethod()) {
+            case 'post_reservar':
+                return [
+                    'fecha' => 'required|string',
+                    'bloque' => 'required'
+                ];
+            case 'post_registrar':
+                return [
+                    "nombre_ubicacion"=>["required"],
+                    "nombre"=>["required","max:30","unique:reservas,nombre"],
+                    "capacidad"=>["required","max:20","integer"]
+                ];
+            default:
+                return [];
+        }
     }
     public function messages()
     {
         return[
             "nombre.required"=>"El campo :attribute es obligatorio.",
             'nombre.unique' => 'El nombre ya existe en la tabla.',
+            "fecha.required"=>"El campo :attribute es obligatorio.",
+            "bloque.required"=>"El campo :attribute es obligatorio.",
             "capacidad.required"=>"El campo :attribute es obligatorio.",
             "nombre.max"=>'El campo :attribute no puede tener más de :max caracteres.',
-            "capacidad.integer"=>'El campo :attribute debe ser un número entero.'
+            "capacidad.integer"=>'El campo :attribute debe ser un número entero.',
+            "fecha.required" => "El campo :attribute es obligatorio.",
+            "bloque.required" => "El campo :attribute es obligatorio.",
         ];
     }
 }

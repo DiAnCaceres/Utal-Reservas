@@ -31,24 +31,24 @@ class LoginController extends Controller
     {
         switch(Auth::user()->role){
             case 2:
-            $this->redirectTo = '/moderador';
+            $this->redirectTo = '/usuario_menumoderador';
             return $this->redirectTo;
                 break;
             case 3:
-                $this->redirectTo = '/estudiante';
+                $this->redirectTo = '/usuario_menuestudiante';
                 return $this->redirectTo;
                 break;
             case 1:
-                $this->redirectTo = '/admin';
+                $this->redirectTo = '/usuario_menuadministrador';
                 return $this->redirectTo;
                 break;
             default:
                 $this->redirectTo = '/login';
                 return $this->redirectTo;
         }
-         
+
         // return $next($request);
-    } 
+    }
 
     /**
      * Create a new controller instance.
