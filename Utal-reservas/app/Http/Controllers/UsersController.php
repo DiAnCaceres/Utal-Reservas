@@ -40,4 +40,17 @@ class UsersController extends Controller
                 return view('usuario.home');
         }
     }
+
+    public function post_login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+    
+        if (Auth::attempt($credentials)) {
+            // Si las credenciales son correctas, redirigir al usuario a su página correspondiente
+            return $this->get_redireccionar();
+        }
+    
+        // Si las credenciales son incorrectas, adjuntar un mensaje de error a la sesión
+        return redirect()->route('login')->with('error', 'El correo electrónico o la contraseña son incorrectos.');
+    }
 }

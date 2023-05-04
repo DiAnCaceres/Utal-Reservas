@@ -22,11 +22,14 @@
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
 
+            <input name="bloque" type="hidden" value="{{$id_bloque}}">
+            <input name="fecha" type="hidden" value="{{$fecha_reserva}}">
+
             <label for='textoSalas' style="margin-right: 200px;">Canchas disponibles:
-            <select name=seleccionCancha" id="salas">
+            <select name="seleccionCancha" id="salas">
 
                 @foreach($canchasDisponible as $cancha)
-                    <option name="cancha" value="{{ $cancha->nombre }}">{{ $cancha->nombre }}</option>
+                    <option name="cancha" value="{{ $cancha->id }}">{{ $cancha->nombre }}</option>
                 @endforeach
             </select>
 

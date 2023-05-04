@@ -11,7 +11,7 @@
     <div class="contenedor">
 
         <div class="login">
-
+            <h1>Bienvenido Utalino, por favor inicia sesión </h1>
             <form action="{{route('login')}}" method="POST"> <!--Metodo para validar rut y contraseña en bd-->
                 @csrf
                 <input id="email" placeholder="Email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
@@ -23,13 +23,21 @@
                 <button type= "submit" class="button-register">Entrar<i class="ri-arrow-right-line"></i></button>
 
             </form>
+
+            <!-- Mostrar mensaje de error si existe una variable de sesión 'error' -->
+            @if(session('error'))
+            <div class="notification is-danger">
+                {{ session('error') }}
+            </div>
+            @endif
+
             <div class="separacion">
                 <hr>
                 <span>o</span>
                 <hr>
             </div>
 
-            <a class="btnAyuda" href="{{ route('ayuda') }}" >¿Necesitas ayuda?</a>
+            <a class="btnAyuda" href="{{ route('ayuda') }}">¿Necesitas ayuda?</a>
 
         </div>
 
