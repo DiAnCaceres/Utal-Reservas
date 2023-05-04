@@ -132,6 +132,7 @@ class SalaGimnasioController extends Controller
                 "bloque_id"=>$id_bloque,
                 "reserva_id"=>$id_estado_instancia,      //ESTA ES EL DÍA EN QUE SER RESERVÓ
             ]);
+            return redirect()->route('salagimnasio_reservar');
         }catch (\Throwable $th){
             return back()->with('error', '¡Hubo un error al reservar!');
         }
