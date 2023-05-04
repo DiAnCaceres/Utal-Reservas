@@ -24,8 +24,8 @@ class SalaGimnasioController extends Controller
 
             //OBTENGO EL ID DEL ESTADO DISPONIBLE
             $estado = DB::table("estado_reservas")
-            ->where('nombre_estado',"Disponible")
-            ->first();
+                ->where('nombre_estado',"Disponible")
+                ->first();
             $id_estado=$estado->id;
 
             DB::table("reservas")->insert([
@@ -83,9 +83,9 @@ class SalaGimnasioController extends Controller
 
             $fecha_reserva=$request->input('fecha');
 
-            $consulta="SELECT * FROM sala_gimnasios
+            $consulta= "SELECT * FROM sala_gimnasios
                 INNER JOIN reservas ON reservas.id = sala_gimnasios.reserva_id
-                INNER JOIN ubicaciones ON reservas.ubicaciones_id = ubicaciones.id
+                INNER JOIN ubicaciones ON reservas.ubicacione_id = ubicaciones.id
                 AND reserva_id NOT IN (
                 SELECT reservas.id
                 FROM instancia_reservas
@@ -132,9 +132,7 @@ class SalaGimnasioController extends Controller
                 "bloque_id"=>$id_bloque,
                 "reserva_id"=>$id_estado_instancia,      //ESTA ES EL DÍA EN QUE SER RESERVÓ
             ]);
-        }catch (\Throwable $th){
-
-            return redirect()->route('implemento_reservar');
+            return redirect()->route('salagimnasio_reservar');
         }catch (\Throwable $th){
             return back()->with('error', '¡Hubo un error al reservar!');
         }
