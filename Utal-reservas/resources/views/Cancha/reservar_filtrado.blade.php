@@ -22,8 +22,8 @@
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
 
-            <input name="bloque" type="text" value="{{$id_bloque}}">
-            <input name="fecha" type="text" value="{{$fecha_reserva}}">
+            <input name="bloque" type="hidden" value="{{$id_bloque}}">
+            <input name="fecha" type="hidden" value="{{$fecha_reserva}}">
 
             <label for='textoSalas' style="margin-right: 200px;">Canchas disponibles:
             <select name="seleccionCancha" id="salas">
