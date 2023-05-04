@@ -22,11 +22,14 @@
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
 
+            <input name="bloque" type="hidden" value="{{$id_bloque}}">
+            <input name="fecha" type="hidden" value="{{$fecha_reserva}}">
+
             <label for='textoImplementos' style="margin-right: 200px;">Implementos disponibles:
-            <select name=seleccionImplemento" id="implementos">
+            <select name="seleccionImplemento" id="implementos">
                 <!-- -->
-                @foreach($implementoDisponible as $implemento)
-                    <option name="implemento" value="{{ $implemento->nombre }}">{{ $implemento->nombre }}</option>
+                @foreach($implementosDisponible as $implemento)
+                    <option name="implemento" value="{{ $implemento->id }}">{{ $implemento->nombre }}</option>
                 @endforeach
             </select>
 
