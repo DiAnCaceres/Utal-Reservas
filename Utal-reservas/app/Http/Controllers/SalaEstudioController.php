@@ -18,8 +18,10 @@ class SalaEstudioController extends Controller
     public function post_registrar(SalaEstudioRequest $request){
         $sql=true;
         try {
+            $validatedData = $request->validated();
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
-            $nom_ubi = $request->input('nombre_ubicacion');
+            //$nom_ubi = $request->input('nombre_ubicacion');
+            $nom_ubi=$validatedData['nombre_ubicacion'];
             $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
             $id_ubicacion = $ubi->id;
 
@@ -78,13 +80,16 @@ class SalaEstudioController extends Controller
     public function post_reservar(Request $request){
 
         try {
+            $validatedData = $request->validated();
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
-            $bloque=$request->bloques;
+            //$bloque=$request->bloques;
+            $bloque = $validatedData['id_bloque'];
             $id_bloque = DB::table("bloques")->find($bloque);
             $id_bloque = $id_bloque->id;
 
             //OBTENER FECHA DE LA RESERVA
-            $fecha_reserva=$request->fecha;
+            //$fecha_reserva=$request->fecha;
+            $fecha_reserva=$validatedData['fecha'];
 
             $consulta = "SELECT * FROM sala_estudios
                 INNER JOIN reservas ON reservas.id = sala_estudios.reserva_id
@@ -119,12 +124,11 @@ class SalaEstudioController extends Controller
             $estado_instancia_reserva = DB::table("estado_instancia_reservas")->where('nombre_estado', "reservado")->first();
             $id_estado_instancia = $estado_instancia_reserva->id;
 
-            DB::table("historial_reservas")->insert([
-                "instancia_reserva_fecha_reserva"=>6,
-                "instancia_reserva_user_id"=>$id_usuario,
-                "instancia_reserva_bloque_id"=>$id_bloque,
-                "estado_instancia_reserva_id"=>$id_estado_instancia,
-                "fecha"=>$fecha_reserva,      //ESTA ES EL DÍA EN QUE SER RESERVÓ
+            DB::table("historial_instancia_reservas")->insert([
+                "fecha_reserva"=>$fecha_reserva,
+                "user_id"=>$id_usuario,
+                "bloque_id"=>$id_bloque,
+                "reserva_id"=>$id_estado_instancia,
             ]);
 
             return redirect()->route('salaestudio_reservar');

@@ -21,10 +21,24 @@ class CanchaRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            "nombre_ubicacion"=>["required",],
-            "nombre"=>["required","max:30","unique:reservas,nombre"],
-        ];
+        // return [
+        //     "nombre_ubicacion"=>["required",],
+        //     "nombre"=>["required","max:30","unique:reservas,nombre"],
+        // ];
+        switch ($this->route()->getActionMethod()) {
+            case 'post_reservar':
+                return [
+                    'fecha' => 'required|string',
+                    'bloque' => 'required'
+                ];
+            case 'post_registrar':
+                return [
+                    "nombre_ubicacion"=>["required"],
+                    "nombre"=>["required","max:30","unique:reservas,nombre"]
+                ];
+            default:
+                return [];
+        }
     }
     public function messages()
     {
@@ -32,7 +46,9 @@ class CanchaRequest extends FormRequest
             "nombre.required"=>"El campo :attribute es obligatorio.",
             'nombre.unique' => 'El nombre ya existe en la tabla.',
             "nombre.required"=>"El campo :attribute es obligatorio.",
-            "nombre.max"=>'El campo :attribute no puede tener más de :max caracteres.'
+            "nombre.max"=>'El campo :attribute no puede tener más de :max caracteres.',
+            "fecha.required" => "El campo :attribute es obligatorio.",
+            "bloque.required" => "El campo :attribute es obligatorio.",
         ];
     }
 }

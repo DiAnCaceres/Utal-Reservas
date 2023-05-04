@@ -5,22 +5,29 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Reserva\CanchaRequest;
 use App\Models\Bloques;
 use App\Models\Ubicacion;
+use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CanchaController extends Controller
 {
-   
+
     public function post_registrar(CanchaRequest $request){
         $sql=true;
         try {
+            $validatedData = $request->validated();
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
-            $nom_ubi = $request->input('nombre_ubicacion');
+            $nom_ubi=$validatedData['nombre_ubicacion'];
             $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
             $id_ubicacion = $ubi->id;
 
-            //OBTENGO EL ID DEL ESTADO DISPONIBLE
+
+            // $nom_ubi = $request->input('nombre_ubicacion');
+            // $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
+            // $id_ubicacion = $ubi->id;
+
+            // //OBTENGO EL ID DEL ESTADO DISPONIBLE
             $estado = DB::table("estado_reservas")
             ->where('nombre_estado',"Disponible")
             ->first();
@@ -63,35 +70,41 @@ class CanchaController extends Controller
 
         } catch (\Throwable $th) {
             //throw $th;
-            // return back()->with('error', 'Salió mal'); 
+            // return back()->with('error', 'Salió mal');
         }
 
         return redirect()->route('cancha_reservar');
     }
 
     public function post_reservar(Request $request){
-        
+
         try {
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
-            $id_bloque=$request->input('bloques');
+            $validatedData = $request->validated();
+            //$id_bloque=$request->input('bloques');
+            $bloque = $validatedData['id_bloque'];
+            $id_bloque = DB::table("bloques")->find($bloque);
+            $id_bloque = $id_bloque->id;
 
             //OBTENER FECHA DE LA RESERVA
-            $fecha_reserva=$request->input('fecha');
+            // $fecha_reserva=$request->input('fecha');
+            $fecha_reserva=$validatedData['fecha'];
 
             $consulta = "SELECT * FROM canchas
                 INNER JOIN reservas ON reservas.id = canchas.reserva_id
+                INNER JOIN ubicaciones ON canchas.ubicacione_id = ubicaciones.id
                 WHERE reservas.id NOT IN (
                 SELECT reservas.id FROM instancia_reservas
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
                 WHERE instancia_reservas.fecha_reserva = ? AND instancia_reservas.bloque_id = ?)";
 
             $canchasDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
-            $datos = ["canchasDisponible" => $canchasDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];    
+            $datos = ["canchasDisponible" => $canchasDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
             return redirect()->route('cancha_reservar_filtrado')->with('datos', $datos);
         } catch (\Throwable $th) {
             return back()->with('error', 'Salió mal');
         }
-         
+
     }
 
     public function post_reservar_filtrado(Request $request){
@@ -111,12 +124,11 @@ class CanchaController extends Controller
             $estado_instancia_reserva = DB::table("estado_instancia_reservas")->where('nombre_estado', "reservado")->first();
             $id_estado_instancia = $estado_instancia_reserva->id;
 
-            DB::table("historial_reservas")->insert([
-                "instancia_reserva_fecha_reserva"=>6,
-                "instancia_reserva_user_id"=>$id_usuario,
-                "instancia_reserva_bloque_id"=>$id_bloque,
-                "estado_instancia_reserva_id"=>$id_estado_instancia,
-                "fecha"=>$fecha_reserva,      //ESTA ES EL DÍA EN QUE SER RESERVÓ
+            DB::table("historial_instancia_reservas")->insert([
+                "fecha_reserva"=>$fecha_reserva,
+                "user_id"=>$id_usuario,
+                "bloque_id"=>$id_bloque,
+                "reserva_id"=>$id_estado_instancia,
             ]);
 
             return redirect()->route('cancha_reservar');
