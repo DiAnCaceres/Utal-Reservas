@@ -21,12 +21,27 @@ class ImplementoRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            "nombre_ubicacion"=>["required"],
-            "nombre"=>["required","max:30","unique:reservas,nombre"],
-            "cantidad"=>["required","max:50","integer"]
-            // 'email' => 'required|email|unique:users,email_address'
-        ];
+        // return [
+        //     "nombre_ubicacion"=>["required"],
+        //     "nombre"=>["required","max:30","unique:reservas,nombre"],
+        //     "cantidad"=>["required","max:50","integer"]
+        //     // 'email' => 'required|email|unique:users,email_address'
+        // ];
+        switch ($this->route()->getActionMethod()) {
+            case 'post_reservar':
+                return [
+                    'fecha' => 'required|string',
+                    'bloque' => 'required'
+                ];
+            case 'post_registrar':
+                return [
+                    "nombre_ubicacion"=>["required"],
+                    "nombre"=>["required","max:30","unique:reservas,nombre"],
+                    "cantidad"=>["required","max:50","integer"]
+                ];
+            default:
+                return [];
+        }
     }
     public function messages()
     {
@@ -36,7 +51,9 @@ class ImplementoRequest extends FormRequest
             'nombre.unique' => 'El nombre ya existe en la tabla.',
             "cantidad.required"=>"El campo :attribute es obligatorio.",
             "nombre.max"=>'El campo :attribute no puede tener más de :max caracteres.',
-            "cantidad.integer"=>'El campo :attribute debe ser un número entero.'
+            "cantidad.integer"=>'El campo :attribute debe ser un número entero.',
+            "fecha.required" => "El campo :attribute es obligatorio.",
+            "bloque.required" => "El campo :attribute es obligatorio."
         ];
     }
 }

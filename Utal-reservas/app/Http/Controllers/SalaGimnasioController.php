@@ -17,8 +17,10 @@ class SalaGimnasioController extends Controller
     public function post_registrar(SalaGimnasioRequest $request){
         $sql=true;
         try {
+            $validatedData = $request->validated();
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
-            $nom_ubi=$request->nombre_ubicacion;
+            //$nom_ubi=$request->nombre_ubicacion;
+            $nom_ubi=$validatedData['nombre_ubicacion'];
             $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
             $id_ubicacion = $ubi->id;
 
@@ -61,6 +63,11 @@ class SalaGimnasioController extends Controller
 
     public function get_reservar_filtrado(){
         try {
+            //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
+            $validatedData = $request->validated();
+            //$id_bloque=$request->input('bloques');
+            $id_bloque = $validatedData['id_bloque'];
+            //$id_bloque=1;
             $datos = session('datos');
             $salasGimnasioDisponible = $datos['salasGimnasioDisponible'];
             $id_bloque = $datos['id_bloque'];
@@ -73,6 +80,9 @@ class SalaGimnasioController extends Controller
             return redirect()->route('salagimnasio_reservar');
         }
 
+            //OBTENER FECHA DE LA RESERVA
+            //$fecha_reserva=$request->fecha;
+            $fecha_reserva="2023-07-13";
 
     }
 
