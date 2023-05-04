@@ -7,7 +7,7 @@ use App\Models\Bloques;
 use App\Models\Implemento;
 use App\Models\Ubicacion;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Http\Request;
 class ImplementoController extends Controller
 {
     // atributos para la reserva
@@ -64,13 +64,14 @@ class ImplementoController extends Controller
     }
 
     public function get_modificarcantidad_agregar(){
-        $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->get(['reservas.nombre','implementos.cantidad']);
-        //  dd($implementosDisponibles);
+        $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->get(['reservas.nombre','implementos.cantidad','implementos.id']);
+          
+        //dd($implementosDisponibles);
         return view('implemento.agregar',compact('implementosDisponibles'));
     }
 
     public function get_modificarcantidad_eliminar(){
-        $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->where('implementos.cantidad','>',0)->get(['reservas.nombre','implementos.cantidad']);
+        $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->where('implementos.cantidad','>',0)->get(['reservas.nombre','implementos.cantidad','implementos.id']);
         return view('implemento.eliminar',compact('implementosDisponibles'));
     }
 
@@ -122,4 +123,78 @@ class ImplementoController extends Controller
     public function post_reservar_filtrado(Request $request){
 
     }
+    
+    public function update(Request $request, Implemento $implemento)
+    {
+        $request->validate([
+            "cantidad" => 'required',
+        ]);
+        $implemento=Implemento::find($request->id);
+        $request['cantidad']=intval($request->cantidad)+intval($implemento->cantidad);
+
+        //dd($request);
+        $implemento->update($request->all());
+        return  back()->with('success','implementos updated successfully');
+    }
+    public function eliminar(Request $request, Implemento $implemento)
+    {
+        $request->validate([
+            "cantidad" => 'required',
+        ]);
+        $implemento=Implemento::find($request->id);
+        //dd($request);
+        $request['cantidad']=intval($implemento->cantidad)-intval($request->cantidad);
+        if($request['cantidad']<0){
+            return  back()->with('error','No se puede eliminar más implementos de los que hay');
+        }
+
+        //dd($request);
+        $implemento->update($request->all());
+        return  back()->with('success','implementos updated successfully');
+    }
+    /*public function store(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'token' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        // Here we will attempt to reset the user's password. If it is successful we
+        // will update the password on an actual user model and persist it to the
+        // database. Otherwise we will parse the error and return the response.
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user) use ($request) {
+                $user->forceFill([
+                    'password' => Hash::make($request->password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        // If the password was successfully reset, we will redirect the user back to
+        // the application's home authenticated view. If there is an error we can
+        // redirect them back to where they came from with their error message.
+        return $status == Password::PASSWORD_RESET
+                    ? redirect()->route('login')->with('status', __($status))
+                    : back()->withInput($request->only('email'))
+                            ->withErrors(['email' => __($status)]);
+    } 
+    */
+    
+
+    /* public function update(Request $request, Product $product)
+    {
+        $request->validate([
+            'name' => 'required',
+            'detail' => 'required',
+        ]);
+  
+        $product->update($request->all());
+  
+        return redirect()->route('products.index')->with('success','Product updated successfully');
+    }*/
 }

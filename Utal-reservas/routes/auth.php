@@ -21,7 +21,8 @@ Route::post('register_admin', [RegisteredUserController::class, 'storeAdmin']);
 Route::post('register_moderador', [RegisteredUserController::class, 'storeModerador']);
 Route::post('register_estudiante', [RegisteredUserController::class, 'storeEstudiante']);
 
-
+Route::post('/implemento_modificarcantidad_agregar', [ImplementoController::class, 'edit'])->name('implemento_modificarcantidad_agregar');
+Route::post('/implemento_modificarcantidad_eliminar', [ImplementoController::class, 'edit'])->name('implemento_modificarcantidad_eliminar');
 
 Route::middleware('guest')->group(function () {
         Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');

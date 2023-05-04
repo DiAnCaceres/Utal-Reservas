@@ -26,9 +26,9 @@ Route::get('/', UsersController::class); // <-- ruta default
 // ruta para redireccionar cuando cierran sesión
 Route::get('/usuario_redireccionar',[UsersController::class, "get_redireccionar"])->middleware(['auth', 'verified'])->name('usuario_redireccionar');
 // rutas posterior a inicio de sesión
-Route::get('/usuario_menuestudiante', [UsersController::class, 'get_menuestudiante'])->name('estudiante')->middleware('usuario_menuestudiante');
-Route::get('/usuario_menuadministrador', [UsersController::class, 'get_menuadministrador'])->name('admin')->middleware('usuario_menuadministrador');
-Route::get('/usuario_menumoderador', [UsersController::class, 'get_menumoderador'])->name('moderador')->middleware('usuario_menumoderador');
+Route::get('/usuario_menuestudiante', [UsersController::class, 'get_menuestudiante'])->name('estudiante')->middleware('estudiante');
+Route::get('/usuario_menuadministrador', [UsersController::class, 'get_menuadministrador'])->name('admin')->middleware('admin');
+Route::get('/usuario_menumoderador', [UsersController::class, 'get_menumoderador'])->name('moderador')->middleware('moderador');
 require __DIR__.'/auth.php';
 
 Route::get('/salaestudio_registrar', [SalaEstudioController::class, 'get_registrar'])->name('salaestudio_registrar')->middleware('admin');
@@ -60,3 +60,5 @@ Route::get('/implemento_modificarcantidad_eliminar', [ImplementoController::clas
 Route::post("/post_implemento_registrar",[ImplementoController::class,"post_registrar"])->name("post_implemento_registrar");
 Route::post("/post_implemento_reservar",[ImplementoController::class,"post_reservar"])->name("post_implemento_reservar");
 Route::post("/post_implemento_reservar_filtrado",[ImplementoController::class,"post_reservar_filtrado"])->name("post_implemento_reservar_filtrado");
+Route::post('/implemento_modificarcantidad_agregar', [ImplementoController::class, 'update'])->name('implemento_modificarcantidad_agregar');
+Route::post('/implemento_modificarcantidad_eliminar', [ImplementoController::class, 'eliminar'])->name('implemento_modificarcantidad_eliminar');
