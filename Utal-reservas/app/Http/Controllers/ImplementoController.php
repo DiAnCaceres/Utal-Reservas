@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Models\Implemento;
 use App\Models\Ubicacion;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ImplementoController extends Controller
