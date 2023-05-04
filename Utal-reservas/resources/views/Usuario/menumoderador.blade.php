@@ -37,6 +37,7 @@
         <div class="buttons column">
             {{-- <button class="button" type="button" onclick="window.location='{{ route('profile.edit') }}' ">Perfil</button> --}}
             <button class="button" type="button" onclick="window.location='{{ route('register_estudiante') }}' ">Registrar estudiante</button>
+            <button class="button" type="button" onclick="window.location='{{ route('implemento_modificarcantidad_agregar') }}' ">Modificar cantidad de implementos</button>
         </div>
 
         <div class="column">

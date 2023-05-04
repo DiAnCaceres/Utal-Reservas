@@ -26,7 +26,8 @@
 
 <input type="number" placeholder="Cantidad" name="cantidad">
 
-<button class="button-register">Agregar<i class="ri-arrow-right-line"></i></button>
+<button class="button-reservar">Agregar<i class="ri-arrow-right-line"></i></button>
+<button class="button-reservar" onclick="window.location='{{ route('usuario_menumoderador') }}'">Volver atrás<i class="ri-arrow-right-line"></i></button>
 </div>
 </div>
 
