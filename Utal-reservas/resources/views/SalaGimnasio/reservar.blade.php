@@ -37,7 +37,7 @@
 
             <button type="submit">Buscar sala disponible</button>
 
-            {{-- <!-- <button type="button" onclick="window.location='{{ route('salagimnasio_reservar_filtrado') }}'">Buscar canchas disponibles</button> --> --}}
+            <!-- <button type="button" onclick="window.location='{{ route('salagimnasio_reservar_filtrado') }}'">Buscar canchas disponibles</button> -->
         </form>
     </div>
 

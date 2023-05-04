@@ -23,18 +23,15 @@
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
 
-            <input name="bloque" type="hidden" value="{{$id_bloque}}">
-            <input name="fecha" type="hidden" value="{{$fecha_reserva}}">
-
             <label for='textoSalas' style="margin-right: 200px;">Salas disponibles:
 
             <select name="seleccionSala" id="salas">
                 <!-- -->
                 @foreach($salasEstudioDisponible as $sala)
-                    <option name="sala" value="{{ $sala->id }}">{{ $sala->nombre }}</option>
+                    <option name="sala" value="{{ $sala->id }}"> Nombre:{{ $sala->nombre }} / Ubicacion: {{ $sala->nombre_ubicacion }} / Capacidad: {{ $sala->capacidad }}</option>
                 @endforeach
             </select>
-
+            
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
 

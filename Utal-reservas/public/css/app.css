@@ -72,8 +72,8 @@ header span {
 .box_registro_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
     display: flex;
     flex-direction: column;
-    margin-left: 37%;
-    width: 30%;
+    margin-left: 32%;
+    width: 40%;
     background-color: #00cccc;
     padding: 20px 30px;
     border-radius: 12px;
