@@ -40,7 +40,16 @@
 
             <button type="submit" class="button-reservar">Reservar<i class="ri-arrow-right-line"></i></button>
             <button type="button" class="button-volver" onclick="window.location='{{ route('salagimnasio_reservar') }}'">Volver</button>
-
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
         </form>
     </div>
 </div>
