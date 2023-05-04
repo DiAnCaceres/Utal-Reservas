@@ -73,6 +73,15 @@ header span {
     display: flex;
     flex-direction: column;
     margin-left: 37%;
+    width: 30%;
+    background-color: #00cccc;
+    padding: 20px 30px;
+    border-radius: 12px;
+}
+
+.box_reserva_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: flex;
+    flex-direction: column;     
     width: 25%;
     background-color: #00cccc;
     padding: 20px 30px;
@@ -82,15 +91,12 @@ header span {
 .btnAyuda {
     width: 75%;
     margin: auto;
-    padding: 8px;
-    background-color: chocolate;
-    border-width: 0px;
-    border-radius: 4px;
     color: white;
     font-size: 18px;
     cursor: pointer;
     font-weight: bold;
     font-style: none;
+    text-align: center;
 }
 
 .separacion {
@@ -164,15 +170,6 @@ form input {
     gap: 80px;
 }
 
-.box_reserva_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
-    display: flex;
-    flex-direction: column;
-    margin-left: 15%;
-    width: 25%;
-    background-color: #00cccc;
-    padding: 20px 30px;
-    border-radius: 12px;
-}
 
 .imagenReserva {   
     display: block;
@@ -210,7 +207,8 @@ form input {
     }
 
 .boton_servicios:hover{                  /* Cuando se pasa por encima del boton  */ 
-    background-color: #d77c26;
+    background-color: #f39c2d;
+    border: #f39c2d;
     }
 
 .boton_servicios:active {                /*  Cuando se clikea */ 
@@ -223,31 +221,65 @@ form input {
     height: 75px;
     border-radius: 50%;
     margin-left: 15%;
-    border: 1px solid #df7a1b; /*anchura, estilo y color borde*/
+    border: 1px solid #f39c2d; /*anchura, estilo y color borde*/
     text-align: center;
     padding: 0px; /*espacio alrededor texto*/
-    background-color: #df7a1b; /*color botón*/
+    background-color: #f39c2d; /*color botón*/
     color: #000000; /*color texto*/
     text-decoration: none; /*decoración texto*/
     /*text-transform: uppercase; capitalización texto*/
     font-family: 'Helvetica', sans-serif; /*tipografía texto*/
     }
 
-.button-register{     
+.button-register{    
+    
+    margin-top: 1.5rem;        
+    padding: 0.5rem;     
+    width: 50%;     
+    background-color: #fff;     
+    border: 1px solid #f39c2d;     
+    color: #f39c2d;     
+    font-size: large;  
+    }
+
+.button-reservar{    
+    margin-left: 25%;
+    margin-top: 1.5rem;        
+    padding: 0.5rem;     
+    width: 50%;     
+    background-color: #fff;     
+    border: 1px solid #f39c2d;
+    color: #f39c2d;     
+    font-size: large;  
+    }
+
+.button-volver{    
+    margin-left: 35%; 
     margin-top: 1.5rem;     
     margin-bottom: 1.5rem;     
-    padding: 0.5rem;     
-    width: 100%;     
+    padding: 0.05rem;     
+    width: 30%;     
     background-color: #fff;     
-    border: 1px solid #FF8C40;     
-    color: #FF8C40;     
-    font-size: large;     
-    font-weight: 600px;
+    border: 1px solid #f39c2d;     
+    color: #f39c2d;     
+    font-size: large;  
     }
+
+.button-volver:hover{     
+    border: 1px solid #f39c2d;     
+    background-color: #f39c2d;     
+    color: #fff; 
+    }     
     
 .button-register:hover{     
-    border: 1px solid #FF8C40;     
-    background-color: #FF8C40;     
+    border: 1px solid #f39c2d;     
+    background-color: #f39c2d;     
+    color: #fff; 
+    } 
+
+.button-reservar:hover{   
+    border: 1px solid#f39c2d;     
+    background-color:#f39c2d;
     color: #fff; 
     } 
 
@@ -288,7 +320,8 @@ form input {
     }
 
 .boton_implementos:hover{                  /* Cuando se pasa por encima del boton  */ 
-    background-color: #d77c26;
+    background-color: #f39c2d;
+    border-color: #f39c2d;
     }
 
 .boton_implementos:active {                /*  Cuando se clikea */ 
@@ -301,10 +334,10 @@ form input {
     height: 75px;
     border-radius: 50%;
     margin-left: 25%;
-    border: 1px solid #df7a1b; /*anchura, estilo y color borde*/
+    border: 1px solid #f39c2d; /*anchura, estilo y color borde*/
     text-align: center;
     padding: 0px; /*espacio alrededor texto*/
-    background-color: #df7a1b; /*color botón*/
+    background-color: #f39c2d; /*color botón*/
     color: #000000; /*color texto*/
     text-decoration: none; /*decoración texto*/
     /*text-transform: uppercase; capitalización texto*/
