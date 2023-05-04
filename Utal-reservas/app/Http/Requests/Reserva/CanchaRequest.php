@@ -29,7 +29,7 @@ class CanchaRequest extends FormRequest
             case 'post_reservar':
                 return [
                     'fecha' => 'required|string',
-                    'bloque' => 'required'
+                    'bloques' => 'required'
                 ];
             case 'post_registrar':
                 return [
@@ -48,7 +48,7 @@ class CanchaRequest extends FormRequest
             "nombre.required"=>"El campo :attribute es obligatorio.",
             "nombre.max"=>'El campo :attribute no puede tener más de :max caracteres.',
             "fecha.required" => "El campo :attribute es obligatorio.",
-            "bloque.required" => "El campo :attribute es obligatorio.",
+            "bloques.required" => "El campo :attribute es obligatorio.",
         ];
     }
 }

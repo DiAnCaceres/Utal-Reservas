@@ -4,22 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Reserva\ImplementoRequest;
 use App\Models\Bloques;
+use Illuminate\Http\Request;
 use App\Models\Implemento;
 use App\Models\Ubicacion;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ImplementoController extends Controller
 {
-    
+
     public function post_registrar(ImplementoRequest $request){
         $sql=true;
         try {
-            $validatedData = $request->validated();
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
-            // $nom_ubi = $request->input('nombre_ubicacion');
-            $nom_ubi=$validatedData['nombre_ubicacion'];
+            $nom_ubi = $request->input('nombre_ubicacion');
             $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
             $id_ubicacion = $ubi->id;
 
@@ -66,50 +64,44 @@ class ImplementoController extends Controller
 
         } catch (\Throwable $th) {
             //throw $th;
-            // return back()->with('error', 'Salió mal'); 
+            // return back()->with('error', 'Salió mal');
+            return redirect()->route('implemento_reservar');
         }
 
-        return redirect()->route('implemento_reservar');
+        
     }
 
     public function get_modificarcantidad_agregar(){
-        $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->get(['reservas.nombre','implementos.cantidad']);
-        //  dd($implementosDisponibles);
+        $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->get(['reservas.nombre','implementos.cantidad','implementos.id']);
+          
+        //dd($implementosDisponibles);
         return view('implemento.agregar',compact('implementosDisponibles'));
     }
 
     public function get_modificarcantidad_eliminar(){
-        $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->where('implementos.cantidad','>',0)->get(['reservas.nombre','implementos.cantidad']);
+        $implementosDisponibles = Implemento::join('reservas','implementos.reserva_id','=','reservas.id')->where('implementos.cantidad','>',0)->get(['reservas.nombre','implementos.cantidad','implementos.id']);
         return view('implemento.eliminar',compact('implementosDisponibles'));
     }
 
     public function post_reservar(Request $request){
-        
-        try {
-            $validatedData = $request->validated();
-            // //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
-            // $id_bloque=$request->input('bloques');
-            $bloque = $validatedData['id_bloque'];
-            $id_bloque = DB::table("bloques")->find($bloque);
-            $id_bloque = $id_bloque->id;
-            //OBTENER FECHA DE LA RESERVA
-            // $fecha_reserva=$request->input('fecha');
-            $fecha_reserva=$validatedData['fecha'];
 
-            $consulta = "SELECT * FROM implementos
-                INNER JOIN reservas ON reservas.id = implementos.reserva_id
-                WHERE reservas.id NOT IN (
-                SELECT reservas.id FROM instancia_reservas
-                INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
-                WHERE instancia_reservas.fecha_reserva = ? AND instancia_reservas.bloque_id = ?)";
+        try {
+            //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
+            $id_bloque=$request->input('bloques');
+
+            //OBTENER FECHA DE LA RESERVA
+            $fecha_reserva=$request->input('fecha');
+
+            // Esta wea no funciona
+            $consulta = "SELECT * FROM implementos INNER JOIN reservas ON reservas.id = implementos.reserva_id AND reserva_id NOT IN ( SELECT reservas.id FROM instancia_reservas INNER JOIN reservas ON instancia_reservas.reserva_id = reservas.id INNER JOIN implementos ON instancia_reservas.reserva_id = implementos.reserva_id WHERE instancia_reservas.fecha_reserva= ? AND instancia_reservas.bloque_id = ? AND implementos.cantidad <= ( SELECT COUNT(*) FROM instancia_reservas ir WHERE ir.fecha_reserva = instancia_reservas.fecha_reserva AND ir.reserva_id = instancia_reservas.reserva_id AND ir.bloque_id = instancia_reservas.bloque_id) GROUP BY reservas.id)";
 
             $implementosDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
-            $datos = ["implementosDisponible" => $implementosDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];    
+            $datos = ["implementosDisponible" => $implementosDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
             return redirect()->route('implemento_reservar_filtrado')->with('datos', $datos);
         } catch (\Throwable $th) {
             return back()->with('error', 'Salió mal');
         }
-         
+
     }
 
     public function post_reservar_filtrado(Request $request){
@@ -129,17 +121,45 @@ class ImplementoController extends Controller
             $estado_instancia_reserva = DB::table("estado_instancia_reservas")->where('nombre_estado', "reservado")->first();
             $id_estado_instancia = $estado_instancia_reserva->id;
 
-            DB::table("historial_reservas")->insert([
-                "instancia_reserva_fecha_reserva"=>6,
-                "instancia_reserva_user_id"=>$id_usuario,
-                "instancia_reserva_bloque_id"=>$id_bloque,
-                "estado_instancia_reserva_id"=>$id_estado_instancia,
-                "fecha"=>$fecha_reserva,      //ESTA ES EL DÍA EN QUE SER RESERVÓ
+            DB::table("historial_instancia_reservas")->insert([
+                "fecha_reserva"=>$fecha_reserva,
+                "user_id"=>$id_usuario,
+                "bloque_id"=>$id_bloque,
+                "reserva_id"=>$id_estado_instancia,
             ]);
 
             return redirect()->route('implemento_reservar');
         }catch (\Throwable $th){
             return back()->with('error', '¡Hubo un error al reservar!');
         }
+    }
+
+    public function post_modificarcantidad_agregar(Request $request, Implemento $implemento)
+    {
+        $request->validate([
+            "cantidad" => 'required',
+        ]);
+        $implemento=Implemento::find($request->id);
+        $request['cantidad']=intval($request->cantidad)+intval($implemento->cantidad);
+
+        //dd($request);
+        $implemento->update($request->all());
+        return  back()->with('success','implementos updated successfully');
+    }
+    public function post_modificarcantidad_eliminar(Request $request, Implemento $implemento)
+    {
+        $request->validate([
+            "cantidad" => 'required',
+        ]);
+        $implemento=Implemento::find($request->id);
+        //dd($request);
+        $request['cantidad']=intval($implemento->cantidad)-intval($request->cantidad);
+        if($request['cantidad']<0){
+            return  back()->with('error','No se puede eliminar más implementos de los que hay');
+        }
+
+        //dd($request);
+        $implemento->update($request->all());
+        return  back()->with('success','implementos updated successfully');
     }
 }

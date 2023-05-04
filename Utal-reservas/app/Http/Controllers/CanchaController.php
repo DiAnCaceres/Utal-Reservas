@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Reserva\CanchaRequest;
 use App\Models\Bloques;
 use App\Models\Ubicacion;
-use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,18 +15,12 @@ class CanchaController extends Controller
     public function post_registrar(CanchaRequest $request){
         $sql=true;
         try {
-            $validatedData = $request->validated();
             //OBTENGO EL ID DE LA UBICACION QUE SE SELECIONÓ
-            $nom_ubi=$validatedData['nombre_ubicacion'];
+            $nom_ubi = $request->input('nombre_ubicacion');
             $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
             $id_ubicacion = $ubi->id;
 
-
-            // $nom_ubi = $request->input('nombre_ubicacion');
-            // $ubi = DB::table("ubicaciones")->where('nombre_ubicacion', $nom_ubi)->first();
-            // $id_ubicacion = $ubi->id;
-
-            // //OBTENGO EL ID DEL ESTADO DISPONIBLE
+            //OBTENGO EL ID DEL ESTADO DISPONIBLE
             $estado = DB::table("estado_reservas")
             ->where('nombre_estado',"Disponible")
             ->first();
@@ -80,16 +73,11 @@ class CanchaController extends Controller
         
         try {
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
-            $validatedData = $request->validated();
-            //$id_bloque=$request->input('bloques');
-            $bloque = $validatedData['id_bloque'];
-            $id_bloque = DB::table("bloques")->find($bloque);
-            $id_bloque = $id_bloque->id;
+            $id_bloque=$request->input('bloques');
 
             //OBTENER FECHA DE LA RESERVA
-            // $fecha_reserva=$request->input('fecha');
-            $fecha_reserva=$validatedData['fecha'];
-            
+            $fecha_reserva=$request->input('fecha');
+
             $consulta = "SELECT * FROM canchas
                 INNER JOIN reservas ON reservas.id = canchas.reserva_id
                 WHERE reservas.id NOT IN (
@@ -113,22 +101,49 @@ class CanchaController extends Controller
             $id_cancha = $request->input('seleccionCancha');
             // $sala_estudio = DB::table("reservas")->find($id_sala_estudio); //Busco el registro
             $fecha_reserva=$request->input('fecha');
-            DB::table("instancia_reservas")->insert([
-                "fecha_reserva" => $fecha_reserva,
-                "reserva_id" => $id_cancha,
-                "user_id" => $id_usuario,
-                "bloque_id" => $id_bloque,
-            ]);
+
+            $existeRegistro = DB::table("instancia_reservas")->whereDate('fecha_reserva', $fecha_reserva)
+                    ->where('reserva_id', $id_cancha)
+                    ->where('user_id', $id_usuario)
+                    ->where('bloque_id', $id_bloque)
+                    ->doesntExist();
+
+            if ($existeRegistro) {
+                $numReservas = DB::table("instancia_reservas")->where('user_id', $id_usuario)
+                        ->whereDate('fecha_reserva', $fecha_reserva)
+                        ->count();
+
+                    // Verificamos si el número de reservas es menor o igual a 2
+                    if ($numReservas < 2) {
+                        // El estudiante tiene menos de dos reservas para la fecha indicada, puedes proceder a hacer la reserva
+                        DB::table("instancia_reservas")->insert([
+                            "fecha_reserva" => $fecha_reserva,
+                            "reserva_id" => $id_cancha,
+                            "user_id" => $id_usuario,
+                            "bloque_id" => $id_bloque,
+                        ]);
+                    } else {
+                        // El estudiante ya tiene dos reservas para la fecha indicada, no puedes hacer otra reserva
+                    }
+            } else {
+                // El registro ya existe, no es necesario ingresarlo de nuevo
+            }
+
+            // DB::table("instancia_reservas")->insert([
+            //     "fecha_reserva" => $fecha_reserva,
+            //     "reserva_id" => $id_cancha,
+            //     "user_id" => $id_usuario,
+            //     "bloque_id" => $id_bloque,
+            // ]);
 
             $estado_instancia_reserva = DB::table("estado_instancia_reservas")->where('nombre_estado', "reservado")->first();
             $id_estado_instancia = $estado_instancia_reserva->id;
 
-            DB::table("historial_reservas")->insert([
-                "instancia_reserva_fecha_reserva"=>6,
-                "instancia_reserva_user_id"=>$id_usuario,
-                "instancia_reserva_bloque_id"=>$id_bloque,
-                "estado_instancia_reserva_id"=>$id_estado_instancia,
-                "fecha"=>$fecha_reserva,      //ESTA ES EL DÍA EN QUE SER RESERVÓ
+            DB::table("historial_instancia_reservas")->insert([
+                "fecha_reserva"=>$fecha_reserva,
+                "user_id"=>$id_usuario,
+                "bloque_id"=>$id_bloque,
+                "reserva_id"=>$id_estado_instancia,
             ]);
 
             return redirect()->route('cancha_reservar');

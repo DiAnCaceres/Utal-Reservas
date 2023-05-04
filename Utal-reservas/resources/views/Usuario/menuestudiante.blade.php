@@ -24,7 +24,10 @@
 
         <div class="buttons column">
             {{-- <button class="button" type="button" onclick="window.location='{{ route('profile.edit') }}' ">Perfil</button> --}}
-            <div>No hay servicios disponibles por el momento</div>
+            <button type="button" class="button" onclick="window.location='{{ route('salaestudio_reservar') }}'">Reservar sala estudio</button>
+            <button type="button" class="button" onclick="window.location='{{ route('cancha_reservar') }}'">Reservar cancha</button>
+            <button type="button" class="button" onclick="window.location='{{ route('salagimnasio_reservar') }}'">Reservar sala gimnasio</button>
+            <button type="button" class="button" onclick="window.location='{{ route('implemento_reservar') }}'">Reservar implemento</button>
             
         </div>
 
