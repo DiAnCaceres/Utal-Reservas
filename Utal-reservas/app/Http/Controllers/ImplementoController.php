@@ -120,12 +120,11 @@ class ImplementoController extends Controller
             $estado_instancia_reserva = DB::table("estado_instancia_reservas")->where('nombre_estado', "reservado")->first();
             $id_estado_instancia = $estado_instancia_reserva->id;
 
-            DB::table("historial_reservas")->insert([
-                "instancia_reserva_fecha_reserva"=>6,
-                "instancia_reserva_user_id"=>$id_usuario,
-                "instancia_reserva_bloque_id"=>$id_bloque,
-                "estado_instancia_reserva_id"=>$id_estado_instancia,
-                "fecha"=>$fecha_reserva,      //ESTA ES EL DÍA EN QUE SER RESERVÓ
+            DB::table("historial_instancia_reservas")->insert([
+                "fecha_reserva"=>$fecha_reserva,
+                "user_id"=>$id_usuario,
+                "bloque_id"=>$id_bloque,
+                "reserva_id"=>$id_estado_instancia,
             ]);
 
             return redirect()->route('implemento_reservar');
