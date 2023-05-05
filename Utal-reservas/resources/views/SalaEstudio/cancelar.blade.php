@@ -14,4 +14,6 @@
         @csrf
         <button type="submit">Cancelar</button>
     </form>
+
+    <button class="button" onclick="window.location='{{route('usuario_menuestudiante')}}' ">Volver atrás</button>
 @endsection
