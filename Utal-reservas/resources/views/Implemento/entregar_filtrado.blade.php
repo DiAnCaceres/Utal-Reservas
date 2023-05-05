@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <h1> Entregar sala estudio - filtrado</h1>
+    <h1> Entregar implemento - filtrado</h1>
 
     <form action="{{route('post_implemento_entregar_filtrado')}}" method="POST">
         @csrf

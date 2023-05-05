@@ -130,12 +130,12 @@ Route::get('/implemento_cancelar', [ImplementoController::class, 'get_cancelar']
 Route::post('post_implemento_cancelar', [ImplementoController::class, 'post_cancelar'])->name('post_implemento_cancelar')->middleware('estudiante');
 
 /*-----------------  RU28 - Entregar implemento ---------------*/
-Route::get('/implemento_entregar', [ImplementoController::class, 'get_entregar'])->name('implemento_entregar')->middleware('estudiante');
+Route::get('/implemento_entregar', [ImplementoController::class, 'get_entregar'])->name('implemento_entregar')->middleware('moderador');
 
-Route::post('post_implemento_entregar', [ImplementoController::class, 'post_entregar'])->name('post_implemento_entregar')->middleware('estudiante');
+Route::post('post_implemento_entregar', [ImplementoController::class, 'post_entregar'])->name('post_implemento_entregar')->middleware('moderador');
 
-Route::get('/implemento_entregar_filtrado', [ImplementoController::class, 'get_entregar_filtrado'])->name('implemento_entregar_filtrado')->middleware('estudiante');
+Route::get('/implemento_entregar_filtrado', [ImplementoController::class, 'get_entregar_filtrado'])->name('implemento_entregar_filtrado')->middleware('moderador');
 
-Route::post('post_implemento_entregar_filtrado', [ImplementoController::class, 'post_entregar_filtrado'])->name('post_implemento_entregar_filtrado')->middleware('estudiante');
+Route::post('post_implemento_entregar_filtrado', [ImplementoController::class, 'post_entregar_filtrado'])->name('post_implemento_entregar_filtrado')->middleware('moderador');
 
 

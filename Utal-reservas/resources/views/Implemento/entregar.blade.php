@@ -8,6 +8,15 @@
 @endsection
 
 @section('content')
+
+     <div class="botonera">
+        <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('salaestudio_entregar') }}'">Salas de estudio</button>
+        <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('salagimnasio_entregar') }}'"> Salas gimnasio</button>
+        <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('cancha_entregar') }}'">Canchas</button>
+        <button type="button" class="btn btn-default col-xs-4 boton_activo">Implementos</button>
+
+    </div>
+
     <h1> Entregar implemento</h1>
 
 
