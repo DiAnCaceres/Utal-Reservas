@@ -137,4 +137,55 @@ class SalaGimnasioController extends Controller
             return back()->with('error', '¡Hubo un error al reservar!');
         }
     }
+
+    /* ---------------------------------- SEMANA 4 ----------------------------------------*/
+
+   
+     /* ----------------------- RU13: Cancelar ---------------------------------*/
+    public function get_cancelar(){
+        return view('salagimnasio.cancelar');
+    }
+
+    public function post_cancelar(Request $request){
+        return redirect()->route('salagimnasio_cancelar');//->with('datos', $datos);
+    }
+
+     /* ----------------------- RU14: Entregar---------------------------------*/
+
+    public function get_entregar(){
+        return view('salagimnasio.entregar');
+    }
+
+    public function post_entregar(Request $request){
+        return redirect()->route('salagimnasio_entregar_filtrado');//->with('datos', $datos);
+    }
+
+
+    public function get_entregar_filtrado(){
+        return view('salagimnasio.entregar_filtrado');
+    }
+
+    public function post_entregar_filtrado(Request $request){
+        return redirect()->route('salagimnasio_entregar');//->with('datos', $datos);
+    }
+
+
+    /* ----------------------- RU10: Recepcionar--------------------------------*/
+    public function get_recepcionar(){
+        return view('salagimnasio.recepcionar');
+    }  
+
+    public function post_recepcionar(Request $request){
+        return null;
+    }
+
+
+    public function get_recepcionar_filtrado(){
+        return view('salagimnasio.recepcionar_filtrado');
+    }
+
+    public function post_recepcionar_filtrado(Request $request){
+        return null;
+    }
+
 }
