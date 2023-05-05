@@ -8,6 +8,18 @@
 @endsection
 
 @section('content')
+
+    <div class="botonera">
+        <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('salaestudio_cancelar') }}'">Salas de estudio</button>
+        <button type="button" class="btn btn-default col-xs-4 boton_activo">Salas Gimnasio</button>
+        <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('cancha_cancelar') }}'">Canchas</button>
+        <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('implemento_cancelar') }}'">Implemento</button>
+
+        <!--
+        <button type="button" class="btn btn-default col-xs-4 boton_activo">Implementos</button>
+         -->
+    </div>
+
     <h1> Cancelar sala gimnasio</h1>
 
      <form action="{{route('post_salagimnasio_cancelar')}}" method="POST">
