@@ -78,15 +78,27 @@ class SalaEstudioController extends Controller
     public function post_reservar(Request $request){
 
         try {
+            $id_usuario= Auth::user()->id;
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
             $bloque=$request->bloques;
             $id_bloque = DB::table("bloques")->find($bloque);
             $id_bloque = $id_bloque->id;
-
             //OBTENER FECHA DE LA RESERVA
             $fecha_reserva=$request->fecha;
 
-            $consulta = "SELECT * FROM sala_estudios
+            $comprobacion = "
+                SELECT * FROM instancia_reservas 
+                INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
+                WHERE user_id=? AND fecha_reserva=? AND bloque_id=?
+            ";
+            $registrosUsuario=DB::select($comprobacion,[$id_usuario,$fecha_reserva,$id_bloque]);
+            $cantidadReservas=count($registrosUsuario);
+
+            if($cantidadReservas>0){
+                $nombre_reserva = $registrosUsuario[0]->nombre;
+                return redirect()->route('salaestudio_reservar')->with('error', "Tienes una reserva para el mismo día y el mismo bloque, especificamente reservaste: $nombre_reserva. NO PUEDES RESERVAR DOS SERVICIOS EN UN MISMO BLOQUE Y FECHA.");
+            }else{
+                $consulta = "SELECT * FROM sala_estudios
                 INNER JOIN reservas ON reservas.id = sala_estudios.reserva_id
                 INNER JOIN ubicaciones ON reservas.ubicacione_id = ubicaciones.id
                 WHERE reservas.id NOT IN (
@@ -94,9 +106,12 @@ class SalaEstudioController extends Controller
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
                 WHERE instancia_reservas.fecha_reserva = ? AND instancia_reservas.bloque_id = ?)";
 
-            $salasEstudioDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
-            $datos = ["salasEstudioDisponible" => $salasEstudioDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
-            return redirect()->route('salaestudio_reservar_filtrado')->with('datos', $datos);
+                $salasEstudioDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
+                $datos = ["salasEstudioDisponible" => $salasEstudioDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
+                return redirect()->route('salaestudio_reservar_filtrado')->with('datos', $datos);
+            }
+        
+            
         } catch (\Throwable $th) {
             return back()->with('error', 'Salió mal');
         }

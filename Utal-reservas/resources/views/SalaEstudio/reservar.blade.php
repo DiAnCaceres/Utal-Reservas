@@ -39,6 +39,12 @@
 
             <!--  {{-- <button type="button" onclick="window.location='{{ route('salaestudio_reservar_filtrado') }}'">Buscar canchas disponibles</button> --}}  -->
         </form>
+
+        @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

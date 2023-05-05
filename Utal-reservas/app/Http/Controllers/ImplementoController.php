@@ -86,28 +86,42 @@ class ImplementoController extends Controller
     public function post_reservar(Request $request){
 
         try {
+            $id_usuario= Auth::user()->id;
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
             $id_bloque=$request->input('bloques');
 
             //OBTENER FECHA DE LA RESERVA
             $fecha_reserva=$request->input('fecha');
 
-            // Esta wea no funciona
-            $consulta = "SELECT * FROM implementos
-            INNER JOIN reservas ON reservas.id = implementos.reserva_id 
-            INNER JOIN ubicaciones ON reservas.ubicacione_id = ubicaciones.id
-            AND reserva_id NOT IN 
-            ( SELECT reservas.id FROM instancia_reservas 
-            INNER JOIN reservas ON instancia_reservas.reserva_id = reservas.id 
-            INNER JOIN implementos ON instancia_reservas.reserva_id = implementos.reserva_id 
-            WHERE instancia_reservas.fecha_reserva= ? AND instancia_reservas.bloque_id = ? AND implementos.cantidad <= 
-            ( SELECT COUNT(*) FROM instancia_reservas ir 
-            WHERE ir.fecha_reserva = instancia_reservas.fecha_reserva AND ir.reserva_id = instancia_reservas.reserva_id AND ir.bloque_id = instancia_reservas.bloque_id) 
-            GROUP BY reservas.id)";
+            $comprobacion = "
+                SELECT * FROM instancia_reservas 
+                INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
+                WHERE user_id=? AND fecha_reserva=? AND bloque_id=?
+            ";
+            $registrosUsuario=DB::select($comprobacion,[$id_usuario,$fecha_reserva,$id_bloque]);
+            $cantidadReservas=count($registrosUsuario);
 
-            $implementosDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
-            $datos = ["implementosDisponible" => $implementosDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
-            return redirect()->route('implemento_reservar_filtrado')->with('datos', $datos);
+            if($cantidadReservas>0){
+                $nombre_reserva = $registrosUsuario[0]->nombre;
+                return redirect()->route('implemento_reservar')->with('error', "Tienes una reserva para el mismo día y el mismo bloque, especificamente reservaste: $nombre_reserva. NO PUEDES RESERVAR DOS SERVICIOS EN UN MISMO BLOQUE Y FECHA.");
+            }else{
+                $consulta = "SELECT * FROM implementos
+                INNER JOIN reservas ON reservas.id = implementos.reserva_id 
+                INNER JOIN ubicaciones ON reservas.ubicacione_id = ubicaciones.id
+                AND reserva_id NOT IN 
+                ( SELECT reservas.id FROM instancia_reservas 
+                INNER JOIN reservas ON instancia_reservas.reserva_id = reservas.id 
+                INNER JOIN implementos ON instancia_reservas.reserva_id = implementos.reserva_id 
+                WHERE instancia_reservas.fecha_reserva= ? AND instancia_reservas.bloque_id = ? AND implementos.cantidad <= 
+                ( SELECT COUNT(*) FROM instancia_reservas ir 
+                WHERE ir.fecha_reserva = instancia_reservas.fecha_reserva AND ir.reserva_id = instancia_reservas.reserva_id AND ir.bloque_id = instancia_reservas.bloque_id) 
+                GROUP BY reservas.id)";
+
+                $implementosDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
+                $datos = ["implementosDisponible" => $implementosDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
+                return redirect()->route('implemento_reservar_filtrado')->with('datos', $datos);
+            }
+            
         } catch (\Throwable $th) {
             return back()->with('error', 'Salió mal');
         }

@@ -78,33 +78,53 @@ class SalaGimnasioController extends Controller
 
     public function post_reservar(Request $request){
         try {
-
+            $id_usuario= Auth::user()->id;
             $id_bloque=$request->input('bloques');
+
+            $array = json_decode($id_bloque, true);
+            $id_bloque_comprobacion = $array['id'];
 
             $fecha_reserva=$request->input('fecha');
 
-            $consulta= "SELECT * FROM sala_gimnasios
-                INNER JOIN reservas ON reservas.id = sala_gimnasios.reserva_id
-                INNER JOIN ubicaciones ON reservas.ubicacione_id = ubicaciones.id
-                AND reserva_id NOT IN (
-                SELECT reservas.id
-                FROM instancia_reservas
-                INNER JOIN reservas ON instancia_reservas.reserva_id = reservas.id
-                INNER JOIN sala_gimnasios ON instancia_reservas.reserva_id = sala_gimnasios.reserva_id
-                WHERE instancia_reservas.fecha_reserva=? AND instancia_reservas.bloque_id=? AND sala_gimnasios.capacidad <= (
-                SELECT COUNT(*)
-                FROM instancia_reservas ir
-                WHERE ir.fecha_reserva = instancia_reservas.fecha_reserva
-                AND ir.reserva_id = instancia_reservas.reserva_id
-                AND ir.bloque_id = instancia_reservas.bloque_id
-                )
-                GROUP BY reservas.id
-                )
+            $comprobacion = "
+                SELECT * FROM instancia_reservas 
+                INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
+                WHERE user_id=? AND fecha_reserva=? AND bloque_id=?
             ";
+  
+            $registrosUsuario=DB::select($comprobacion,[$id_usuario,$fecha_reserva,$id_bloque_comprobacion]);
+            $cantidadReservas=count($registrosUsuario);
 
-            $salasGimnasioDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
-            $datos = ["salasGimnasioDisponible" => $salasGimnasioDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
-            return redirect()->route('salagimnasio_reservar_filtrado')->with('datos', $datos);
+            if($cantidadReservas>0){
+                $nombre_reserva = $registrosUsuario[0]->nombre;
+                return redirect()->route('salagimnasio_reservar')->with('error', "Tienes una reserva para el mismo día y el mismo bloque, especificamente reservaste: $nombre_reserva. NO PUEDES RESERVAR DOS SERVICIOS EN UN MISMO BLOQUE Y FECHA.");
+            }else{
+                $consulta= "
+                    SELECT * FROM sala_gimnasios
+                    INNER JOIN reservas ON reservas.id = sala_gimnasios.reserva_id
+                    INNER JOIN ubicaciones ON reservas.ubicacione_id = ubicaciones.id
+                    AND reserva_id NOT IN (
+                    SELECT reservas.id
+                    FROM instancia_reservas
+                    INNER JOIN reservas ON instancia_reservas.reserva_id = reservas.id
+                    INNER JOIN sala_gimnasios ON instancia_reservas.reserva_id = sala_gimnasios.reserva_id
+                    WHERE instancia_reservas.fecha_reserva=? AND instancia_reservas.bloque_id=? AND sala_gimnasios.capacidad <= (
+                    SELECT COUNT(*)
+                    FROM instancia_reservas ir
+                    WHERE ir.fecha_reserva = instancia_reservas.fecha_reserva
+                    AND ir.reserva_id = instancia_reservas.reserva_id
+                    AND ir.bloque_id = instancia_reservas.bloque_id
+                    )
+                    GROUP BY reservas.id
+                    )
+                ";
+
+                $salasGimnasioDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
+                $datos = ["salasGimnasioDisponible" => $salasGimnasioDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
+                return redirect()->route('salagimnasio_reservar_filtrado')->with('datos', $datos);
+            
+            }
+            
         } catch (\Throwable $th) {
             return back()->with('error', '¡Hubo un error al reservar!');
         }

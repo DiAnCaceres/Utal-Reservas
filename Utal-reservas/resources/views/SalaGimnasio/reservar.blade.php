@@ -29,7 +29,7 @@
             <input class="form-control" type="fecha-local" placeholder="Seleccionar fecha" name="fecha">
 
             <label for='bloques' style="margin-right: 200px;">Bloques:</label>
-            <select name=bloques" id="bloques">
+            <select name="bloques" id="bloques">
             @foreach($bloquesDisponibles as $bloque)
                 <option name="bloque" value="{{ $bloque }}">{{ $bloque->hora_inicio }} - {{ $bloque->hora_fin }}</option>
             @endforeach
@@ -39,6 +39,12 @@
 
             <!-- <button type="button" onclick="window.location='{{ route('salagimnasio_reservar_filtrado') }}'">Buscar canchas disponibles</button> -->
         </form>
+
+        @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
