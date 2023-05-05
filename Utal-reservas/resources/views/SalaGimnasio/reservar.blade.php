@@ -40,6 +40,8 @@
             <!-- <button type="button" onclick="window.location='{{ route('salagimnasio_reservar_filtrado') }}'">Buscar canchas disponibles</button> -->
         </form>
 
+        <button class="button" onclick="window.location='{{route('usuario_menuestudiante')}}' ">Volver atrás</button>
+        
         @if(session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}

@@ -50,6 +50,8 @@
             <button class="button-register">Registrar<i class="ri-arrow-right-line"></i></button>
 
 
+            <button class="button" onclick="window.location='{{route('usuario_menuadministrador')}}' ">Volver atrás</button>
+
             @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}

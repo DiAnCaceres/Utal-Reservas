@@ -45,6 +45,8 @@
             {{ session('error') }}
         </div>
         @endif
+
+        <button class="button" onclick="window.location='{{route('usuario_menuestudiante')}}' ">Volver atrás</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
