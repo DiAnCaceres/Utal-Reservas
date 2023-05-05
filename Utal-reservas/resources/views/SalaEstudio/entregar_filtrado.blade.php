@@ -12,8 +12,8 @@
 
     <form action="{{route('post_salaestudio_entregar_filtrado')}}" method="POST">
         @csrf
+        <button type="submit">Entregar sala</button>
     </form>
 
-    <button class="button" onclick="window.location='{{route('salaestudio_entregar')}}' ">Entregar</button>
     <button class="button" onclick="window.location='{{route('salaestudio_entregar')}}' ">Volver atrás</button>
 @endsection

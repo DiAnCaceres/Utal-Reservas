@@ -13,9 +13,9 @@
 
     <form action="{{route('post_salaestudio_entregar')}}" method="POST">
         @csrf
+        <button type="submit">Buscar reservas del usuario</button>
     </form>
 
 
-    <button class="button" onclick="window.location='{{route('salaestudio_entregar_filtrado')}}' ">Entregar sala filtrada</button>
     <button class="button" onclick="window.location='{{route('usuario_menumoderador')}}' ">Volver menu</button>
 @endsection

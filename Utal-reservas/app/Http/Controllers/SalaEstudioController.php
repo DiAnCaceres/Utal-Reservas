@@ -141,7 +141,7 @@ class SalaEstudioController extends Controller
     }
 
     public function post_cancelar(Request $request){
-        return null;
+        return redirect()->route('salaestudio_cancelar');//->with('datos', $datos);
     }
 
      /* ----------------------- RU08: Entregar---------------------------------*/
@@ -151,7 +151,7 @@ class SalaEstudioController extends Controller
     }
 
     public function post_entregar(Request $request){
-        return null;
+        return redirect()->route('salaestudio_entregar_filtrado');//->with('datos', $datos);
     }
 
 
@@ -160,7 +160,7 @@ class SalaEstudioController extends Controller
     }
 
     public function post_entregar_filtrado(Request $request){
-        return null;
+        return redirect()->route('salaestudio_entregar');//->with('datos', $datos);
     }
 
 
