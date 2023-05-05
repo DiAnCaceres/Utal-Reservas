@@ -137,49 +137,49 @@ class SalaEstudioController extends Controller
    
      /* ----------------------- RU07: Cancelar ---------------------------------*/
     public function get_cancelar(){
-        //
+        return view('salaestudio.cancelar');
     }
 
-    public fuction post_cancelar(Request $request){
-
+    public function post_cancelar(Request $request){
+        return null;
     }
 
      /* ----------------------- RU08: Entregar---------------------------------*/
 
-    public fuction get_entregar(){
-
+    public function get_entregar(){
+        return view('salaestudio.entregar');
     }
 
-    public fuction post_entregar(Request $request){
-
+    public function post_entregar(Request $request){
+        return null;
     }
 
 
-    public fuction get_entregar_filtrado(){
-
+    public function get_entregar_filtrado(){
+        return view('salaestudio.entregar_filtrado');
     }
 
-    public fuction post_entregar_filtrado(Request $request){
-
+    public function post_entregar_filtrado(Request $request){
+        return null;
     }
 
 
     /* ----------------------- RU09: Recepcionar--------------------------------*/
-    public fuction get_recepcionar(){
+    public function get_recepcionar(){
+        return view('salaestudio.recepcionar');
+    }  
 
+    public function post_recepcionar(Request $request){
+        return null;
     }
 
-    public fuction post_recepcionar(Request $request){
 
+    public function get_recepcionar_filtrado(){
+        return view('salaestudio.recepcionar_filtrado');
     }
 
-
-    public fuction get_recepcionar_filtrado(){
-
-    }
-
-    public fuction post_recepcionar_filtrado(Request $request){
-
+    public function post_recepcionar_filtrado(Request $request){
+        return null;
     }
 
 }
