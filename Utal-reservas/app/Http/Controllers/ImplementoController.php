@@ -93,7 +93,17 @@ class ImplementoController extends Controller
             $fecha_reserva=$request->input('fecha');
 
             // Esta wea no funciona
-            $consulta = "SELECT * FROM implementos INNER JOIN reservas ON reservas.id = implementos.reserva_id AND reserva_id NOT IN ( SELECT reservas.id FROM instancia_reservas INNER JOIN reservas ON instancia_reservas.reserva_id = reservas.id INNER JOIN implementos ON instancia_reservas.reserva_id = implementos.reserva_id WHERE instancia_reservas.fecha_reserva= ? AND instancia_reservas.bloque_id = ? AND implementos.cantidad <= ( SELECT COUNT(*) FROM instancia_reservas ir WHERE ir.fecha_reserva = instancia_reservas.fecha_reserva AND ir.reserva_id = instancia_reservas.reserva_id AND ir.bloque_id = instancia_reservas.bloque_id) GROUP BY reservas.id)";
+            $consulta = "SELECT * FROM implementos
+            INNER JOIN reservas ON reservas.id = implementos.reserva_id 
+            INNER JOIN ubicaciones ON reservas.ubicacione_id = ubicaciones.id
+            AND reserva_id NOT IN 
+            ( SELECT reservas.id FROM instancia_reservas 
+            INNER JOIN reservas ON instancia_reservas.reserva_id = reservas.id 
+            INNER JOIN implementos ON instancia_reservas.reserva_id = implementos.reserva_id 
+            WHERE instancia_reservas.fecha_reserva= ? AND instancia_reservas.bloque_id = ? AND implementos.cantidad <= 
+            ( SELECT COUNT(*) FROM instancia_reservas ir 
+            WHERE ir.fecha_reserva = instancia_reservas.fecha_reserva AND ir.reserva_id = instancia_reservas.reserva_id AND ir.bloque_id = instancia_reservas.bloque_id) 
+            GROUP BY reservas.id)";
 
             $implementosDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
             $datos = ["implementosDisponible" => $implementosDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];

@@ -29,7 +29,7 @@
             <select name="seleccionCancha" id="salas">
 
                 @foreach($canchasDisponible as $cancha)
-                    <option name="cancha" value="{{ $cancha->id }}">Nombre:{{ $cancha->nombre }}</option>
+                    <option name="cancha" value="{{ $cancha->id }}">Nombre:{{ $cancha->nombre }} / Ubicacion: {{ $cancha->nombre_ubicacion }}</option>
                 @endforeach
             </select>
 

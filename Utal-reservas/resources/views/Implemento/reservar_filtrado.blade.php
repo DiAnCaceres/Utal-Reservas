@@ -13,7 +13,7 @@
 </div>
 
 <div class="contenedorReserva">           <!-- Contenedor general  -->
-    <div class="box_registro_ligteblue">                <!-- Caja celeste que engloba a los datos  -->
+    <div class="box_reserva_ligteblue">                <!-- Caja celeste que engloba a los datos  -->
 
         <h1><b> Resultados busqueda de implementos </b></h1>
         <form action="{{route('post_implemento_reservar_filtrado')}}" method="POST">
@@ -29,7 +29,7 @@
             <select name="seleccionImplemento" id="implementos">
                 <!-- -->
                 @foreach($implementosDisponible as $implemento)
-                    <option name="implemento" value="{{ $implemento->id }}">{{ $implemento->nombre }}</option>
+                    <option name="implemento" value="{{ $implemento->id }}">Nombre: {{ $implemento->nombre }} / Ubicacion: {{ $implemento->nombre_ubicacion }}  / Cantidad: {{ $implemento->cantidad }}</option>
                 @endforeach
             </select>
 
