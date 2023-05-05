@@ -28,6 +28,9 @@
             <button type="button" class="button" onclick="window.location='{{ route('cancha_reservar') }}'">Reservar cancha</button>
             <button type="button" class="button" onclick="window.location='{{ route('salagimnasio_reservar') }}'">Reservar sala gimnasio</button>
             <button type="button" class="button" onclick="window.location='{{ route('implemento_reservar') }}'">Reservar implemento</button>
+
+            <!-- BOTONES SEMANA 4-->
+            <button class="button" onclick="window.location='{{route('salaestudio_cancelar')}}' ">Cancelar reserva</button>
             
         </div>
 

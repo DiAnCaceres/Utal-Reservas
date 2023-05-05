@@ -12,6 +12,6 @@
 
      <form action="{{route('post_salaestudio_cancelar')}}" method="POST">
         @csrf
-        <button type="submit">Buscar sala disponible</button>
+        <button type="submit">Cancelar</button>
     </form>
 @endsection
