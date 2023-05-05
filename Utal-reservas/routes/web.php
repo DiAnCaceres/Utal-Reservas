@@ -56,5 +56,86 @@ Route::post('/implemento_modificarcantidad_eliminar', [ImplementoController::cla
 
 
 
-
 Route::post("/login",[UsersController::class, "post_login"])->name("post_login");
+
+// rutas semana 4 
+
+
+/*-----------------_RU07: Cancelar reserva ---------------*/
+Route::get('/salaestudio_cancelar', [SalaEstudioController::class, 'get_cancelar'])->name('salaestudio_cancelar')->middleware('estudiante');
+
+Route::post('post_salaestudio_cancelar', [SalaEstudioController::class, 'post_cancelar'])->name('post_salaestudio_cancelar')->middleware('estudiante');
+
+/*-----------------_RU08: Entregar sala estudio  ---------------*/
+Route::get('/salaestudio_entregar', [SalaEstudioController::class, 'get_entregar'])->name('salaestudio_entregar')->middleware('moderador');
+
+Route::post('post_salaestudio_entregar', [SalaEstudioController::class, 'post_entregar'])->name('post_salaestudio_entregar')->middleware('moderador');
+
+Route::get('/salaestudio_entregar_filtrado', [SalaEstudioController::class, 'get_entregar_filtrado'])->name('salaestudio_entregar_filtrado')->middleware('moderador');
+
+route::post('post_salaestudio_entregar_filtrado', [SalaEstudioController::class, 'post_entregar_filtrado'])->name('post_salaestudio_entregar_filtrado')->middleware('moderador');
+
+/*-----------------_RU09: Recepcionar sala estudio ---------------*/
+Route::get('/salaestudio_recepcionar', [SalaEstudioController::class, 'get_recepcionar'])->name('salaestudio_recepcionar')->middleware('moderador');
+
+Route::post('post_salaestudio_recepcionar', [SalaEstudioController::class, 'post_recepcionar'])->name('post_salaestudio_recepcionar')->middleware('moderador');
+
+Route::get('/salaestudio_recepcionar_filtrado', [SalaEstudioController::class, 'get_recepcionar_filtrado'])->name('salaestudio_recepcionar_filtrado')->middleware('moderador');
+
+Route::post('post_salaestudio_recepcionar_filtrado', [SalaEstudioController::class, 'post_recepcionar_filtrado'])->name('post_salaestudio_recepcionar_filtrado')->middleware('moderador');
+
+/*-----------------_RU10: Recepcionar sala gimnasio ---------------*/
+Route::get('/salagimnasio_recepcionar', [SalaGimnasioController::class, 'get_recepcionar'])->name('salagimnasio_recepcionar')->middleware('moderador');
+
+Route::post('post_salaGimnasio_recepcionar', [SalagimnasioController::class, 'post_recepcionar'])->name('post_salagimnasio_recepcionar')->middleware('moderador');
+
+Route::get('/salagimnasio_recepcionar_filtrado', [SalaGimnasioController::class, 'get_recepcionar_filtrado'])->name('salagimnasio_recepcionar_filtrado')->middleware('moderador');
+
+Route::post('post_salagimnasio_recepcionar_filtrado', [SalaGimnasioController::class, 'post_recepcionar_filtrado'])->name('post_salagimnasio_recepcionar_filtrado')->middleware('moderador');
+
+
+/*-----------------_RU13: Cancelar sala gimnasio ---------------*/
+route::get('/salagimnasio_cancelar', [SalaGimnasioController::class, 'get_cancelar'])->name('salagimnasio_cancelar')->middleware('estudiante');
+
+Route::post('post_salagimnasio_cancelar', [SalaGimnasioController::class, 'post_cancelar'])->name('post_salagimnasio_cancelar')->middleware('estudiante');
+
+/*----------------- RU14: Entregar sala gimnasio ---------------*/
+Route::get('/salagimnasio_entregar', [SalaGimnasioController::class, 'get_entregar'])->name('salagimnasio_entregar')->middleware('moderador');
+
+Route::post('post_salagimnasio_entregar', [SalaGimnasioController::class, 'post_entregar'])->name('post_salagimnasio_entregar')->middleware('moderador');
+
+Route::get('/salagimnasio_entregar_filtrado', [SalaGimnasioController::class, 'get_entregar_filtrado'])->name('salagimnasio_entregar_filtrado')->middleware('moderador')
+
+;Route::post('post_salagimnasio_entregar_filtrado', [SalaGimnasioController::class, 'post_entregar_filtrado'])->name('post_salagimnasio_entregar_filtrado')->middleware('moderador');
+
+
+/*-----------------  RU19 - Cancelar reserva cancha ---------------*/
+Route::get('/cancha_cancelar', [CanchaController::class, 'get_cancelar'])->name('cancha_cancelar')->middleware('estudiante');
+
+Route::post('post_cancha_cancelar', [CanchaController::class, 'post_cancelar'])->name('post_cancha_cancelar')->middleware('estudiante');
+
+/*-----------------  RU19 - Entregar cancha ---------------*/
+
+Route::get('/cancha_entregar', [CanchaController::class, 'get_entregar'])->name('cancha_entregar')->middleware('moderador');   
+
+Route::post('post_cancha_entregar', [CanchaController::class, 'post_entregar'])->name('post_cancha_entregar')->middleware('moderador');    
+Route::get('/cancha_entregar_filtrado', [CanchaController::class, 'get_entregar_filtrado'])->name('cancha_entregar_filtrado')->middleware('moderador');    
+
+Route::post('post_cancha_entregar_filtrado', [CanchaController::class, 'post_entregar_filtrado'])->name('post_cancha_entregar_filtrado')->middleware('moderador');
+
+/*-----------------  RU27 - Cancelar implemento ---------------*/
+
+Route::get('/implemento_cancelar', [ImplementoController::class, 'get_cancelar'])->name('implemento_cancelar')->middleware('estudiante');
+
+Route::post('post_implemento_cancelar', [ImplementoController::class, 'post_cancelar'])->name('post_implemento_cancelar')->middleware('estudiante');
+
+/*-----------------  RU28 - Entregar implemento ---------------*/
+Route::get('/implemento_entregar', [ImplementoController::class, 'get_entregar'])->name('implemento_entregar')->middleware('estudiante');
+
+Route::post('post_implemento_entregar', [ImplementoController::class, 'post_entregar'])->name('post_implemento_entregar')->middleware('estudiante');
+
+Route::get('/implemento_entregar_filtrado', [ImplementoController::class, 'get_entregar_filtrado'])->name('implemento_entregar_filtrado')->middleware('estudiante');
+
+Route::post('post_implemento_entregar_filtrado', [ImplementoController::class, 'post_entregar_filtrado'])->name('post_implemento_entregar_filtrado')->middleware('estudiante');
+
+
