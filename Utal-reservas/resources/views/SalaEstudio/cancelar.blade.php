@@ -9,4 +9,8 @@
 
 @section('content')
     <h1> Cancelar sala estudio</h1>
+
+     <form action="{{route('post_salaestudio_cancelar')}}" method="POST">
+        @csrf
+    </form>
 @endsection

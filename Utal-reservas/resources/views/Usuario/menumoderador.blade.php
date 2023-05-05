@@ -39,6 +39,11 @@
             <button class="button" type="button" onclick="window.location='{{ route('register_estudiante') }}' ">Registrar estudiante</button>
             <button class="button" onclick="window.location='{{route('implemento_modificarcantidad_agregar')}}' ">Agregar implemento</button>
             <button class="button" onclick="window.location='{{route('implemento_modificarcantidad_eliminar')}}' ">Eliminar implemento</button>
+
+            <!-- BOTONES SEMANA 4-->
+            <button class="button" onclick="window.location='{{route('salaestudio_entregar')}}' ">Entregar sala</button>
+
+            <button class="button" onclick="window.location='{{route('salaestudio_recepcionar')}}' ">Recepcionar sala</button>
         </div>
 
         <div class="column">
