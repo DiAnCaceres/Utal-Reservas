@@ -13,7 +13,7 @@
 </div>
 
 <div class="contenedorReserva">                 <!-- Contenedor general  -->
-    <div class="box_registro_ligteblue">                <!-- Caja celeste que engloba a los datos  -->
+    <div class="box_reserva_ligteblue">                <!-- Caja celeste que engloba a los datos  -->
 
         <h1><b> Resultados busqueda sala de gimansio </b></h1>
 
@@ -28,7 +28,7 @@
             <select name=seleccionSala" id="salas">
 
                 @foreach($salasGimnasioDisponible as $sala)
-                    <option name="sala" value="{{ $sala->nombre }}">{{ $sala->nombre }}</option>
+                    <option name="sala" value="{{ $sala->id }}"> Nombre:{{ $sala->nombre }} / Ubicacion: {{ $sala->nombre_ubicacion }} / Capacidad: {{ $sala->capacidad }}</option>
                 @endforeach
             </select>
 

@@ -13,7 +13,7 @@
 </div>
 
 <div class="contenedorReserva">                     <!-- Contenedor general  -->
-    <div class="box_registro_ligteblue">            <!-- Caja celeste que engloba a los datos  -->
+    <div class="box_reserva_ligteblue">            <!-- Caja celeste que engloba a los datos  -->
 
         <h1><b> Resultados busqueda de cancha </b></h1>
         <form action="{{route('post_cancha_reservar_filtrado')}}" method="POST">
@@ -22,14 +22,14 @@
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
 
-            <input name="bloque" type="text" value="{{$id_bloque}}">
-            <input name="fecha" type="text" value="{{$fecha_reserva}}">
+            <input name="bloque" type="hidden" value="{{$id_bloque}}">
+            <input name="fecha" type="hidden" value="{{$fecha_reserva}}">
 
             <label for='textoSalas' style="margin-right: 200px;">Canchas disponibles:
             <select name="seleccionCancha" id="salas">
 
                 @foreach($canchasDisponible as $cancha)
-                    <option name="cancha" value="{{ $cancha->id }}">{{ $cancha->nombre }}</option>
+                    <option name="cancha" value="{{ $cancha->id }}">Nombre:{{ $cancha->nombre }}</option>
                 @endforeach
             </select>
 
