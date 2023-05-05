@@ -131,4 +131,55 @@ class SalaEstudioController extends Controller
             return back()->with('error', '¡Hubo un error al reservar!');
         }
     }
+
+    /* ---------------------------------- SEMANA 4 ----------------------------------------*/
+
+   
+     /* ----------------------- RU07: Cancelar ---------------------------------*/
+    public function get_cancelar(){
+        //
+    }
+
+    public fuction post_cancelar(Request $request){
+
+    }
+
+     /* ----------------------- RU08: Entregar---------------------------------*/
+
+    public fuction get_entregar(){
+
+    }
+
+    public fuction post_entregar(Request $request){
+
+    }
+
+
+    public fuction get_entregar_filtrado(){
+
+    }
+
+    public fuction post_entregar_filtrado(Request $request){
+
+    }
+
+
+    /* ----------------------- RU09: Recepcionar--------------------------------*/
+    public fuction get_recepcionar(){
+
+    }
+
+    public fuction post_recepcionar(Request $request){
+
+    }
+
+
+    public fuction get_recepcionar_filtrado(){
+
+    }
+
+    public fuction post_recepcionar_filtrado(Request $request){
+
+    }
+
 }
