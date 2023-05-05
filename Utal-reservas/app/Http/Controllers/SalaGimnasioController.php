@@ -171,12 +171,12 @@ class SalaGimnasioController extends Controller
 
 
     /* ----------------------- RU10: Recepcionar--------------------------------*/
-    public function get_recepcionar(){
+     public function get_recepcionar(){
         return view('salagimnasio.recepcionar');
     }  
 
     public function post_recepcionar(Request $request){
-        return null;
+       return redirect()->route('salagimnasio_recepcionar_filtrado');//->with('datos', $datos);
     }
 
 
@@ -185,7 +185,7 @@ class SalaGimnasioController extends Controller
     }
 
     public function post_recepcionar_filtrado(Request $request){
-        return null;
+        return redirect()->route('salagimnasio_recepcionar_filtrado');//->with('datos', $datos);
     }
 
 }

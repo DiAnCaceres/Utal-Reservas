@@ -8,12 +8,12 @@
 @endsection
 
 @section('content')
-    <h1> Entregar sala estudio - filtrado</h1>
+    <h1> Recepcionar estudio - filtrado</h1>
 
-    <form action="{{route('post_salaestudio_entregar_filtrado')}}" method="POST">
+    <form action="{{route('post_salaestudio_recepcionar_filtrado')}}" method="POST">
         @csrf
-        <button type="submit">Entregar sala</button>
+        <button type="submit">Recepcionar sala</button>
     </form>
 
-    <button class="button" onclick="window.location='{{route('salaestudio_entregar')}}' ">Volver atrás</button>
+    <button class="button" onclick="window.location='{{route('salaestudio_recepcionar')}}' ">Volver atrás</button>
 @endsection

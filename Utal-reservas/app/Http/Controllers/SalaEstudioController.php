@@ -160,7 +160,7 @@ class SalaEstudioController extends Controller
     }
 
     public function post_entregar_filtrado(Request $request){
-        return redirect()->route('salaestudio_entregar');//->with('datos', $datos);
+        return redirect()->route('salaestudio_entregar_filtrado');//->with('datos', $datos);
     }
 
 
@@ -170,7 +170,7 @@ class SalaEstudioController extends Controller
     }  
 
     public function post_recepcionar(Request $request){
-        return null;
+       return redirect()->route('salaestudio_recepcionar_filtrado');//->with('datos', $datos);
     }
 
 
@@ -179,7 +179,7 @@ class SalaEstudioController extends Controller
     }
 
     public function post_recepcionar_filtrado(Request $request){
-        return null;
+        return redirect()->route('salaestudio_recepcionar_filtrado');//->with('datos', $datos);
     }
 
 }
