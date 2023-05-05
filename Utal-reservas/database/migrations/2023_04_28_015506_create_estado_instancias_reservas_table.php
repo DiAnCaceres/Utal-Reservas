@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('estado_instancia_reservas', function (Blueprint $table) {
+        Schema::create('estado_instancias', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_estado');
         });

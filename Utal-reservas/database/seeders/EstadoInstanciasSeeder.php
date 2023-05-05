@@ -6,14 +6,14 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class EstadoInstanciaReservaSeeder extends Seeder
+class EstadoInstanciasSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('estado_instancia_reservas')->insert([
+        DB::table('estado_instancias')->insert([
             [
                 'id'=>1,
                'nombre_estado'=>'reservado',
