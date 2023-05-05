@@ -172,4 +172,36 @@ class ImplementoController extends Controller
         $implemento->update($request->all());
         return  back()->with('success','implementos updated successfully');
     }
+
+
+    /* ---------------------------------- SEMANA 4 ----------------------------------------*/
+
+   
+     /* ----------------------- RU019: Cancelar ---------------------------------*/
+    public function get_cancelar(){
+        return view('implemento.cancelar');
+    }
+
+    public function post_cancelar(Request $request){
+        return redirect()->route('implemento_cancelar');//->with('datos', $datos);
+    }
+
+     /* ----------------------- RU20: Entregar---------------------------------*/
+
+    public function get_entregar(){
+        return view('implemento.entregar');
+    }
+
+    public function post_entregar(Request $request){
+        return redirect()->route('implemento_entregar_filtrado');//->with('datos', $datos);
+    }
+
+
+    public function get_entregar_filtrado(){
+        return view('implemento.entregar_filtrado');
+    }
+
+    public function post_entregar_filtrado(Request $request){
+        return redirect()->route('implemento_entregar');//->with('datos', $datos);
+    }
 }
