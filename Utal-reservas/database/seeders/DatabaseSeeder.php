@@ -29,5 +29,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(InstanciaReservas::class);
 
+        $this->call(EstadoPenalizacionesSeeder::class);
+
     }
 }
