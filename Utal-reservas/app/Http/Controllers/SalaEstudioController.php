@@ -82,7 +82,7 @@ class SalaEstudioController extends Controller
         try {
             //VALIDAR ENTRADAS
             $validator = Validator::make($request->all(), [
-                'fecha' => 'required'
+                'fecha' => 'required|date'
             ]);
             $validator->messages()->add('fecha.required', 'Fecha es requerido');
             if ($validator->fails()){
