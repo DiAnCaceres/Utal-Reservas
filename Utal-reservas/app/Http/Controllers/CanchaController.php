@@ -100,7 +100,7 @@ class CanchaController extends Controller
 
             if($cantidadReservas>0){
                 $nombre_reserva = $registrosUsuario[0]->nombre;
-                return redirect()->route('cancha_reservar')->with('error', "Tienes una reserva para el mismo día y el mismo bloque, especificamente reservaste: $nombre_reserva. NO PUEDES RESERVAR DOS SERVICIOS EN UN MISMO BLOQUE Y FECHA.");
+                return redirect()->route('cancha_reservar')->with('error', "Existe una reserva para el mismo día y el mismo bloque.");
             }else{
                 $consulta = "SELECT * FROM canchas
                 INNER JOIN reservas ON reservas.id = canchas.reserva_id
@@ -126,8 +126,10 @@ class CanchaController extends Controller
             $id_usuario= Auth::user()->id;
             $id_bloque=$request->input('bloque');
             $id_cancha = $request->input('seleccionCancha');
+            $bloque_sgte = $request->input('bloque_sgte');
             $fecha_reserva=$request->input('fecha');
 
+            //RESERVA PRIMERA SELECCIONADA
             $existeRegistro = DB::table("instancia_reservas")->whereDate('fecha_reserva', $fecha_reserva)
                     ->where('reserva_id', $id_cancha)
                     ->where('user_id', $id_usuario)
@@ -163,14 +165,63 @@ class CanchaController extends Controller
                             "fecha_estado"=>$date,
                             "estado_instancia_id"=>$id_estado_instancia
                         ]);
+
+                        //SI MARCA QUE QUIERE EL BLOQUE SIGUIENTE DEBE REGISTRAR Y VERIFICAR QUE NO EXISTA OTRA RESERVA
+                        if ($bloque_sgte and $id_bloque!=12){
+                            $bloque_siguiente = $id_bloque + 1;
+
+                            //PRIMERO VERIFICAMOS QUE NO EXISTA OTRA RESERVA EN EL BLOQUE SGTE
+                            $existeRegistroSgte = DB::table("instancia_reservas")->whereDate('fecha_reserva', $fecha_reserva)
+                                ->where('reserva_id', $id_cancha)
+                                ->where('bloque_id', $bloque_siguiente)
+                                ->doesntExist();
+                            
+                            if ($existeRegistroSgte) {
+                                $numReservas = DB::table("instancia_reservas")->where('user_id', $id_usuario)
+                                        ->whereDate('fecha_reserva', $fecha_reserva)
+                                        ->count();
+                                // Verificamos si el número de reservas es menor o igual a 2
+                                if ($numReservas < 2) {
+                                    // El estudiante tiene menos de dos reservas para la fecha indicada, puedes proceder a hacer la reserva
+                                    DB::table("instancia_reservas")->insert([
+                                        "fecha_reserva" => $fecha_reserva,
+                                        "reserva_id" => $id_cancha,
+                                        "user_id" => $id_usuario,
+                                        "bloque_id" => $bloque_siguiente,
+                                    ]);
+                                    $estado_instancia_reserva = DB::table("estado_instancias")->where('nombre_estado', "reservado")->first();
+            
+            
+                                    //AHORA AGREGAMOS AL HISTORIAL DE RESERVAS
+                                    $id_estado_instancia = $estado_instancia_reserva->id;
+                                    $date = Carbon::now();
+                                    $date = $date->format('Y-m-d');
+                                    DB::table("historial_instancia_reservas")->insert([
+                                        "fecha_reserva"=>$fecha_reserva,
+                                        "user_id"=>$id_usuario,
+                                        "bloque_id"=>$bloque_siguiente,
+                                        "reserva_id"=>$id_cancha,
+                                        "fecha_estado"=>$date,
+                                        "estado_instancia_id"=>$id_estado_instancia
+                                    ]);
+                                } else {
+                                    return redirect()->route('cancha_reservar')->with('error','Se reservó la primera, pero tienes dos reservas en la misma fecha, no puedes reservar más hasta otro día.');
+                                }
+                            } else {
+                                return redirect()->route('cancha_reservar')->with('error','Primera reserva hecha, pero ya existe otra reserva en el siguiente bloque.');
+                            }
+                        }
                     } else {
                         return redirect()->route('cancha_reservar')->with('error','Ya tienes dos reservas en la misma fecha, no puedes reservar más hasta otro día.');
                     }
             } else {
                 return redirect()->route('cancha_reservar')->with('error','Ya realizaste esta misma reserva');
             }
+
+            
+            
             //SE REALIZÓ LA RESERVA CORRECTAMENTE
-            return redirect()->route('cancha_reservar');
+            return redirect()->route('cancha_reservar')->with("success","Cancha registrada correctamente");
         }catch (\Throwable $th){
             return back()->with('error', '¡Hubo un error al reservar!');
         }
