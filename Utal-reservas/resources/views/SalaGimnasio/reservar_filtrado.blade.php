@@ -31,7 +31,7 @@
             <select name="seleccionSala" id="salas">
 
                 @foreach($salasGimnasioDisponible as $sala)
-                    <option name="sala" value="{{ $sala->id }}"> Nombre:{{ $sala->nombre }} / Ubicacion: {{ $sala->nombre_ubicacion }} / Capacidad: {{ $sala->capacidad }}</option>
+                    <option name="sala" value="{{ $sala->reserva_id }}"> Nombre:{{ $sala->nombre }} / Ubicacion: {{ $sala->nombre_ubicacion }} / Capacidad: {{ $sala->capacidad }}</option>
                 @endforeach
             </select>
 

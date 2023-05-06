@@ -47,7 +47,6 @@ class ImplementoController extends Controller
     }
     public function get_registrar(){
         $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->whereNotIn('nombre_ubicacion',['aire libre'])->get();
-        $id_bloque=1;
         return view('implemento.registrar', compact('ubicacionesDeportivas'));
     }
 
@@ -104,8 +103,7 @@ class ImplementoController extends Controller
             //OBTENER FECHA DE LA RESERVA
             $fecha_reserva=$request->input('fecha');
 
-            $comprobacion = "
-                SELECT * FROM instancia_reservas 
+            $comprobacion = "SELECT * FROM instancia_reservas 
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
                 WHERE user_id=? AND fecha_reserva=? AND bloque_id=?
             ";

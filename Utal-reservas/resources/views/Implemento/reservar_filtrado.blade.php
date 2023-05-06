@@ -29,7 +29,7 @@
             <select name="seleccionImplemento" id="implementos">
                 <!-- -->
                 @foreach($implementosDisponible as $implemento)
-                    <option name="implemento" value="{{ $implemento->id }}">Nombre: {{ $implemento->nombre }} / Ubicacion: {{ $implemento->nombre_ubicacion }}  / Cantidad: {{ $implemento->cantidad }}</option>
+                    <option name="implemento" value="{{ $implemento->reserva_id }}">Nombre: {{ $implemento->nombre }} / Ubicacion: {{ $implemento->nombre_ubicacion }}  / Cantidad: {{ $implemento->cantidad }}</option>
                 @endforeach
             </select>
 
