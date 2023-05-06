@@ -9,7 +9,8 @@ use App\Models\Ubicacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class SalaGimnasioController extends Controller
 {
@@ -78,12 +79,19 @@ class SalaGimnasioController extends Controller
 
     public function post_reservar(Request $request){
         try {
+            //VALIDAR ENTRADAS
+            $validator = Validator::make($request->all(), [
+                'fecha' => 'required'
+            ]);
+            $validator->messages()->add('fecha.required', 'Fecha es requerido');
+            if ($validator->fails()){
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
             $id_usuario= Auth::user()->id;
             $id_bloque=$request->input('bloques');
 
             $array = json_decode($id_bloque, true);
             $id_bloque_comprobacion = $array['id'];
-
             $fecha_reserva=$request->input('fecha');
 
             $comprobacion = "
@@ -133,25 +141,53 @@ class SalaGimnasioController extends Controller
         try{
             $id_usuario= Auth::user()->id;
             $id_bloque=$request->input('bloque');
-            $id_cancha = $request->input('seleccionSala');
-            // $sala_estudio = DB::table("reservas")->find($id_sala_estudio); //Busco el registro
+            $id_bloque=json_decode($id_bloque);
+            $id_bloque=$id_bloque->id;
+            $id_gimnasio = $request->input('seleccionSala');
             $fecha_reserva=$request->input('fecha');
-            DB::table("instancia_reservas")->insert([
-                "fecha_reserva" => $fecha_reserva,
-                "reserva_id" => $id_cancha,
-                "user_id" => $id_usuario,
-                "bloque_id" => $id_bloque,
-            ]);
+            
+            $existeRegistro = DB::table("instancia_reservas")->whereDate('fecha_reserva', $fecha_reserva)
+                    ->where('reserva_id', $id_gimnasio)
+                    ->where('user_id', $id_usuario)
+                    ->where('bloque_id', $id_bloque)
+                    ->doesntExist();
 
-            $estado_instancia_reserva = DB::table("estado_instancia_reservas")->where('nombre_estado', "reservado")->first();
-            $id_estado_instancia = $estado_instancia_reserva->id;
+            if ($existeRegistro) {
+                $numReservas = DB::table("instancia_reservas")->where('user_id', $id_usuario)
+                        ->whereDate('fecha_reserva', $fecha_reserva)
+                        ->count();
 
-            DB::table("historial_instancia_reservas")->insert([
-                "fecha_reserva"=>$fecha_reserva,
-                "user_id"=>$id_usuario,
-                "bloque_id"=>$id_bloque,
-                "reserva_id"=>$id_estado_instancia,
-            ]);
+                    // Verificamos si el número de reservas es menor o igual a 2
+                    if ($numReservas < 2) {
+                        // El estudiante tiene menos de dos reservas para la fecha indicada, puedes proceder a hacer la reserva
+                        DB::table("instancia_reservas")->insert([
+                            "fecha_reserva" => $fecha_reserva,
+                            "reserva_id" => $id_gimnasio,
+                            "user_id" => $id_usuario,
+                            "bloque_id" => $id_bloque,
+                        ]);
+                        $estado_instancia_reserva = DB::table("estado_instancias")->where('nombre_estado', "reservado")->first();
+
+
+                        //AHORA AGREGAMOS AL HISTORIAL DE RESERVAS
+                        $id_estado_instancia = $estado_instancia_reserva->id;
+                        $date = Carbon::now();
+                        $date = $date->format('Y-m-d');
+                        DB::table("historial_instancia_reservas")->insert([
+                            "fecha_reserva"=>$fecha_reserva,
+                            "user_id"=>$id_usuario,
+                            "bloque_id"=>$id_bloque,
+                            "reserva_id"=>$id_gimnasio,
+                            "fecha_estado"=>$date,
+                            "estado_instancia_id"=>$id_estado_instancia
+                        ]);
+                    } else {
+                        return redirect()->route('salagimnasio_reservar')->with('error','Ya tienes dos reservas en la misma fecha, no puedes reservar más hasta otro día.');
+                    }
+            } else {
+                return redirect()->route('salagimnasio_reservar')->with('error','Ya realizaste esta misma reserva');
+            }
+            //SE REALIZÓ LA RESERVA CORRECTAMENTE
             return redirect()->route('salagimnasio_reservar');
         }catch (\Throwable $th){
             return back()->with('error', '¡Hubo un error al reservar!');

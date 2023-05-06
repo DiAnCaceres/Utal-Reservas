@@ -27,11 +27,14 @@
         <form action="{{route('post_salagimnasio_reservar')}}" method="POST">
             @csrf
             <input class="form-control" type="fecha-local" placeholder="Seleccionar fecha" name="fecha">
+            @if ($errors->has('fecha'))
+                <span class="text-danger">{{ $errors->first('fecha') }}</span>
+            @endif
 
             <label for='bloques' style="margin-right: 200px;">Bloques:</label>
             <select name="bloques" id="bloques">
             @foreach($bloquesDisponibles as $bloque)
-                <option name="bloque" value="{{ $bloque }}">{{ $bloque->hora_inicio }} - {{ $bloque->hora_fin }}</option>
+                <option name="bloque" value="{{ $bloque}}">{{ $bloque->hora_inicio }} - {{ $bloque->hora_fin }}</option>
             @endforeach
             </select>
 

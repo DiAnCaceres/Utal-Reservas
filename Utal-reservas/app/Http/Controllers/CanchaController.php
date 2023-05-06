@@ -8,6 +8,8 @@ use App\Models\Ubicacion;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class CanchaController extends Controller
 {
@@ -72,6 +74,15 @@ class CanchaController extends Controller
     public function post_reservar(Request $request){
         
         try {
+            //VALIDAR ENTRADAS
+            $validator = Validator::make($request->all(), [
+                'fecha' => 'required'
+            ]);
+            $validator->messages()->add('fecha.required', 'Fecha es requerido');
+            if ($validator->fails()){
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+            
             $id_usuario= Auth::user()->id;
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
             $id_bloque=$request->input('bloques');  
@@ -115,7 +126,6 @@ class CanchaController extends Controller
             $id_usuario= Auth::user()->id;
             $id_bloque=$request->input('bloque');
             $id_cancha = $request->input('seleccionCancha');
-            // $sala_estudio = DB::table("reservas")->find($id_sala_estudio); //Busco el registro
             $fecha_reserva=$request->input('fecha');
 
             $existeRegistro = DB::table("instancia_reservas")->whereDate('fecha_reserva', $fecha_reserva)
@@ -138,30 +148,28 @@ class CanchaController extends Controller
                             "user_id" => $id_usuario,
                             "bloque_id" => $id_bloque,
                         ]);
+                        $estado_instancia_reserva = DB::table("estado_instancias")->where('nombre_estado', "reservado")->first();
+
+
+                        //AHORA AGREGAMOS AL HISTORIAL DE RESERVAS
+                        $id_estado_instancia = $estado_instancia_reserva->id;
+                        $date = Carbon::now();
+                        $date = $date->format('Y-m-d');
+                        DB::table("historial_instancia_reservas")->insert([
+                            "fecha_reserva"=>$fecha_reserva,
+                            "user_id"=>$id_usuario,
+                            "bloque_id"=>$id_bloque,
+                            "reserva_id"=>$id_cancha,
+                            "fecha_estado"=>$date,
+                            "estado_instancia_id"=>$id_estado_instancia
+                        ]);
                     } else {
-                        // El estudiante ya tiene dos reservas para la fecha indicada, no puedes hacer otra reserva
+                        return redirect()->route('cancha_reservar')->with('error','Ya tienes dos reservas en la misma fecha, no puedes reservar más hasta otro día.');
                     }
             } else {
-                // El registro ya existe, no es necesario ingresarlo de nuevo
+                return redirect()->route('cancha_reservar')->with('error','Ya realizaste esta misma reserva');
             }
-
-            // DB::table("instancia_reservas")->insert([
-            //     "fecha_reserva" => $fecha_reserva,
-            //     "reserva_id" => $id_cancha,
-            //     "user_id" => $id_usuario,
-            //     "bloque_id" => $id_bloque,
-            // ]);
-
-            $estado_instancia_reserva = DB::table("estado_instancia_reservas")->where('nombre_estado', "reservado")->first();
-            $id_estado_instancia = $estado_instancia_reserva->id;
-
-            DB::table("historial_instancia_reservas")->insert([
-                "fecha_reserva"=>$fecha_reserva,
-                "user_id"=>$id_usuario,
-                "bloque_id"=>$id_bloque,
-                "reserva_id"=>$id_estado_instancia,
-            ]);
-
+            //SE REALIZÓ LA RESERVA CORRECTAMENTE
             return redirect()->route('cancha_reservar');
         }catch (\Throwable $th){
             return back()->with('error', '¡Hubo un error al reservar!');

@@ -27,6 +27,9 @@
         <form action="{{route('post_cancha_reservar')}}" method="POST">
             @csrf
             <input class="form-control" type="fecha-local" placeholder="Seleccionar fecha" name="fecha">
+            @if ($errors->has('fecha'))
+                <span class="text-danger">{{ $errors->first('fecha') }}</span>
+            @endif
 
             <label for='bloques' style="margin-right: 200px;">Bloques:</label>
             <select name="bloques" id="bloques">
