@@ -58,7 +58,7 @@ Route::post('/implemento_modificarcantidad_eliminar', [ImplementoController::cla
 
 Route::post("/login",[UsersController::class, "post_login"])->name("post_login");
 
-// rutas semana 4 
+// rutas semana 4
 
 
 /*-----------------_RU07: Cancelar reserva ---------------*/
@@ -70,6 +70,8 @@ Route::post('post_salaestudio_cancelar', [SalaEstudioController::class, 'post_ca
 Route::get('/salaestudio_entregar', [SalaEstudioController::class, 'get_entregar'])->name('salaestudio_entregar')->middleware('moderador');
 
 Route::post('post_salaestudio_entregar', [SalaEstudioController::class, 'post_entregar'])->name('post_salaestudio_entregar')->middleware('moderador');
+
+Route::post('post_salaestudio_entregar_resultados', [SalaEstudioController::class, 'post_entregar_resultados'])->name('post_salaestudio_entregar_resultados')->middleware('moderador');
 
 Route::get('/salaestudio_entregar_filtrado', [SalaEstudioController::class, 'get_entregar_filtrado'])->name('salaestudio_entregar_filtrado')->middleware('moderador');
 
@@ -104,6 +106,8 @@ Route::get('/salagimnasio_entregar', [SalaGimnasioController::class, 'get_entreg
 
 Route::post('post_salagimnasio_entregar', [SalaGimnasioController::class, 'post_entregar'])->name('post_salagimnasio_entregar')->middleware('moderador');
 
+Route::post('post_salagimnasio_entregar_resultados', [SalaGimnasioController::class, 'post_entregar_resultados'])->name('post_gimnasio_entregar_resultados')->middleware('moderador');
+
 Route::get('/salagimnasio_entregar_filtrado', [SalaGimnasioController::class, 'get_entregar_filtrado'])->name('salagimnasio_entregar_filtrado')->middleware('moderador')
 
 ;Route::post('post_salagimnasio_entregar_filtrado', [SalaGimnasioController::class, 'post_entregar_filtrado'])->name('post_salagimnasio_entregar_filtrado')->middleware('moderador');
@@ -116,10 +120,13 @@ Route::post('post_cancha_cancelar', [CanchaController::class, 'post_cancelar'])-
 
 /*-----------------  RU19 - Entregar cancha ---------------*/
 
-Route::get('/cancha_entregar', [CanchaController::class, 'get_entregar'])->name('cancha_entregar')->middleware('moderador');   
+Route::get('/cancha_entregar', [CanchaController::class, 'get_entregar'])->name('cancha_entregar')->middleware('moderador');
 
-Route::post('post_cancha_entregar', [CanchaController::class, 'post_entregar'])->name('post_cancha_entregar')->middleware('moderador');    
-Route::get('/cancha_entregar_filtrado', [CanchaController::class, 'get_entregar_filtrado'])->name('cancha_entregar_filtrado')->middleware('moderador');    
+Route::post('post_cancha_entregar', [CanchaController::class, 'post_entregar'])->name('post_cancha_entregar')->middleware('moderador');
+
+Route::post('post_cancha_entregar_resultados', [CanchaController::class, 'post_entregar_resultados'])->name('post_cancha_entregar_resultados')->middleware('moderador');
+
+Route::get('/cancha_entregar_filtrado', [CanchaController::class, 'get_entregar_filtrado'])->name('cancha_entregar_filtrado')->middleware('moderador');
 
 Route::post('post_cancha_entregar_filtrado', [CanchaController::class, 'post_entregar_filtrado'])->name('post_cancha_entregar_filtrado')->middleware('moderador');
 
@@ -133,6 +140,8 @@ Route::post('post_implemento_cancelar', [ImplementoController::class, 'post_canc
 Route::get('/implemento_entregar', [ImplementoController::class, 'get_entregar'])->name('implemento_entregar')->middleware('moderador');
 
 Route::post('post_implemento_entregar', [ImplementoController::class, 'post_entregar'])->name('post_implemento_entregar')->middleware('moderador');
+
+Route::post('post_implemento_entregar_resultados', [Implemento::class, 'post_entregar_resultados'])->name('post_implemento_entregar_resultados')->middleware('moderador');
 
 Route::get('/implemento_entregar_filtrado', [ImplementoController::class, 'get_entregar_filtrado'])->name('implemento_entregar_filtrado')->middleware('moderador');
 
