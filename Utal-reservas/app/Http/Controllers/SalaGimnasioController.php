@@ -280,13 +280,21 @@ class SalaGimnasioController extends Controller
 
 
     /* ----------------------- RU10: Recepcionar--------------------------------*/
-     public function get_recepcionar(){
-        return view('salagimnasio.recepcionar');
+    public function get_recepcionar(){
+        $resultados="";
+        $mostrarResultados=false;
+        return view('salagimnasio.recepcionar',compact('resultados','mostrarResultados'));
     }
 
     public function post_recepcionar(Request $request){
-       return redirect()->route('salagimnasio_recepcionar_filtrado');//->with('datos', $datos);
+        $mostrarResultados=true;
+        $resultados="super8 genios superdotados"; // ejemplo
+        return view('salagimnasio.recepcionar', compact('resultados', 'mostrarResultados'));
     }
+    public function post_recepcionar_resultados(Request $request){
+        return redirect()->route('salagimnasio_recepcionar_filtrado');//->with('datos', $datos);
+    }
+
 
     public function get_recepcionar_filtrado(){
         return view('salagimnasio.recepcionar_filtrado');

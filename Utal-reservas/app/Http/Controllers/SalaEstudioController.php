@@ -271,11 +271,18 @@ class SalaEstudioController extends Controller
 
     /* ----------------------- RU09: Recepcionar--------------------------------*/
     public function get_recepcionar(){
-        return view('salaestudio.recepcionar');
+        $resultados="";
+        $mostrarResultados=false;
+        return view('salaestudio.recepcionar',compact('resultados','mostrarResultados'));
     }
 
     public function post_recepcionar(Request $request){
-       return redirect()->route('salaestudio_recepcionar_filtrado');//->with('datos', $datos);
+        $mostrarResultados=true;
+        $resultados="super8 genios superdotados"; // ejemplo
+        return view('salaestudio.recepcionar', compact('resultados', 'mostrarResultados'));
+    }
+    public function post_recepcionar_resultados(Request $request){
+        return redirect()->route('salaestudio_recepcionar_filtrado');//->with('datos', $datos);
     }
 
 
@@ -284,7 +291,7 @@ class SalaEstudioController extends Controller
     }
 
     public function post_recepcionar_filtrado(Request $request){
-        return redirect()->route('salaestudio_recepcionar_filtrado');//->with('datos', $datos);
+        return redirect()->route('salaestudio_recepcionar');//->with('datos', $datos);
     }
 
 }

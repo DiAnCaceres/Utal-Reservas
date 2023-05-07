@@ -82,14 +82,19 @@ Route::get('/salaestudio_recepcionar', [SalaEstudioController::class, 'get_recep
 
 Route::post('post_salaestudio_recepcionar', [SalaEstudioController::class, 'post_recepcionar'])->name('post_salaestudio_recepcionar')->middleware('moderador');
 
+Route::post('post_salaestudio_recepcionar_resultados', [SalaEstudioController::class, 'post_recepcionar_resultados'])->name('post_salaestudio_recepcionar_resultados')->middleware('moderador');
+
 Route::get('/salaestudio_recepcionar_filtrado', [SalaEstudioController::class, 'get_recepcionar_filtrado'])->name('salaestudio_recepcionar_filtrado')->middleware('moderador');
 
 Route::post('post_salaestudio_recepcionar_filtrado', [SalaEstudioController::class, 'post_recepcionar_filtrado'])->name('post_salaestudio_recepcionar_filtrado')->middleware('moderador');
+
 
 /*-----------------_RU10: Recepcionar sala gimnasio ---------------*/
 Route::get('/salagimnasio_recepcionar', [SalaGimnasioController::class, 'get_recepcionar'])->name('salagimnasio_recepcionar')->middleware('moderador');
 
 Route::post('post_salagimnasio_recepcionar', [SalagimnasioController::class, 'post_recepcionar'])->name('post_salagimnasio_recepcionar')->middleware('moderador');
+
+Route::post('post_salagimnasio_recepcionar_resultados', [SalaGimnasioController::class, 'post_recepcionar_resultados'])->name('post_salagimnasio_recepcionar_resultados')->middleware('moderador');
 
 Route::get('/salagimnasio_recepcionar_filtrado', [SalaGimnasioController::class, 'get_recepcionar_filtrado'])->name('salagimnasio_recepcionar_filtrado')->middleware('moderador');
 
