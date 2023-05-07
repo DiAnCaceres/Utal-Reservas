@@ -98,7 +98,7 @@ class SalaEstudioController extends Controller
             $fecha_reserva=$request->fecha;
 
             $comprobacion = "
-                SELECT * FROM instancia_reservas 
+                SELECT * FROM instancia_reservas
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
                 WHERE user_id=? AND fecha_reserva=? AND bloque_id=?
             ";
@@ -121,8 +121,8 @@ class SalaEstudioController extends Controller
                 $datos = ["salasEstudioDisponible" => $salasEstudioDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
                 return redirect()->route('salaestudio_reservar_filtrado')->with('datos', $datos);
             }
-        
-            
+
+
         } catch (\Throwable $th) {
             return back()->with('error', 'Salió mal');
         }
@@ -135,7 +135,7 @@ class SalaEstudioController extends Controller
             $id_sala_estudio = $request->input('seleccionSala');
             $bloque_sgte = $request->input('bloque_sgte');
             $fecha_reserva=$request->input('fecha');
-            
+
             //RESERVA PRIMERA SELECCIONADA
             $existeRegistro = DB::table("instancia_reservas")->whereDate('fecha_reserva', $fecha_reserva)
                     ->where('reserva_id', $id_sala_estudio)
@@ -181,7 +181,7 @@ class SalaEstudioController extends Controller
                                 ->where('reserva_id', $id_sala_estudio)
                                 ->where('bloque_id', $bloque_siguiente)
                                 ->doesntExist();
-                            
+
                             if ($existeRegistroSgte and $id_bloque!=12) {
                                 $numReservas = DB::table("instancia_reservas")->where('user_id', $id_usuario)
                                         ->whereDate('fecha_reserva', $fecha_reserva)
@@ -196,8 +196,8 @@ class SalaEstudioController extends Controller
                                         "bloque_id" => $bloque_siguiente,
                                     ]);
                                     $estado_instancia_reserva = DB::table("estado_instancias")->where('nombre_estado', "reservado")->first();
-            
-            
+
+
                                     //AHORA AGREGAMOS AL HISTORIAL DE RESERVAS
                                     $id_estado_instancia = $estado_instancia_reserva->id;
                                     $date = Carbon::now();
@@ -231,7 +231,7 @@ class SalaEstudioController extends Controller
 
     /* ---------------------------------- SEMANA 4 ----------------------------------------*/
 
-   
+
      /* ----------------------- RU07: Cancelar ---------------------------------*/
     public function get_cancelar(){
         return view('salaestudio.cancelar');
@@ -244,10 +244,18 @@ class SalaEstudioController extends Controller
      /* ----------------------- RU08: Entregar---------------------------------*/
 
     public function get_entregar(){
-        return view('salaestudio.entregar');
+        $resultados="";
+        $mostrarResultados=false;
+        return view('salaestudio.entregar',compact('resultados','mostrarResultados'));
     }
 
     public function post_entregar(Request $request){
+        $mostrarResultados=true;
+        $resultados="super8 genios superdotados"; // ejemplo
+        return view('salaestudio.entregar',compact('resultados','mostrarResultados'));
+    }
+
+    public function post_entregar_resultados(Request $request){
         return redirect()->route('salaestudio_entregar_filtrado');//->with('datos', $datos);
     }
 
@@ -264,7 +272,7 @@ class SalaEstudioController extends Controller
     /* ----------------------- RU09: Recepcionar--------------------------------*/
     public function get_recepcionar(){
         return view('salaestudio.recepcionar');
-    }  
+    }
 
     public function post_recepcionar(Request $request){
        return redirect()->route('salaestudio_recepcionar_filtrado');//->with('datos', $datos);

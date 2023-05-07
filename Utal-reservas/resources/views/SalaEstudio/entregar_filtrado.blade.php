@@ -15,5 +15,5 @@
         <button type="submit">Recepcionar sala</button>
     </form>
 
-    <button class="button" onclick="window.location='{{route('salaestudio_recepcionar')}}' ">Volver atrás</button>
+    <button class="button" onclick="window.location='{{route('salaestudio_entregar')}}' ">Volver atrás</button>
 @endsection

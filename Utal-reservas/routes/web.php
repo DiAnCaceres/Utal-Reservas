@@ -89,7 +89,7 @@ Route::post('post_salaestudio_recepcionar_filtrado', [SalaEstudioController::cla
 /*-----------------_RU10: Recepcionar sala gimnasio ---------------*/
 Route::get('/salagimnasio_recepcionar', [SalaGimnasioController::class, 'get_recepcionar'])->name('salagimnasio_recepcionar')->middleware('moderador');
 
-Route::post('post_salaGimnasio_recepcionar', [SalagimnasioController::class, 'post_recepcionar'])->name('post_salagimnasio_recepcionar')->middleware('moderador');
+Route::post('post_salagimnasio_recepcionar', [SalagimnasioController::class, 'post_recepcionar'])->name('post_salagimnasio_recepcionar')->middleware('moderador');
 
 Route::get('/salagimnasio_recepcionar_filtrado', [SalaGimnasioController::class, 'get_recepcionar_filtrado'])->name('salagimnasio_recepcionar_filtrado')->middleware('moderador');
 
@@ -106,7 +106,7 @@ Route::get('/salagimnasio_entregar', [SalaGimnasioController::class, 'get_entreg
 
 Route::post('post_salagimnasio_entregar', [SalaGimnasioController::class, 'post_entregar'])->name('post_salagimnasio_entregar')->middleware('moderador');
 
-Route::post('post_salagimnasio_entregar_resultados', [SalaGimnasioController::class, 'post_entregar_resultados'])->name('post_gimnasio_entregar_resultados')->middleware('moderador');
+Route::post('post_salagimnasio_entregar_resultados', [SalaGimnasioController::class, 'post_entregar_resultados'])->name('post_salagimnasio_entregar_resultados')->middleware('moderador');
 
 Route::get('/salagimnasio_entregar_filtrado', [SalaGimnasioController::class, 'get_entregar_filtrado'])->name('salagimnasio_entregar_filtrado')->middleware('moderador')
 
@@ -141,7 +141,7 @@ Route::get('/implemento_entregar', [ImplementoController::class, 'get_entregar']
 
 Route::post('post_implemento_entregar', [ImplementoController::class, 'post_entregar'])->name('post_implemento_entregar')->middleware('moderador');
 
-Route::post('post_implemento_entregar_resultados', [Implemento::class, 'post_entregar_resultados'])->name('post_implemento_entregar_resultados')->middleware('moderador');
+Route::post('post_implemento_entregar_resultados', [ImplementoController::class, 'post_entregar_resultados'])->name('post_implemento_entregar_resultados')->middleware('moderador');
 
 Route::get('/implemento_entregar_filtrado', [ImplementoController::class, 'get_entregar_filtrado'])->name('implemento_entregar_filtrado')->middleware('moderador');
 

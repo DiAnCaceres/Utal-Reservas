@@ -95,11 +95,11 @@ class SalaGimnasioController extends Controller
             $fecha_reserva=$request->input('fecha');
 
             $comprobacion = "
-                SELECT * FROM instancia_reservas 
+                SELECT * FROM instancia_reservas
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
                 WHERE user_id=? AND fecha_reserva=? AND bloque_id=?
             ";
-  
+
             $registrosUsuario=DB::select($comprobacion,[$id_usuario,$fecha_reserva,$id_bloque_comprobacion]);
             $cantidadReservas=count($registrosUsuario);
 
@@ -130,9 +130,9 @@ class SalaGimnasioController extends Controller
                 $salasGimnasioDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
                 $datos = ["salasGimnasioDisponible" => $salasGimnasioDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
                 return redirect()->route('salagimnasio_reservar_filtrado')->with('datos', $datos);
-            
+
             }
-            
+
         } catch (\Throwable $th) {
             return back()->with('error', '¡Hubo un error al reservar!');
         }
@@ -146,7 +146,7 @@ class SalaGimnasioController extends Controller
             $bloque_sgte = $request->input('bloque_sgte');
             $id_gimnasio = $request->input('seleccionSala');
             $fecha_reserva=$request->input('fecha');
-            
+
             $existeRegistro = DB::table("instancia_reservas")->whereDate('fecha_reserva', $fecha_reserva)
                     ->where('reserva_id', $id_gimnasio)
                     ->where('user_id', $id_usuario)
@@ -191,7 +191,7 @@ class SalaGimnasioController extends Controller
                                 ->where('reserva_id', $id_gimnasio)
                                 ->where('bloque_id', $bloque_siguiente)
                                 ->doesntExist();
-                            
+
                             if ($existeRegistroSgte) {
                                 $numReservas = DB::table("instancia_reservas")->where('user_id', $id_usuario)
                                         ->whereDate('fecha_reserva', $fecha_reserva)
@@ -206,8 +206,8 @@ class SalaGimnasioController extends Controller
                                         "bloque_id" => $bloque_siguiente,
                                     ]);
                                     $estado_instancia_reserva = DB::table("estado_instancias")->where('nombre_estado', "reservado")->first();
-            
-            
+
+
                                     //AHORA AGREGAMOS AL HISTORIAL DE RESERVAS
                                     $id_estado_instancia = $estado_instancia_reserva->id;
                                     $date = Carbon::now();
@@ -242,7 +242,7 @@ class SalaGimnasioController extends Controller
 
     /* ---------------------------------- SEMANA 4 ----------------------------------------*/
 
-   
+
      /* ----------------------- RU13: Cancelar ---------------------------------*/
     public function get_cancelar(){
         return view('salagimnasio.cancelar');
@@ -255,13 +255,20 @@ class SalaGimnasioController extends Controller
      /* ----------------------- RU14: Entregar---------------------------------*/
 
     public function get_entregar(){
-        return view('salagimnasio.entregar');
+        $resultados="";
+        $mostrarResultados=false;
+        return view('salagimnasio.entregar',compact('resultados','mostrarResultados'));
     }
 
     public function post_entregar(Request $request){
-        return redirect()->route('salagimnasio_entregar_filtrado');//->with('datos', $datos);
+        $mostrarResultados=true;
+        $resultados="super8 genios superdotados"; // ejemplo
+        return view('salagimnasio.entregar',compact('resultados','mostrarResultados'));
     }
 
+    public function post_entregar_resultados(Request $request){
+        return redirect()->route('salagimnasio_entregar_filtrado');//->with('datos', $datos);
+    }
 
     public function get_entregar_filtrado(){
         return view('salagimnasio.entregar_filtrado');
@@ -275,12 +282,11 @@ class SalaGimnasioController extends Controller
     /* ----------------------- RU10: Recepcionar--------------------------------*/
      public function get_recepcionar(){
         return view('salagimnasio.recepcionar');
-    }  
+    }
 
     public function post_recepcionar(Request $request){
        return redirect()->route('salagimnasio_recepcionar_filtrado');//->with('datos', $datos);
     }
-
 
     public function get_recepcionar_filtrado(){
         return view('salagimnasio.recepcionar_filtrado');
