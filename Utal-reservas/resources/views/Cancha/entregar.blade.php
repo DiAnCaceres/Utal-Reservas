@@ -28,6 +28,20 @@
         <button type="submit">Buscar reservas del usuario</button>
     </form>
 
+    <div id="div_resultados">
+        <h1> Resultados de busqueda </h1>
+        <form action="{{route('post_cancha_entregar_resultados')}}" method="POST">
+            @csrf
+
+            @if($mostrarResultados == true && $resultados != "")
+                <p> {{$resultados}}</p>
+                <button type="submit">Entregar</button>
+            @else
+                <p>No se encontraron resultados.</p>
+            @endif
+
+        </form>
+    </div>
 
     <button class="button" onclick="window.location='{{route('usuario_menumoderador')}}' ">Volver menu</button>
 @endsection

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class CanchaController extends Controller
 {
-   
+
     public function post_registrar(CanchaRequest $request){
         $sql=true;
         try {
@@ -65,14 +65,14 @@ class CanchaController extends Controller
 
         } catch (\Throwable $th) {
             //throw $th;
-            // return back()->with('error', 'Salió mal'); 
+            // return back()->with('error', 'Salió mal');
         }
 
         return redirect()->route('cancha_reservar');
     }
 
     public function post_reservar(Request $request){
-        
+
         try {
             //VALIDAR ENTRADAS
             $validator = Validator::make($request->all(), [
@@ -82,16 +82,16 @@ class CanchaController extends Controller
             if ($validator->fails()){
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-            
+
             $id_usuario= Auth::user()->id;
             //OBTENGO EL ID DEL BLOQUE QUE SE SELECIONÓ
-            $id_bloque=$request->input('bloques');  
+            $id_bloque=$request->input('bloques');
 
             //OBTENER FECHA DE LA RESERVA
             $fecha_reserva=$request->input('fecha');
 
             $comprobacion = "
-                SELECT * FROM instancia_reservas 
+                SELECT * FROM instancia_reservas
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
                 WHERE user_id=? AND fecha_reserva=? AND bloque_id=?
             ";
@@ -111,14 +111,14 @@ class CanchaController extends Controller
                 WHERE instancia_reservas.fecha_reserva = ? AND instancia_reservas.bloque_id = ?)";
 
                 $canchasDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
-                $datos = ["canchasDisponible" => $canchasDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];    
+                $datos = ["canchasDisponible" => $canchasDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
                 return redirect()->route('cancha_reservar_filtrado')->with('datos', $datos);
             }
-            
+
         } catch (\Throwable $th) {
             return back()->with('error', 'Salió mal');
         }
-         
+
     }
 
     public function post_reservar_filtrado(Request $request){
@@ -175,7 +175,7 @@ class CanchaController extends Controller
                                 ->where('reserva_id', $id_cancha)
                                 ->where('bloque_id', $bloque_siguiente)
                                 ->doesntExist();
-                            
+
                             if ($existeRegistroSgte) {
                                 $numReservas = DB::table("instancia_reservas")->where('user_id', $id_usuario)
                                         ->whereDate('fecha_reserva', $fecha_reserva)
@@ -190,8 +190,8 @@ class CanchaController extends Controller
                                         "bloque_id" => $bloque_siguiente,
                                     ]);
                                     $estado_instancia_reserva = DB::table("estado_instancias")->where('nombre_estado', "reservado")->first();
-            
-            
+
+
                                     //AHORA AGREGAMOS AL HISTORIAL DE RESERVAS
                                     $id_estado_instancia = $estado_instancia_reserva->id;
                                     $date = Carbon::now();
@@ -218,8 +218,8 @@ class CanchaController extends Controller
                 return redirect()->route('cancha_reservar')->with('error','Ya realizaste esta misma reserva');
             }
 
-            
-            
+
+
             //SE REALIZÓ LA RESERVA CORRECTAMENTE
             return redirect()->route('cancha_reservar')->with("success","Cancha registrada correctamente");
         }catch (\Throwable $th){
@@ -229,7 +229,7 @@ class CanchaController extends Controller
 
     /* ---------------------------------- SEMANA 4 ----------------------------------------*/
 
-   
+
      /* ----------------------- RU019: Cancelar ---------------------------------*/
     public function get_cancelar(){
         return view('cancha.cancelar');
@@ -242,11 +242,19 @@ class CanchaController extends Controller
      /* ----------------------- RU20: Entregar---------------------------------*/
 
     public function get_entregar(){
-        return view('cancha.entregar');
+        $resultados="";
+        $mostrarResultados=false;
+        return view('cancha.entregar',compact('resultados','mostrarResultados'));
     }
 
     public function post_entregar(Request $request){
-        return redirect()->route('cancha_entregar_filtrado');//->with('datos', $datos);
+        $mostrarResultados=true;
+        $resultados="super8 genios superdotados"; // ejemplo
+        return view('cancha.entregar',compact('resultados','mostrarResultados'));
+    }
+
+    public function post_entregar_resultados(Request $request){
+         return redirect()->route('cancha_entregar_filtrado');//->with('datos', $datos);
     }
 
 
