@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SalaGimnasioSeeder::class);
         $this->call(CanchasSeeder::class);
 
-        $this->call(InstanciaReservas::class);
+        //$this->call(InstanciaReservas::class);
 
         $this->call(EstadoPenalizacionesSeeder::class);
 
