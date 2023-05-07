@@ -110,10 +110,15 @@ class ImplementoController extends Controller
             $registrosUsuario=DB::select($comprobacion,[$id_usuario,$fecha_reserva,$id_bloque]);
             $cantidadReservas=count($registrosUsuario);
 
-            if($cantidadReservas>0){
-                $nombre_reserva = $registrosUsuario[0]->nombre;
-                return redirect()->route('implemento_reservar')->with('error', "Tienes una reserva para el mismo día y el mismo bloque, especificamente reservaste: $nombre_reserva. NO PUEDES RESERVAR DOS SERVICIOS EN UN MISMO BLOQUE Y FECHA.");
-            }else{
+            // Compruebo si la reserva corresponde a un gimnasio o cancha, de ser así, podrá reservar también un 
+            // implemento
+            $consultaSalaEstudio = "SELECT * from sala_estudios 
+                INNER JOIN instancia_reservas ON sala_estudios.reserva_id = instancia_reservas.reserva_id
+                WHERE fecha_reserva = ? AND user_id = ? AND bloque_id = ?";
+
+            $esSalaEstudio = count(DB::select($consultaSalaEstudio, [$fecha_reserva, $id_usuario, $id_bloque]));
+
+            if($cantidadReservas==0 or $esSalaEstudio == 0){
                 $consulta = "SELECT * FROM implementos
                 INNER JOIN reservas ON reservas.id = implementos.reserva_id 
                 INNER JOIN ubicaciones ON reservas.ubicacione_id = ubicaciones.id
@@ -129,6 +134,13 @@ class ImplementoController extends Controller
                 $implementosDisponible=DB::select($consulta, [$fecha_reserva, $id_bloque]);
                 $datos = ["implementosDisponible" => $implementosDisponible, 'id_bloque' => $id_bloque, 'fecha_reserva' => $fecha_reserva];
                 return redirect()->route('implemento_reservar_filtrado')->with('datos', $datos);
+
+                
+            }else{
+
+                $nombre_reserva = $registrosUsuario[0]->nombre;
+                return redirect()->route('implemento_reservar')->with('error', "Tienes una reserva para el mismo día y el mismo bloque, especificamente reservaste: $nombre_reserva. NO PUEDES RESERVAR DOS SERVICIOS EN UN MISMO BLOQUE Y FECHA.");
+
             }
             
         } catch (\Throwable $th) {
@@ -155,8 +167,17 @@ class ImplementoController extends Controller
                         ->whereDate('fecha_reserva', $fecha_reserva)
                         ->count();
 
+                    // Compruebo si la reserva corresponde a un gimnasio o cancha, de ser así, podrá reservar también un 
+                    // implemento
+                    $consultaSalaEstudio = "SELECT * from sala_estudios 
+                    INNER JOIN instancia_reservas ON sala_estudios.reserva_id = instancia_reservas.reserva_id
+                    WHERE fecha_reserva = ? AND user_id = ? AND bloque_id = ?";
+
+                    $esSalaEstudio = count(DB::select($consultaSalaEstudio, [$fecha_reserva, $id_usuario, $id_bloque]));
+                        
+                        
                     // Verificamos si el número de reservas es menor o igual a 2
-                    if ($numReservas < 2) {
+                    if ($numReservas < 2 or $esSalaEstudio==0) {
                         // El estudiante tiene menos de dos reservas para la fecha indicada, puedes proceder a hacer la reserva
                         DB::table("instancia_reservas")->insert([
                             "fecha_reserva" => $fecha_reserva,
