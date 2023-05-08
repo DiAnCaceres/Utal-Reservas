@@ -89,7 +89,7 @@ class ImplementoController extends Controller
         try {
             //VALIDAR ENTRADAS
             $validator = Validator::make($request->all(), [
-                'fecha' => 'required|date'
+                'fecha' => 'required|date|after_or_equal:today'
             ]);
             $validator->messages()->add('fecha.required', 'Fecha es requerido');
             if ($validator->fails()){
@@ -102,6 +102,18 @@ class ImplementoController extends Controller
 
             //OBTENER FECHA DE LA RESERVA
             $fecha_reserva=$request->input('fecha');
+
+            // Compruebo si se selecciona un bloque horario válido para el día de hoy
+            $fecha_actual = date('Y-m-d');
+            if($fecha_actual == $fecha_reserva){
+                $hora_actual = Carbon::now()->format('H:i:s');
+                $bloque = DB::table('bloques')->where('id', $id_bloque)->first();
+                
+                if($hora_actual>$bloque->hora_inicio){
+                    return back()->withErrors(['bloque' => 'La hora seleccionada no es válida.']);
+                }
+                
+            }
 
             $comprobacion = "SELECT * FROM instancia_reservas
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id

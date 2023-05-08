@@ -38,6 +38,10 @@
             @endforeach
             </select>
 
+            @if ($errors->has('bloque'))
+                <span class="text-danger">{{ $errors->first('bloque') }}</span>
+            @endif
+
             <button type="submit">Buscar sala disponible</button>
 
             <!--  {{-- <button type="button" onclick="window.location='{{ route('salaestudio_reservar_filtrado') }}'">Buscar canchas disponibles</button> --}}  -->

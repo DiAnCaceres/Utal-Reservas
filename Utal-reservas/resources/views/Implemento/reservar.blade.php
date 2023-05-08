@@ -37,7 +37,10 @@
                 <option name="bloque" value="{{ $bloque->id }}">{{ $bloque->hora_inicio }} - {{ $bloque->hora_fin }}</option>
             @endforeach
             </select>
-
+            
+            @if ($errors->has('bloque'))
+                <span class="text-danger">{{ $errors->first('bloque') }}</span>
+            @endif
             <button type="submit">Buscar implemento disponible</button>
 
             {{-- <!-- <button type="button" onclick="window.location='{{ route('implemento_reservar_filtrado') }}'">Buscar canchas disponibles</button> --> --}}
