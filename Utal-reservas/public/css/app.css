@@ -89,6 +89,23 @@ header span {
     border-radius: 12px;
 }
 
+.box_entregar_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: line;;     
+    margin-left: 40%;
+    width: 25%;
+    background-color: #00cccc;
+    padding: 20px 20px;
+    border-radius: 12px;
+}
+.box_entregar_ligteblue1 {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: block;;     
+    margin-left: 28%;
+    width: 50%;
+    background-color: #00cccc;
+    padding: 20px 20px;
+    border-radius: 12px;
+}
+
 .btnAyuda {
     width: 75%;
     margin: auto;
@@ -192,6 +209,7 @@ form input {
     border-radius: 15px;
     margin-left: 15%;
     margin-right: 15%;
+    margin-top:-5%;
 }
     
 
