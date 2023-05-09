@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Helpers\PenalizacionHelper;
+use Illuminate\Support\Facades\Storage;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,6 +15,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        //CADA UNA HORA SE VERIFICARÁ EL ESTADO DE LAS RESERVAS Q PUEDEN ESTAR VENCIDAS
+        $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')
+                ->cron('*/70 * * * *')
+                ->between('8:30', '20:30');
     }
 
     /**
