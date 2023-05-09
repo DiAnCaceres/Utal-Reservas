@@ -19,7 +19,30 @@
         <button type="button" class="btn btn-default col-xs-4 boton_activo">Implementos</button>
          -->
     </div>
-
+    <div class="separacion"></div>
+    <div class="box_reserva_ligteblue">
+    <table class = "table table-striped">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Nombre</th>
+            <th>Hora</th>
+            <th>Capacidad</th>
+</tr>
+</thead>
+<tboby>
+    @foreach($reservas as $reserva)
+        <tr>
+            <th>{{$reserva->fecha}}</th>
+            <th>{{$reserva->nombre}}</th>
+            <th>{{$reserva->hora_inicio}}</th>
+            <th>{{$reserva->capacidad}}</th>
+            <th><input type="checkbox" name="opcion" value=$reserva></th>
+</tr>
+    @endforeach
+</tbody>
+</table>
+    </div>
     <h1> Cancelar sala estudio</h1>
 
      <form action="{{route('post_salaestudio_cancelar')}}" method="POST">

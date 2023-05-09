@@ -6,6 +6,7 @@ use App\Http\Controllers\Reservas\Throwable;
 use App\Http\Requests\Reserva\SalaEstudioRequest;
 use App\Models\Bloques;
 use App\Models\Ubicacion;
+use App\Models\Sala_Estudio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -234,11 +235,30 @@ class SalaEstudioController extends Controller
 
      /* ----------------------- RU07: Cancelar ---------------------------------*/
     public function get_cancelar(){
-        return view('salaestudio.cancelar');
+        $user_id=Auth::user()->id;
+        $reservas=DB::select("SELECT h.fecha_reserva as fecha, r.nombre , b.hora_inicio, b.hora_fin, se.capacidad FROM historial_instancia_reservas as h
+        INNER JOIN reservas as r ON r.id = h.reserva_id
+        INNER JOIN bloques as b ON b.id = h.bloque_id
+        INNER JOIN sala_estudios as se ON se.reserva_id = r.id
+        WHERE h.estado_instancia_id=1 AND
+        h.user_id=3");
+        $reservas;
+
+        //$user_id= Auth::user()->id;
+
+        
+        //$id_usuario=Auth::user()->id;
+    
+         // Ejecutar la consulta y pasar el parámetro del usuario
+        return view('salaestudio.cancelar', ['reservas' => $reservas]);
+        /*return($reservas);*/
     }
 
     public function post_cancelar(Request $request){
+       
+        //DD($reservas);
         return redirect()->route('salaestudio_cancelar');//->with('datos', $datos);
+
     }
 
      /* ----------------------- RU08: Entregar---------------------------------*/
