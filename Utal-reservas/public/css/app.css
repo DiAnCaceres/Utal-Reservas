@@ -281,6 +281,24 @@ form input {
     color: #fff; 
     } 
 
+.box_recepcionar_ligteblue {                   /*  Caja celeste bajo los servicios recepcionables */ 
+    display: line;;     
+    margin-left: 40%;
+    width: 25%;
+    background-color: #00cccc;
+    padding: 20px 20px;
+    border-radius: 12px;
+    }
+    
+.box_recepcionar_ligteblue1 {                   /*  Caja celeste bajo los servicios recepcionables */ 
+    display: block;;     
+    margin-left: 28%;
+    width: 50%;
+    background-color: #00cccc;
+    padding: 20px 20px;
+    border-radius: 12px;
+    }    
+
 .box_cantidades_ligteblue {                   /*  Caja celeste para la seccion de agregar o eliminar implementos */ 
     display: flex;
     flex-direction: column;
