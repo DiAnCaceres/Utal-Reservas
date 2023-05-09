@@ -20,28 +20,67 @@
          -->
     </div>
 
-    <h1> Entregar sala estudio</h1>
+    
 
-
-    <form action="{{route('post_salaestudio_entregar')}}" method="POST">
-        @csrf
-        <button type="submit">Buscar reservas del usuario</button>
-    </form>
-
-    <div id="div_resultados">
-        <h1> Resultados de busqueda </h1>
-        <form action="{{route('post_salaestudio_entregar_resultados')}}" method="POST">
+    <div class="entregar-reservas">
+        <form action="{{route('post_salaestudio_entregar')}}" method="POST">
             @csrf
-
-            @if($mostrarResultados == true && $resultados != "")
-                <p> {{$resultados}}</p>
-                <button type="submit">Entregar</button>
-            @else
-                <p>No se encontraron resultados.</p>
-            @endif
-
+            <h1> Entregar sala estudio</h1>
+            <div class="rut_usuario">
+                <label for="">Rut</label>
+                <input type="text" placeholder="Rut" name="rut">
+                <button class="button" type="submit">Buscar reservas del usuario</button>
+                
+            </div>
+            @if ($errors->has('rut'))
+                <span class="text-danger">{{ $errors->first('rut') }}</span>
+                @endif
         </form>
+    
+        <div id="div_resultados">
+            <h1> Resultados de busqueda </h1>
+            <form action="{{route('post_salaestudio_entregar_resultados')}}" method="POST">
+                @csrf
+    
+                @if($mostrarResultados == true && $resultados != "")
+                <table class="tabla_resultados">
+                    <thead>
+                      <tr>
+                        <th>Fecha</th>
+                        <th>Nombre sala</th>
+                        <th>Horario inicio</th>
+                        <th>Horario fin</th>
+                        <th>Capacidad</th>
+                        <th>Si</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach ($resultados as $resultado)
+                        <tr>
+                          <td>{{ $resultado->fecha }}</td>
+                          <td>{{ $resultado->nombre }}</td>
+                          <td>{{ $resultado->hora_inicio }}</td>
+                          <td>{{ $resultado->hora_fin }}</td>
+                          <td>{{ $resultado->capacidad }}</td>
+                          <td> 
+                            <input type="checkbox" name="resultado[]" value="{{$resultado->fecha}}, {{$resultado->nombre}}, {{$resultado->hora_inicio}}, {{$resultado->hora_fin}}, {{$resultado->capacidad}}">
+                          </td>
+                        </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                  
+            
+                <button type="submit">Entregar</button>
+                @else
+                    <p>No se encontraron resultados.</p>
+                @endif
+    
+            </form>
+            <button class="button" onclick="window.location='{{route('usuario_menumoderador')}}' ">Volver menu</button>
+        </div>
     </div>
+    
 
-    <button class="button" onclick="window.location='{{route('usuario_menumoderador')}}' ">Volver menu</button>
+    
 @endsection

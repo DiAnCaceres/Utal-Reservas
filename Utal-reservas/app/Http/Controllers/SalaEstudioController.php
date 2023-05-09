@@ -140,6 +140,7 @@ class SalaEstudioController extends Controller
         }
 
     }
+
     public function post_reservar_filtrado(Request $request){
         try{
             $id_usuario= Auth::user()->id;
@@ -241,6 +242,7 @@ class SalaEstudioController extends Controller
         }
     }
 
+
     /* ---------------------------------- SEMANA 4 ----------------------------------------*/
 
 
@@ -263,21 +265,69 @@ class SalaEstudioController extends Controller
 
     public function post_entregar(Request $request){
         $mostrarResultados=true;
-        $resultados="super8 genios superdotados"; // ejemplo
-        return view('salaestudio.entregar',compact('resultados','mostrarResultados'));
+         // ejemplo
+
+        try {
+            $rut = $request->input('rut');
+
+            $validator = Validator::make($request->all(), [
+                'rut' => ['required', 'regex:/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}-[0-9kK]{1}$/'],
+            ]);
+
+            $validator->messages()->add('fecha.required', 'Fecha es requerido');
+            if ($validator->fails()){
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $id = DB::table('users')
+            ->where('rut', $rut)
+            ->value('id');
+            
+            if($id == null){
+                $mostrarResultados = false;
+            }
+
+            $fechaHoy = Carbon::now()->format('Y-m-d');
+
+
+            $consulta = " SELECT h.fecha_reserva as fecha, r.nombre , b.hora_inicio, b.hora_fin, se.capacidad FROM historial_instancia_reservas as h
+            INNER JOIN reservas as r ON r.id = h.reserva_id
+            INNER JOIN bloques as b ON b.id = h.bloque_id
+            INNER JOIN sala_estudios as se ON se.reserva_id = r.id
+            WHERE
+            h.estado_instancia_id=1 AND h.user_id=? AND h.fecha_reserva= ?";
+
+            $resultados= DB::select($consulta, [$id, $fechaHoy]);
+
+            return view('salaestudio.entregar',compact('resultados','mostrarResultados'));
+        } catch (\Throwable $th) {
+            return 1;
+        }
     }
 
     public function post_entregar_resultados(Request $request){
-        return redirect()->route('salaestudio_entregar_filtrado');//->with('datos', $datos);
-    }
 
+        $resultadosSeleccionados = $request->input('resultado', []);
+        foreach ($resultadosSeleccionados as $resultado) {
+            $valores = explode(', ', $resultado);
+            $fecha = $valores[0];
+            $nombre = $valores[1];
+            $horaInicio = $valores[2];
+            $horaFin = $valores[3];
+            $capacidad = $valores[4];
+            
+            $id_bloque = DB::table('bloques')
+            ->where('hora_inicio', $horaInicio)
+            ->value('id');
 
-    public function get_entregar_filtrado(){
-        return view('salaestudio.entregar_filtrado');
-    }
+            $reserva_id = DB::table('reservas')->where('nombre', $nombre)->value('id');
 
-    public function post_entregar_filtrado(Request $request){
-        return redirect()->route('salaestudio_entregar_filtrado');//->with('datos', $datos);
+            $instancia_reserva = DB::table('historial_instancia_reservas')->where('fecha_reserva', $fecha)->where('bloque_id', $id_bloque)->where('reserva_id', $reserva_id)->update(['estado_instancia_id' => 2 ]);
+
+        }
+        
+        
+        return redirect()->route('salaestudio_reservar')->with("success","Sala Estudio reservada correctamente");
     }
 
 
