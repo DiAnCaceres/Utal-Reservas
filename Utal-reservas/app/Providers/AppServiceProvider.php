@@ -21,8 +21,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-        $this->app->booted(function () {
-            PenalizacionHelper::verificarnoAsiste();
-        });
+        // $this->app->booted(function () {
+        //     PenalizacionHelper::verificarnoAsiste();
+        // });
     }
 }
