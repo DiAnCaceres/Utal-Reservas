@@ -17,13 +17,39 @@
 
         </div>
 
+        </div>
+    <div class="separacion"></div>
+    <div class="box_reserva_ligteblue">
 
-    <h1> Cancelar implemento</h1>
-
-     <form action="{{route('post_implemento_cancelar')}}" method="POST">
+    <form action="{{route('post_implemento_cancelar')}}" method="POST">
+        
         @csrf
+    <table class = "table table-striped">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Nombre</th>
+            <th>Hora</th>
+            <th>Cantidad</th>
+            <th></th>
+</tr>
+</thead>
+<tboby>
+    @foreach($reservas as $cancelar)
+        <tr>
+            <th>{{$cancelar->fecha_reserva}}</th>
+            <th>{{$cancelar->nombre}}</th>
+            <th>{{$cancelar->hora_inicio}}</th>
+            <th>{{$cancelar->cantidad}}</th>
+            <th><input type="checkbox" name="a_cancelar[]" value="{{ $cancelar->fecha_reserva }}|{{ $cancelar->bloque_id }}|{{ $cancelar->reserva_id }}|{{ $cancelar->user_id}}"></th>
+</tr>
+    @endforeach
+</tbody>
+</table>
         <button type="submit">Cancelar</button>
-    </form>
+        
 
     <button class="button" onclick="window.location='{{route('usuario_menuestudiante')}}' ">Volver atrás</button>
+        </form>
+    </div>
 @endsection
