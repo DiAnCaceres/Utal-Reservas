@@ -21,6 +21,10 @@
     </div>
     <div class="separacion"></div>
     <div class="box_reserva_ligteblue">
+
+    <form action="{{route('post_salaestudio_cancelar')}}" method="POST">
+        
+        @csrf
     <table class = "table table-striped">
     <thead>
         <tr>
@@ -31,24 +35,20 @@
 </tr>
 </thead>
 <tboby>
-    @foreach($reservas as $reserva)
+    @foreach($reservas as $cancelar)
         <tr>
-            <th>{{$reserva->fecha}}</th>
-            <th>{{$reserva->nombre}}</th>
-            <th>{{$reserva->hora_inicio}}</th>
-            <th>{{$reserva->capacidad}}</th>
-            <th><input type="checkbox" name="opcion" value=$reserva></th>
+            <th>{{$cancelar->fecha_reserva}}</th>
+            <th>{{$cancelar->nombre}}</th>
+            <th>{{$cancelar->hora_inicio}}</th>
+            <th>{{$cancelar->capacidad}}</th>
+            <th><input type="checkbox" name="a_cancelar[]" value="{{ $cancelar->fecha_reserva }}|{{ $cancelar->nombre }}|{{ $cancelar->hora_inicio }}|{{ $cancelar->capacidad}}"></th>
 </tr>
     @endforeach
 </tbody>
 </table>
-    </div>
-    <h1> Cancelar sala estudio</h1>
-
-     <form action="{{route('post_salaestudio_cancelar')}}" method="POST">
-        @csrf
         <button type="submit">Cancelar</button>
-    </form>
+        </form>
+    </div>
 
     <button class="button" onclick="window.location='{{route('usuario_menuestudiante')}}' ">Volver atrás</button>
 @endsection

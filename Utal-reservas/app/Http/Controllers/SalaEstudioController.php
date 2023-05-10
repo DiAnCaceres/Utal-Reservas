@@ -236,27 +236,47 @@ class SalaEstudioController extends Controller
      /* ----------------------- RU07: Cancelar ---------------------------------*/
     public function get_cancelar(){
         $user_id=Auth::user()->id;
-        $reservas=DB::select("SELECT h.fecha_reserva as fecha, r.nombre , b.hora_inicio, b.hora_fin, se.capacidad FROM historial_instancia_reservas as h
+        $reservas="SELECT * FROM historial_instancia_reservas as h
         INNER JOIN reservas as r ON r.id = h.reserva_id
         INNER JOIN bloques as b ON b.id = h.bloque_id
         INNER JOIN sala_estudios as se ON se.reserva_id = r.id
         WHERE h.estado_instancia_id=1 AND
-        h.user_id=3");
-        $reservas;
-
+        h.user_id=?";
+        $resultados=DB::select($reservas,[$user_id]);
+        //dd($resultados);
         //$user_id= Auth::user()->id;
 
         
         //$id_usuario=Auth::user()->id;
     
          // Ejecutar la consulta y pasar el parámetro del usuario
-        return view('salaestudio.cancelar', ['reservas' => $reservas]);
+        return view('salaestudio.cancelar', ['reservas' => $resultados]);
         /*return($reservas);*/
     }
 
     public function post_cancelar(Request $request){
-       
+    $resultadosSeleccionados = $request->input('a_cancelar');
+    dd($resultadosSeleccionados);
+    foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
+        // Dividir el valor del checkbox usando el delimitador
+        list($fecha_reserva, $nombre, $hora_inicio, $capacidad) = explode('|', $resultadoSeleccionado);
+        $user_id=Auth::user()->id;
+        $date = Carbon::now();
+        $date = $date->format('Y-m-d');
+        DB::table("historial_instancia_reservas")->insert([
+            "fecha_reserva"=>$fecha_reserva,
+            "user_id"=>$user_id,
+            "reserva_id"=>$nombre,
+            "estado_instancia_id"=>5]);
+        /*DB::table("historial_instancia_reservas")->insert([
+            "fecha_reserva"=>$fecha,
+            "nombre"=>$nombre,
+            "hora_inicio"=>$hora_inicio,
+            "capacidad"=>$capacidad,
+            "estado_instancia_id"=>5
+        ]);*/
         //DD($reservas);
+    }
         return redirect()->route('salaestudio_cancelar');//->with('datos', $datos);
 
     }
