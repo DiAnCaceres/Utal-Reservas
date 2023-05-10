@@ -54,7 +54,7 @@
                 @endif
         
 
-    <button class="button" onclick="window.location='{{route('usuario_menuestudiante')}}' ">Volver atrás</button>
         </form>
+    <button class="button" onclick="window.location='{{route('usuario_menuestudiante')}}' ">Volver atrás</button>
     </div>
 @endsection
