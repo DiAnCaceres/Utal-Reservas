@@ -316,24 +316,26 @@ class CanchaController extends Controller
 
     public function post_entregar_resultados(Request $request){
         $resultadosSeleccionados = $request->input('resultados_seleccionados');
-        
-        foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
-            // Dividir el valor del checkbox usando el delimitador
-            list($fecha_reserva, $reserva_id, $user_id, $bloque_id) = explode('|', $resultadoSeleccionado);
+        if($resultadosSeleccionados!=null){
+            foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
+                // Dividir el valor del checkbox usando el delimitador
+                list($fecha_reserva, $reserva_id, $user_id, $bloque_id) = explode('|', $resultadoSeleccionado);
 
-            $date = Carbon::now();
-            $date = $date->format('Y-m-d');
-            DB::table("historial_instancia_reservas")->insert([
-                "fecha_reserva"=>$fecha_reserva,
-                "user_id"=>$user_id,
-                "bloque_id"=>$bloque_id,
-                "reserva_id"=>$reserva_id,
-                "fecha_estado"=>$date,
-                "estado_instancia_id"=>2
-            ]);
-            // Realizar acciones con los valores originales de las columnas
+                $date = Carbon::now();
+                $date = $date->format('Y-m-d');
+                DB::table("historial_instancia_reservas")->insert([
+                    "fecha_reserva"=>$fecha_reserva,
+                    "user_id"=>$user_id,
+                    "bloque_id"=>$bloque_id,
+                    "reserva_id"=>$reserva_id,
+                    "fecha_estado"=>$date,
+                    "estado_instancia_id"=>2
+                ]);
+                // Realizar acciones con los valores originales de las columnas
+            }
+            return redirect()->route('cancha_entregar') ->with("success","Cancha(s) entregada(s) correctamente");//->with('datos', $datos);
         }
-        return redirect()->route('cancha_entregar') ->with("success","Cancha(s) entregada(s) correctamente");//->with('datos', $datos);
+        return redirect()->route('cancha_entregar') ->with("success","Ninguna casilla fue seleccionada");//->with('datos', $datos);
     }
 
 
