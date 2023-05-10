@@ -417,3 +417,29 @@ form input {
     /*text-transform: uppercase; capitalización texto*/
     font-family: 'Helvetica', sans-serif; /*tipografía texto*/
     }
+
+
+.rut_usuario {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin: auto;
+}
+
+.tabla_resultados td {
+    padding: 4px 8px;
+}
+
+.tabla_resultados td input {
+    width: 50%;
+    height: 20px;
+    border-radius: 4px;
+    border: none;
+    outline: 0px;
+    margin: 0px 10px;   
+    padding: 0px 5px;
+}
+
+.tabla_resultados th {
+    padding: 0px 4px;
+}
