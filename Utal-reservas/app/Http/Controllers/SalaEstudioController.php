@@ -6,6 +6,7 @@ use App\Http\Controllers\Reservas\Throwable;
 use App\Http\Requests\Reserva\SalaEstudioRequest;
 use App\Models\Bloques;
 use App\Models\Ubicacion;
+use App\Models\Sala_Estudio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -248,11 +249,41 @@ class SalaEstudioController extends Controller
 
      /* ----------------------- RU07: Cancelar ---------------------------------*/
     public function get_cancelar(){
-        return view('salaestudio.cancelar');
+        $mostrarResultados=false;
+        $user_id=Auth::user()->id;
+        $reservas="SELECT * FROM historial_instancia_reservas as h
+        INNER JOIN reservas as r ON r.id = h.reserva_id
+        INNER JOIN bloques as b ON b.id = h.bloque_id
+        INNER JOIN sala_estudios as se ON se.reserva_id = r.id
+        WHERE h.estado_instancia_id=1 AND
+        h.user_id=?";
+        $resultados=DB::select($reservas,[$user_id]);
+        if ($resultados!=[]){
+            $mostrarResultados=true;
+        }
+        //dd($resultados);
+         // Ejecutar la consulta y pasar el parámetro del usuario
+        return view('salaestudio.cancelar', ['reservas' => $resultados], ['mostrarResultados' => $mostrarResultados]);
+        /*return($reservas);*/
     }
 
     public function post_cancelar(Request $request){
+    $resultadosSeleccionados = $request->input('a_cancelar');
+        foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
+        list($fecha_reserva, $bloque_id, $reserva_id, $user_id) = explode('|', $resultadoSeleccionado);
+        $date = Carbon::now();
+        $date = $date->format('Y-m-d');
+        DB::table("historial_instancia_reservas")->insert([
+            "fecha_reserva"=>$fecha_reserva,
+            "bloque_id"=>$bloque_id,
+            "user_id"=>$user_id,
+            "reserva_id"=>$reserva_id,
+            "fecha_estado"=>$date,
+            "estado_instancia_id"=>5
+        ]);
+    }
         return redirect()->route('salaestudio_cancelar');//->with('datos', $datos);
+
     }
 
      /* ----------------------- RU08: Entregar---------------------------------*/
