@@ -274,7 +274,7 @@ class SalaEstudioController extends Controller
                 'rut' => ['required', 'regex:/^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}-[0-9kK]{1}$/'],
             ]);
 
-            $validator->messages()->add('fecha.required', 'Fecha es requerido');
+            $validator->messages()->add('rut.required', 'Rut es requerido');
             if ($validator->fails()){
                 return redirect()->back()->withErrors($validator)->withInput();
             }

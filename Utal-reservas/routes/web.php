@@ -42,6 +42,14 @@ Route::post("post_salagimnasio_registrar",[SalaGimnasioController::class,"post_r
 Route::post("post_salagimnasio_reservar",[SalaGimnasioController::class,"post_reservar"])->name("post_salagimnasio_reservar");
 Route::post("post_salagimnasio_reservar_filtrado",[SalaGimnasioController::class,"post_reservar_filtrado"])->name("post_salagimnasio_reservar_filtrado");
 
+// Entregar salas de gimnasio
+Route::get('/salagimnasio_entregar', [SalaGimnasioController::class, 'get_entregar'])->name('salagimnasio_entregar')->middleware('moderador');
+
+Route::post('post_salagimnasio_entregar', [SalaGimnasioController::class, 'post_entregar'])->name('post_salagimnasio_entregar');
+
+Route::post('post_salagimnasio_entregar_resultados', [SalaGimnasioController::class, 'post_entregar_resultados'])->name('post_salagimnasio_entregar_resultados');
+
+
 Route::get('/cancha_registrar', [CanchaController::class, 'get_registrar'])->name('cancha_registrar')->middleware('admin');
 Route::get('/cancha_reservar', [CanchaController::class, 'get_reservar'])->name('cancha_reservar')->middleware('estudiante');
 Route::get('/cancha_reservar_filtrado', [CanchaController::class, 'get_reservar_filtrado'])->name('cancha_reservar_filtrado')->middleware('estudiante');
