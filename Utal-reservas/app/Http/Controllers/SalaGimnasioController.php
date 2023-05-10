@@ -279,6 +279,7 @@ class SalaGimnasioController extends Controller
 
     public function post_cancelar(Request $request){
     $resultadosSeleccionados = $request->input('a_cancelar');
+    if($resultadosSeleccionados!=null){
         foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
         list($fecha_reserva, $bloque_id, $reserva_id, $user_id) = explode('|', $resultadoSeleccionado);
         $date = Carbon::now();
@@ -291,7 +292,7 @@ class SalaGimnasioController extends Controller
             "fecha_estado"=>$date,
             "estado_instancia_id"=>5
         ]);
-    }
+    }}
         return redirect()->route('salagimnasio_cancelar');//->with('datos', $datos);
 
     }
