@@ -260,13 +260,50 @@ class CanchaController extends Controller
     }
 
     public function post_entregar(Request $request){
-        $mostrarResultados=true;
-        $resultados="super8 genios superdotados"; // ejemplo
+        
+        $fechaActual = date("Y-m-d", strtotime("now"));
+        $rut = $request->input('rut');
+        $mostrarResultados=false;
+
+        $consulta = "SELECT * FROM historial_instancia_reservas as h
+        INNER JOIN reservas as r ON r.id = h.reserva_id
+        INNER JOIN bloques as b ON b.id = h.bloque_id
+        INNER JOIN canchas as can ON can.reserva_id = r.id
+        INNER JOIN users as u ON u.id=h.user_id
+        INNER JOIN ubicaciones as ubi ON ubi.id=r.ubicacione_id
+        WHERE
+        h.estado_instancia_id=1 AND /* es 1 ya que la instancia debe estar reservada pero sin entregar*/
+        u.rut=? AND /* variar el 3 por ? e ingresar lo capturado en frontend*/
+        h.fecha_reserva=? /* variar la fecha por ? e ingresar lo capturado por el frontend*/";
+
+        $resultados=DB::select($consulta, [$rut, $fechaActual]);
+        
+        if (count($resultados)>0){
+            $mostrarResultados=true;
+        }
         return view('cancha.entregar',compact('resultados','mostrarResultados'));
     }
 
     public function post_entregar_resultados(Request $request){
-         return redirect()->route('cancha_entregar_filtrado');//->with('datos', $datos);
+        $resultadosSeleccionados = $request->input('resultados_seleccionados');
+        
+        foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
+            // Dividir el valor del checkbox usando el delimitador
+            list($fecha_reserva, $reserva_id, $user_id, $bloque_id) = explode('|', $resultadoSeleccionado);
+
+            $date = Carbon::now();
+            $date = $date->format('Y-m-d');
+            DB::table("historial_instancia_reservas")->insert([
+                "fecha_reserva"=>$fecha_reserva,
+                "user_id"=>$user_id,
+                "bloque_id"=>$bloque_id,
+                "reserva_id"=>$reserva_id,
+                "fecha_estado"=>$date,
+                "estado_instancia_id"=>2
+            ]);
+            // Realizar acciones con los valores originales de las columnas
+        }
+        return redirect()->route('cancha_entregar') ->with("success","Cancha(s) entregada(s) correctamente");//->with('datos', $datos);
     }
 
 
