@@ -79,6 +79,16 @@ header span {
     border-radius: 12px;
 }
 
+.box_reserva_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: flex;
+    flex-direction: column;
+    margin-left: 32%;
+    width: 40%;
+    background-color: #00cccc;
+    padding: 20px 30px;
+    border-radius: 12px;
+}
+
 .box_entregar_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
     display: block;   
     margin-left: 42%;
