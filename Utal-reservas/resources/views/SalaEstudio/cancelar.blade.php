@@ -32,6 +32,7 @@
             <th>Nombre</th>
             <th>Hora</th>
             <th>Capacidad</th>
+            <th></th>
 </tr>
 </thead>
 <tboby>
@@ -47,8 +48,9 @@
 </tbody>
 </table>
         <button type="submit">Cancelar</button>
-        </form>
-    </div>
+        
 
     <button class="button" onclick="window.location='{{route('usuario_menuestudiante')}}' ">Volver atrás</button>
+        </form>
+    </div>
 @endsection
