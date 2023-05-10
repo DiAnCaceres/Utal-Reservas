@@ -243,11 +243,6 @@ class SalaEstudioController extends Controller
         WHERE h.estado_instancia_id=1 AND
         h.user_id=?";
         $resultados=DB::select($reservas,[$user_id]);
-        //dd($resultados);
-        //$user_id= Auth::user()->id;
-
-        
-        //$id_usuario=Auth::user()->id;
     
          // Ejecutar la consulta y pasar el parámetro del usuario
         return view('salaestudio.cancelar', ['reservas' => $resultados]);
@@ -256,26 +251,18 @@ class SalaEstudioController extends Controller
 
     public function post_cancelar(Request $request){
     $resultadosSeleccionados = $request->input('a_cancelar');
-    dd($resultadosSeleccionados);
-    foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
-        // Dividir el valor del checkbox usando el delimitador
-        list($fecha_reserva, $nombre, $hora_inicio, $capacidad) = explode('|', $resultadoSeleccionado);
-        $user_id=Auth::user()->id;
+        foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
+        list($fecha_reserva, $bloque_id, $reserva_id, $user_id) = explode('|', $resultadoSeleccionado);
         $date = Carbon::now();
         $date = $date->format('Y-m-d');
         DB::table("historial_instancia_reservas")->insert([
             "fecha_reserva"=>$fecha_reserva,
+            "bloque_id"=>$bloque_id,
             "user_id"=>$user_id,
-            "reserva_id"=>$nombre,
-            "estado_instancia_id"=>5]);
-        /*DB::table("historial_instancia_reservas")->insert([
-            "fecha_reserva"=>$fecha,
-            "nombre"=>$nombre,
-            "hora_inicio"=>$hora_inicio,
-            "capacidad"=>$capacidad,
+            "reserva_id"=>$reserva_id,
+            "fecha_estado"=>$date,
             "estado_instancia_id"=>5
-        ]);*/
-        //DD($reservas);
+        ]);
     }
         return redirect()->route('salaestudio_cancelar');//->with('datos', $datos);
 

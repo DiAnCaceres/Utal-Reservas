@@ -41,7 +41,7 @@
             <th>{{$cancelar->nombre}}</th>
             <th>{{$cancelar->hora_inicio}}</th>
             <th>{{$cancelar->capacidad}}</th>
-            <th><input type="checkbox" name="a_cancelar[]" value="{{ $cancelar->fecha_reserva }}|{{ $cancelar->nombre }}|{{ $cancelar->hora_inicio }}|{{ $cancelar->capacidad}}"></th>
+            <th><input type="checkbox" name="a_cancelar[]" value="{{ $cancelar->fecha_reserva }}|{{ $cancelar->bloque_id }}|{{ $cancelar->reserva_id }}|{{ $cancelar->user_id}}"></th>
 </tr>
     @endforeach
 </tbody>
