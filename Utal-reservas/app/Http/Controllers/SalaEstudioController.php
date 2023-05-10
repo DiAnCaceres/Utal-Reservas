@@ -390,7 +390,7 @@ class SalaEstudioController extends Controller
             FROM historial_instancia_reservas AS h
             WHERE h.estado_instancia_id <> 5
             GROUP BY fecha_reserva, user_id, reserva_id, bloque_id
-            HAVING total >= 1 AND total < 3
+            HAVING total >= 2 AND total < 3
         ) AS sub1
         INNER JOIN reservas as r ON r.id = sub1.reserva_id
         INNER JOIN bloques as b ON b.id = sub1.bloque_id

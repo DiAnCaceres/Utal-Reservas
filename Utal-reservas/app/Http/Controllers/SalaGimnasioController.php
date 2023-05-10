@@ -404,18 +404,22 @@ class SalaGimnasioController extends Controller
         $rut = $request->input('rut');
         $mostrarResultados=false;
 
-        $consulta = "SELECT * FROM historial_instancia_reservas as h
-        INNER JOIN reservas as r ON r.id = h.reserva_id
-        INNER JOIN bloques as b ON b.id = h.bloque_id
+        $consulta = "SELECT *
+        FROM (
+            SELECT fecha_reserva, user_id, reserva_id, bloque_id, COUNT(*) AS total
+            FROM historial_instancia_reservas AS h
+            WHERE h.estado_instancia_id <> 5
+            GROUP BY fecha_reserva, user_id, reserva_id, bloque_id
+            HAVING total >= 2 AND total < 3
+        ) AS sub1
+        INNER JOIN reservas as r ON r.id = sub1.reserva_id
+        INNER JOIN bloques as b ON b.id = sub1.bloque_id
         INNER JOIN sala_gimnasios as sg ON sg.reserva_id = r.id
-        INNER JOIN users as u ON u.id=h.user_id
+        INNER JOIN users as u ON u.id=sub1.user_id
         INNER JOIN ubicaciones as ubi ON ubi.id=r.ubicacione_id
-        WHERE
-        h.estado_instancia_id=2 AND /* es 1 ya que la instancia debe estar reservada pero sin entregar*/
-        u.rut=? AND /* variar el 3 por ? e ingresar lo capturado en frontend*/
-        h.fecha_reserva=? /* variar la fecha por ? e ingresar lo capturado por el frontend*/";
+        WHERE u.rut=?";
 
-        $resultados=DB::select($consulta, [$rut, $fechaActual]);
+        $resultados=DB::select($consulta, [$rut]);
         if (count($resultados)>0){
             $mostrarResultados=true;
         }
