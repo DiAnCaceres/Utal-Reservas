@@ -22,7 +22,7 @@
 
     <br>
 
-    <div class="box_entregar_ligteblue1">
+    <div class="box_entregar_ligteblue">
         <div id="div_resultados">
 
             <h1> Entregar cancha</h1>
@@ -45,29 +45,26 @@
 
     <div class="box_entregar_ligteblue1">
         <div id="div_resultados">
-
-            <h1> Resultados de busqueda </h1>
             <form action="{{route('post_cancha_entregar_resultados')}}" method="POST">
                 @csrf
 
                 @if($mostrarResultados == true)
-
+                    <h1 align="left"> Datos del estudiante: </h1>
                     <p>
                         <b>Nombre:</b> {{ $resultados[0]->name }} <br>
                         <b>Rut:</b> {{ $resultados[0]->rut }} <br>
                         <b>Correo:</b> {{ $resultados[0]->email }} <br>
-
                     </p>
-
+                    <h1 align="left"> Resultados de busqueda: </h1>
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Fecha</th>
-                                <th>Nombre</th>
-                                <th>Hora inicio</th>
-                                <th>Hora fin</th>
-                                <th>Ubicacion </th>
-                                <th>Entregar</th>
+                                <th>Fecha       </th>
+                                <th>Nombre      </th>
+                                <th>Hora inicio </th>
+                                <th>Hora fin    </th>
+                                <th>Ubicacion   </th>
+                                <th>Entregar    </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -86,8 +83,8 @@
                         </tbody>
                     </table>
 
-                    <button type="submit">Entregar</button>
-                    
+                    <button type="submit" style="display:inline-block">Entregar</button>
+                    <button onclick="window.location='{{route('usuario_menumoderador')}}'" style="display:inline-block">Volver menu</button>
                 @else
                     <p>No se encontraron resultados.</p>
                 @endif
@@ -95,6 +92,4 @@
             </form>
         </div>
     </div>
-    <button class="button" onclick="window.location='{{route('usuario_menumoderador')}}' ">Volver menu</button>
-    
 @endsection

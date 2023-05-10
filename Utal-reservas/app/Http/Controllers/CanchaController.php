@@ -254,7 +254,6 @@ class CanchaController extends Controller
      /* ----------------------- RU20: Entregar---------------------------------*/
 
     public function get_entregar(){
-        
         $resultados="";
         $mostrarResultados=false;
         return view('cancha.entregar',compact('resultados','mostrarResultados'));
