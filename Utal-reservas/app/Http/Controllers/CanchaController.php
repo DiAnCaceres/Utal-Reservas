@@ -232,6 +232,7 @@ class CanchaController extends Controller
 
      /* ----------------------- RU019: Cancelar ---------------------------------*/
      public function get_cancelar(){
+        $mostrarResultados=false;
         $user_id=Auth::user()->id;
         $reservas="SELECT * FROM historial_instancia_reservas as h
         INNER JOIN reservas as r ON r.id = h.reserva_id
@@ -240,9 +241,12 @@ class CanchaController extends Controller
         WHERE h.estado_instancia_id=1 AND
         h.user_id=?";
         $resultados=DB::select($reservas,[$user_id]);
+        if ($resultados!=[]){
+            $mostrarResultados=true;
+        }
     
          // Ejecutar la consulta y pasar el parámetro del usuario
-        return view('cancha.cancelar', ['reservas' => $resultados]);
+        return view('cancha.cancelar', ['reservas' => $resultados], ['mostrarResultados' => $mostrarResultados]);
         /*return($reservas);*/
     }
 
