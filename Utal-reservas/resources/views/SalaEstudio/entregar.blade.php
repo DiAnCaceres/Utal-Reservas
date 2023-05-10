@@ -42,7 +42,13 @@
           <div class="alert alert-success">
               {{ session('success') }}
           </div>
-         @endif
+          @endif
+
+          @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+          @endif
         </form>
       </div>
     </div>
@@ -99,7 +105,7 @@
             @else
                 <p>No se encontraron resultados.</p>
             @endif
-
+            
         </form>
         
       </div>

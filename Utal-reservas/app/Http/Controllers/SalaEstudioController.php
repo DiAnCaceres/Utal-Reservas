@@ -329,13 +329,16 @@ class SalaEstudioController extends Controller
             // dd($resultados);
             return view('salaestudio.entregar',compact('resultados','mostrarResultados'));
         } catch (\Throwable $th) {
-            return back()->with('error', '¡Hubo un error al entregar la reserva!');
+            return redirect()->route('salaestudio_entregar')->with('error', '¡Hubo un error al entregar la reserva!');
         }
     }
 
     public function post_entregar_resultados(Request $request){
         
         $resultadosSeleccionados = $request->input('resultado', []);
+        if(empty($resultadosSeleccionados)){
+            return redirect()->route('salaestudio_entregar')->with('error',"Debe seleccionar una reserva");//
+        }
         foreach ($resultadosSeleccionados as $resultado) {
             $valores = explode(',', $resultado);
             $fecha = $valores[0];
@@ -347,7 +350,7 @@ class SalaEstudioController extends Controller
             $instancia_reserva = DB::table('historial_instancia_reservas')->where('fecha_reserva', $fecha)->where('bloque_id', $id_bloque)->where('reserva_id', $reserva_id)->where('user_id', $user_id)->update(['estado_instancia_id' => 2 ]);
 
         }
-        return redirect()->route('salaestudio_entregar') ->with("success","Sala estudio(s) entregada(s) correctamente");//->with('datos', $datos);
+        return redirect()->route('salaestudio_entregar')->with("success","Sala estudio(s) entregada(s) correctamente");//->with('datos', $datos);
         
     } 
 
