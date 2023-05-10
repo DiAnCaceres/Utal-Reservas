@@ -279,29 +279,25 @@ class SalaEstudioController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
-            $id = DB::table('users')
-            ->where('rut', $rut)
-            ->value('id');
-            
-            if($id == null){
-                $mostrarResultados = false;
-            }
-
             $fechaHoy = Carbon::now()->format('Y-m-d');
 
 
-            $consulta = " SELECT h.fecha_reserva as fecha, r.nombre , b.hora_inicio, b.hora_fin, se.capacidad FROM historial_instancia_reservas as h
-            INNER JOIN reservas as r ON r.id = h.reserva_id
-            INNER JOIN bloques as b ON b.id = h.bloque_id
-            INNER JOIN sala_estudios as se ON se.reserva_id = r.id
-            WHERE
-            h.estado_instancia_id=1 AND h.user_id=? AND h.fecha_reserva= ?";
+            $consulta = "SELECT * FROM historial_instancia_reservas as h
+                INNER JOIN reservas as r ON r.id = h.reserva_id
+                INNER JOIN bloques as b ON b.id = h.bloque_id
+                INNER JOIN sala_estudios as sal ON sal.reserva_id = r.id
+                INNER JOIN users as u ON u.id=h.user_id
+                INNER JOIN ubicaciones as ubi ON ubi.id=r.ubicacione_id
+                WHERE
+                h.estado_instancia_id=1 AND /* es 1 ya que la instancia debe estar reservada pero sin entregar*/
+                u.rut=? AND /* variar el 3 por ? e ingresar lo capturado en frontend*/
+                h.fecha_reserva=? /* variar la fecha por ? e ingresar lo capturado por el frontend*/";
 
-            $resultados= DB::select($consulta, [$id, $fechaHoy]);
-
+            $resultados= DB::select($consulta, [strval($rut), $fechaHoy]);
+            // dd($resultados);
             return view('salaestudio.entregar',compact('resultados','mostrarResultados'));
         } catch (\Throwable $th) {
-            return 1;
+            return back()->with('error', '¡Hubo un error al entregar la reserva!');
         }
     }
 
@@ -311,24 +307,17 @@ class SalaEstudioController extends Controller
         foreach ($resultadosSeleccionados as $resultado) {
             $valores = explode(', ', $resultado);
             $fecha = $valores[0];
-            $nombre = $valores[1];
-            $horaInicio = $valores[2];
-            $horaFin = $valores[3];
-            $capacidad = $valores[4];
-            
-            $id_bloque = DB::table('bloques')
-            ->where('hora_inicio', $horaInicio)
-            ->value('id');
+            $id_bloque = $valores[1];
+            $reserva_id = $valores[2];
+            $user_id = $valores[3];
 
-            $reserva_id = DB::table('reservas')->where('nombre', $nombre)->value('id');
 
-            $instancia_reserva = DB::table('historial_instancia_reservas')->where('fecha_reserva', $fecha)->where('bloque_id', $id_bloque)->where('reserva_id', $reserva_id)->update(['estado_instancia_id' => 2 ]);
+            $instancia_reserva = DB::table('historial_instancia_reservas')->where('fecha_reserva', $fecha)->where('bloque_id', $id_bloque)->where('reserva_id', $reserva_id)->where('user_id', $user_id)->update(['estado_instancia_id' => 2 ]);
 
         }
+        return redirect()->route('salaestudio_entregar') ->with("success","Sala estudio(s) entregada(s) correctamente");//->with('datos', $datos);
         
-        
-        return redirect()->route('salaestudio_reservar')->with("success","Sala Estudio reservada correctamente");
-    }
+    } 
 
 
     /* ----------------------- RU09: Recepcionar--------------------------------*/
