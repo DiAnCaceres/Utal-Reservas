@@ -345,7 +345,7 @@ class SalaGimnasioController extends Controller
 
         $resultadosSeleccionados = $request->input('resultado', []);
         foreach ($resultadosSeleccionados as $resultado) {
-            $valores = explode(', ', $resultado);
+            $valores = explode(',', $resultado);
             $fecha = $valores[0];
             $id_bloque = $valores[1];
             $reserva_id = $valores[2];

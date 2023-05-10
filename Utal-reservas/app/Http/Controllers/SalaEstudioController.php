@@ -333,10 +333,10 @@ class SalaEstudioController extends Controller
     }
 
     public function post_entregar_resultados(Request $request){
-
+        
         $resultadosSeleccionados = $request->input('resultado', []);
         foreach ($resultadosSeleccionados as $resultado) {
-            $valores = explode(', ', $resultado);
+            $valores = explode(',', $resultado);
             $fecha = $valores[0];
             $id_bloque = $valores[1];
             $reserva_id = $valores[2];
@@ -385,7 +385,7 @@ class SalaEstudioController extends Controller
     public function post_recepcionar_resultados(Request $request){
         
         $resultadosSeleccionados = $request->input('resultados_seleccionados');
-        
+
         foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
             // Dividir el valor del checkbox usando el delimitador
             list($fecha_reserva, $reserva_id, $user_id, $bloque_id) = explode('|', $resultadoSeleccionado);
