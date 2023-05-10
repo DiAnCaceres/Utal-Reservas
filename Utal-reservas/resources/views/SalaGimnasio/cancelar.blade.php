@@ -25,6 +25,7 @@
     <form action="{{route('post_salagimnasio_cancelar')}}" method="POST">
         
         @csrf
+        @if($mostrarResultados == true)
     <table class = "table table-striped">
     <thead>
         <tr>
@@ -48,9 +49,13 @@
 </tbody>
 </table>
         <button type="submit">Cancelar</button>
-        
+        @else
+                    <p>No tienes reservas para cancelar.</p>
+                @endif
+                
+        </form>
 
     <button class="button" onclick="window.location='{{route('usuario_menuestudiante')}}' ">Volver atrás</button>
-        </form>
+    
     </div>
 @endsection
