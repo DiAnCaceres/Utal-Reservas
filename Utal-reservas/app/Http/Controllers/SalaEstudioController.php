@@ -251,20 +251,19 @@ class SalaEstudioController extends Controller
     public function get_cancelar(){
         $mostrarResultados=false;
         $user_id=Auth::user()->id;
-        $reservas="SELECT * FROM historial_instancia_reservas as h
-        INNER JOIN reservas as r ON r.id = h.reserva_id
-        INNER JOIN bloques as b ON b.id = h.bloque_id
+        $reservas="SELECT *
+        FROM (
+            SELECT fecha_reserva, user_id, reserva_id, bloque_id, COUNT(*) AS total
+            FROM historial_instancia_reservas AS h
+            GROUP BY fecha_reserva, user_id, reserva_id, bloque_id
+            HAVING total <= 1
+        ) AS sub1
+        INNER JOIN reservas as r ON r.id = sub1.reserva_id
+        INNER JOIN bloques as b ON b.id = sub1.bloque_id
         INNER JOIN sala_estudios as se ON se.reserva_id = r.id
-        WHERE h.estado_instancia_id=1 AND
-        h.user_id=? AND
-        NOT EXISTS (
-            SELECT 1 FROM historial_instancia_reservas as h2
-            WHERE h2.estado_instancia_id NOT IN (2,3,4,5) AND
-            h2.fecha_reserva = h.fecha_reserva AND
-            h2.reserva_id = h.reserva_id AND
-            h2.user_id = h.user_id AND
-            h2.bloque_id = h.bloque_id
-        )";
+        INNER JOIN users as u ON u.id=sub1.user_id
+        INNER JOIN ubicaciones as ubi ON ubi.id=r.ubicacione_id
+        WHERE u.id=?";
         $resultados=DB::select($reservas,[$user_id]);
         if ($resultados!=[]){
             $mostrarResultados=true;
