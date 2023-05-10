@@ -24,13 +24,13 @@
     <form action="{{route('post_implemento_cancelar')}}" method="POST">
         
         @csrf
+        @if($mostrarResultados == true)
     <table class = "table table-striped">
     <thead>
         <tr>
             <th>Fecha</th>
             <th>Nombre</th>
             <th>Hora</th>
-            <th>Cantidad</th>
             <th></th>
 </tr>
 </thead>
@@ -40,16 +40,18 @@
             <th>{{$cancelar->fecha_reserva}}</th>
             <th>{{$cancelar->nombre}}</th>
             <th>{{$cancelar->hora_inicio}}</th>
-            <th>{{$cancelar->cantidad}}</th>
             <th><input type="checkbox" name="a_cancelar[]" value="{{ $cancelar->fecha_reserva }}|{{ $cancelar->bloque_id }}|{{ $cancelar->reserva_id }}|{{ $cancelar->user_id}}"></th>
 </tr>
     @endforeach
 </tbody>
 </table>
         <button type="submit">Cancelar</button>
-        
-
+        @else
+                    <p>No tienes reservas para cancelar.</p>
+                @endif
+                
+                </form>
     <button class="button" onclick="window.location='{{route('usuario_menuestudiante')}}' ">Volver atrás</button>
-        </form>
+        
     </div>
 @endsection
