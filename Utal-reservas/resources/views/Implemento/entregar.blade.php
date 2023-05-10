@@ -16,29 +16,77 @@
         <button type="button" class="btn btn-default col-xs-4 boton_activo">Implementos</button>
 
     </div>
+    <br>
 
-    <h1> Entregar implemento</h1>
+    <div class="box_entregar_ligteblue">
+        <div id="div_resultados">
 
+            <h1> Entregar implementos</h1>
 
-    <form action="{{route('post_implemento_entregar')}}" method="POST">
-        @csrf
-        <button type="submit">Buscar reservas del usuario</button>
-    </form>
+            <form action="{{route('post_implemento_entregar')}}" method="POST">
+                @csrf
+                <input type="text" placeholder="Rut: 12.345.678-9" name="rut">
+                <button type="submit">Buscar reservas del usuario</button>
+            </form>
 
-     <div id="div_resultados">
-         <h1> Resultados de busqueda </h1>
-         <form action="{{route('post_implemento_entregar_resultados')}}" method="POST">
-             @csrf
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+        </div>
+    </div>
 
-             @if($mostrarResultados == true && $resultados != "")
-                 <p> {{$resultados}}</p>
-                 <button type="submit">Entregar</button>
-             @else
-                 <p>No se encontraron resultados.</p>
-             @endif
+    <br>
 
-         </form>
-     </div>
+    <div class="box_entregar_ligteblue1">
+        <div id="div_resultados">
+            <form action="{{route('post_implemento_entregar_resultados')}}" method="POST">
+                @csrf
+            
+                @if($mostrarResultados == true)
+                    <h1 align="left"> Datos del estudiante: </h1>
+                    <p>
+                        <b>Nombre:</b> {{ $resultados[0]->name }} <br>
+                        <b>Rut:</b> {{ $resultados[0]->rut }} <br>
+                        <b>Correo:</b> {{ $resultados[0]->email }} <br>
+                    </p>
+                    <h1 align="left"> Resultados de busqueda: </h1>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Fecha       </th>
+                                <th>Nombre      </th>
+                                <th>Hora inicio </th>
+                                <th>Hora fin    </th>
+                                <th>Ubicacion   </th>
+                                <th>Entregar    </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($resultados as $resultado)
+                            <tr>
+                                <th> {{ $resultado->fecha_reserva }} </th>
+                                <th> {{ $resultado->nombre }} </th>
+                                <th> {{ $resultado->hora_inicio }} </th>
+                                <th> {{ $resultado->hora_fin }} </th>
+                                <th> {{ $resultado->nombre_ubicacion }} </th>
+                                <td>
+                                    <input type="checkbox" name="resultados_seleccionados[]" value="{{ $resultado->fecha_reserva }}|{{ $resultado->reserva_id }}|{{ $resultado->user_id }}|{{ $resultado->bloque_id }}">
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
 
-    <button class="button" onclick="window.location='{{route('usuario_menumoderador')}}' ">Volver menu</button>
+                    <button type="submit" style="display:inline-block">Entregar</button>
+                    <button onclick="window.location='{{route('usuario_menumoderador')}}'" style="display:inline-block">Volver menu</button>
+                @else
+                    <p>No se encontraron resultados.</p>
+                @endif
+
+            </form>
+        </div>
+    </div>
+
 @endsection
