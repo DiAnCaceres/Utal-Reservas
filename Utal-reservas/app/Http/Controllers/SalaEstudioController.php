@@ -440,4 +440,20 @@ class SalaEstudioController extends Controller
         return redirect()->route('salaestudio_recepcionar');//->with('datos', $datos);
     }
 
+    /*---- Deshabilitar --- */
+    public function get_deshabilitar(){
+        $consulta = "";
+        $resultados=DB::select($consulta);
+        if (count($resultados)>0){
+            $mostrarResultados=true;
+        }else {
+            $mostrarResultados=false;
+        }
+        return view('salaestudio.deshabilitar',compact('resultados','mostrarResultados'));
+    }
+
+    public function post_deshabilitar(Request $request){
+        // capturar los tickeados y deshabilitarlos
+        return redirect()->route('salaestudio_deshabilitar') ->with("success","Se ha deshabilitado correctamente tu seleccion");//->with('datos', $datos);
+    }
 }
