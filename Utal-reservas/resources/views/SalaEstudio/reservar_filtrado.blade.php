@@ -13,7 +13,7 @@
 </div>
 
 <div class="contenedorReserva">             <!-- Contenedor general  -->
-    <div class="box_registro_ligteblue">                <!-- Caja celeste que engloba a los datos  -->
+    <div class="box_reserva_ligteblue">                <!-- Caja celeste que engloba a los datos  -->
 
         <h1><b> Resultados busqueda sala de estudio </b></h1>
 
@@ -31,12 +31,16 @@
             <select name="seleccionSala" id="salas">
                 <!-- -->
                 @foreach($salasEstudioDisponible as $sala)
-                    <option name="sala" value="{{ $sala->id }}">{{ $sala->nombre }}</option>
+                    <option name="sala" value="{{ $sala->id }}"> Nombre:{{ $sala->nombre }} / Ubicacion: {{ $sala->nombre_ubicacion }} / Capacidad: {{ $sala->capacidad }}</option>
                 @endforeach
             </select>
 
             <div class="separacion">         <!-- Contenedor para un separador, esto con el fin de que quede en el centro el boloque celeste  -->
             </div>
+            <div class="container">
+                <input type="checkbox" id="miCheckbox" name="bloque_sgte">
+                <label for="bloque_sgte">¿Desea reservar el siguiente bloque?</label>
+            </div> 
 
             <button type="submit" class="button-reservar">Reservar<i class="ri-arrow-right-line"></i></button>
             <button type="button" class="button-volver" onclick="window.location='{{ route('salaestudio_reservar') }}'">Volver</button>
@@ -53,6 +57,7 @@
             @endif
 
         </form>
+
     </div>
 </div>
 @endsection

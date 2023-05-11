@@ -10,7 +10,7 @@ class UsersController extends Controller
 {
     // url por defecto al inicio del programa, retorna la vista home
     public function __invoke(){
-        return view('usuario.home');
+        return view('usuario.login');
     }
 
     public function get_menuadministrador(){

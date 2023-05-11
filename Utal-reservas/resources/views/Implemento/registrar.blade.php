@@ -62,6 +62,8 @@
             @endif
 
         </form>
+
+        <button class="button" onclick="window.location='{{route('usuario_menuadministrador')}}' ">Volver atrás</button>
     </div>
 </div>
 

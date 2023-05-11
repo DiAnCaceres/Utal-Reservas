@@ -27,6 +27,9 @@
         <form action="{{route('post_implemento_reservar')}}" method="POST">
             @csrf
             <input class="form-control" type="fecha-local" placeholder="Seleccionar fecha" name="fecha">
+            @if ($errors->has('fecha'))
+                <span class="text-danger">{{ $errors->first('fecha') }}</span>
+            @endif
 
             <label for='bloques' style="margin-right: 200px;">Bloques:</label>
             <select name="bloques" id="bloques">
@@ -34,11 +37,22 @@
                 <option name="bloque" value="{{ $bloque->id }}">{{ $bloque->hora_inicio }} - {{ $bloque->hora_fin }}</option>
             @endforeach
             </select>
-
+            
+            @if ($errors->has('bloque'))
+                <span class="text-danger">{{ $errors->first('bloque') }}</span>
+            @endif
             <button type="submit">Buscar implemento disponible</button>
 
             {{-- <!-- <button type="button" onclick="window.location='{{ route('implemento_reservar_filtrado') }}'">Buscar canchas disponibles</button> --> --}}
         </form>
+
+        @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
+
+        <button class="button" onclick="window.location='{{route('usuario_menuestudiante')}}' ">Volver atrás</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

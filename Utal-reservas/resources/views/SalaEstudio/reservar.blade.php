@@ -27,6 +27,9 @@
         <form action="{{route('post_salaestudio_reservar')}}" method="POST">
             @csrf
             <input class="form-control" type="fecha-local" placeholder="Seleccionar fecha" name="fecha">
+            @if ($errors->has('fecha'))
+                <span class="text-danger">{{ $errors->first('fecha') }}</span>
+            @endif
 
             <label for='bloques' style="margin-right: 200px;">Bloques:</label>
             <select name="bloques" id="bloques">
@@ -35,10 +38,22 @@
             @endforeach
             </select>
 
+            @if ($errors->has('bloque'))
+                <span class="text-danger">{{ $errors->first('bloque') }}</span>
+            @endif
+
             <button type="submit">Buscar sala disponible</button>
 
             <!--  {{-- <button type="button" onclick="window.location='{{ route('salaestudio_reservar_filtrado') }}'">Buscar canchas disponibles</button> --}}  -->
         </form>
+
+        <button class="button" onclick="window.location='{{route('usuario_menuestudiante')}}' ">Volver atrás</button>
+        
+        @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

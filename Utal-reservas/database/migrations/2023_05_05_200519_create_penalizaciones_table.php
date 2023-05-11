@@ -9,15 +9,16 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('historial_instancia_reservas', function (Blueprint $table) {
+        Schema::create('penalizaciones', function (Blueprint $table) {
+            $table->id();
             $table->date('fecha_reserva');
             $table->unsignedBigInteger('reserva_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('bloque_id');
-            $table->date('fecha_estado');
-            $table->foreignId('estado_instancia_id')->constrained();
+            $table->date('fecha_penalizacion');
+            $table->foreignId('estado_penalizacione_id')->constrained();
 
             $table->foreign('fecha_reserva')->references('fecha_reserva')->on('instancia_reservas')->onDelete('cascade');
             $table->foreign('reserva_id')->references('reserva_id')->on('instancia_reservas')->onDelete('cascade');
@@ -26,12 +27,11 @@ return new class extends Migration
         });
     }
 
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('historial_reservas');
+        Schema::dropIfExists('penalizaciones');
     }
 };

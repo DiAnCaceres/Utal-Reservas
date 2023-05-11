@@ -81,10 +81,45 @@ header span {
 
 .box_reserva_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
     display: flex;
-    flex-direction: column;     
-    width: 25%;
+    flex-direction: column;
+    margin-left: 32%;
+    width: 40%;
     background-color: #00cccc;
     padding: 20px 30px;
+    border-radius: 12px;
+}
+
+.box_entregar_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: block;   
+    margin-left: 42%;
+    width: 20%;
+    background-color: #00cccc;
+    padding: 20px 20px;
+    border-radius: 12px;
+}
+.box_entregar_ligteblue1 {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: inline-block;
+    margin-left: 28%;
+    width: 50%;
+    background-color: #00cccc;
+    padding: 20px 20px;
+    border-radius: 12px;
+}
+
+.box_entregar_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: block;   
+    margin-left: 42%;
+    width: 20%;
+    background-color: #00cccc;
+    padding: 20px 20px;
+    border-radius: 12px;
+}
+.box_entregar_ligteblue1 {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: inline-block;
+    margin-left: 28%;
+    width: 50%;
+    background-color: #00cccc;
+    padding: 20px 20px;
     border-radius: 12px;
 }
 
@@ -191,9 +226,44 @@ form input {
     border-radius: 15px;
     margin-left: 15%;
     margin-right: 15%;
+    margin-top:-5%;
+}
+
+.box_recepcionar_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: block;   
+    margin-left: 42%;
+    width: 20%;
+    background-color: #00cccc;
+    padding: 20px 20px;
+    border-radius: 12px;
+}
+.box_recepcionar_ligteblue1 {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: inline-block;
+    margin-left: 28%;
+    width: 50%;
+    background-color: #00cccc;
+    padding: 20px 20px;
+    border-radius: 12px;
 }
     
-
+.box_recepcionar_ligteblue {                   /*  Caja celeste bajo los servicios recepcionables */ 
+    display: line;;     
+    margin-left: 40%;
+    width: 25%;
+    background-color: #00cccc;
+    padding: 20px 20px;
+    border-radius: 12px;
+    }
+    
+.box_recepcionar_ligteblue1 {                   /*  Caja celeste bajo los servicios recepcionables */ 
+    display: block;;     
+    margin-left: 28%;
+    width: 50%;
+    background-color: #00cccc;
+    padding: 20px 20px;
+    border-radius: 12px;
+    }  
+    
 .boton_servicios {                        /* Boton como tal  */ 
     width: 75px;
     height: 75px;
@@ -280,6 +350,24 @@ form input {
     color: #fff; 
     } 
 
+.box_recepcionar_ligteblue {                   /*  Caja celeste bajo los servicios recepcionables */ 
+    display: line;;     
+    margin-left: 40%;
+    width: 25%;
+    background-color: #00cccc;
+    padding: 20px 20px;
+    border-radius: 12px;
+    }
+    
+.box_recepcionar_ligteblue1 {                   /*  Caja celeste bajo los servicios recepcionables */ 
+    display: block;;     
+    margin-left: 28%;
+    width: 50%;
+    background-color: #00cccc;
+    padding: 20px 20px;
+    border-radius: 12px;
+    }    
+
 .box_cantidades_ligteblue {                   /*  Caja celeste para la seccion de agregar o eliminar implementos */ 
     display: flex;
     flex-direction: column;
@@ -339,3 +427,29 @@ form input {
     /*text-transform: uppercase; capitalización texto*/
     font-family: 'Helvetica', sans-serif; /*tipografía texto*/
     }
+
+
+.rut_usuario {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin: auto;
+}
+
+.tabla_resultados td {
+    padding: 4px 8px;
+}
+
+.tabla_resultados td input {
+    width: 50%;
+    height: 20px;
+    border-radius: 4px;
+    border: none;
+    outline: 0px;
+    margin: 0px 10px;   
+    padding: 0px 5px;
+}
+
+.tabla_resultados th {
+    padding: 0px 4px;
+}

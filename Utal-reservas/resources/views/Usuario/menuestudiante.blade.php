@@ -24,10 +24,11 @@
 
         <div class="buttons column">
             {{-- <button class="button" type="button" onclick="window.location='{{ route('profile.edit') }}' ">Perfil</button> --}}
-            <button type="button" class="button" onclick="window.location='{{ route('salaestudio_reservar') }}'">Reservar sala estudio</button>
-            <button type="button" class="button" onclick="window.location='{{ route('cancha_reservar') }}'">Reservar cancha</button>
-            <button type="button" class="button" onclick="window.location='{{ route('salagimnasio_reservar') }}'">Reservar sala gimnasio</button>
-            <button type="button" class="button" onclick="window.location='{{ route('implemento_reservar') }}'">Reservar implemento</button>
+            <button type="button" class="button" onclick="window.location='{{ route('salaestudio_reservar') }}'">Ir a Reservar</button>
+            
+
+            <!-- BOTONES SEMANA 4-->
+            <button class="button" onclick="window.location='{{route('salaestudio_cancelar')}}' ">Cancelar reserva</button>
             
         </div>
 
