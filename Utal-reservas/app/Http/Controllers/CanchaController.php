@@ -95,11 +95,11 @@ class CanchaController extends Controller
             if($fecha_actual == $fecha_reserva){
                 $hora_actual = Carbon::now()->format('H:i:s');
                 $bloque = DB::table('bloques')->where('id', $id_bloque)->first();
-                
+
                 if($hora_actual>$bloque->hora_inicio){
                     return back()->withErrors(['bloque' => 'La hora seleccionada no es válida.']);
                 }
-                
+
             }
 
             $comprobacion = "
@@ -256,7 +256,7 @@ class CanchaController extends Controller
         if ($resultados!=[]){
             $mostrarResultados=true;
         }
-    
+
          // Ejecutar la consulta y pasar el parámetro del usuario
         return view('cancha.cancelar', ['reservas' => $resultados], ['mostrarResultados' => $mostrarResultados]);
         /*return($reservas);*/
@@ -290,7 +290,7 @@ class CanchaController extends Controller
     }
 
     public function post_entregar(Request $request){
-        
+
         $fechaActual = date("Y-m-d", strtotime("now"));
         $rut = $request->input('rut');
         $mostrarResultados=false;
@@ -304,10 +304,18 @@ class CanchaController extends Controller
         WHERE
         h.estado_instancia_id=1 AND /* es 1 ya que la instancia debe estar reservada pero sin entregar*/
         u.rut=? AND /* variar el 3 por ? e ingresar lo capturado en frontend*/
-        h.fecha_reserva=? /* variar la fecha por ? e ingresar lo capturado por el frontend*/";
+        h.fecha_reserva=? AND
+        NOT EXISTS (
+            SELECT 1 FROM historial_instancia_reservas as h2
+            WHERE h2.estado_instancia_id NOT IN (2,3,4,5) AND
+            h2.fecha_reserva = h.fecha_reserva AND
+            h2.reserva_id = h.reserva_id AND
+            h2.user_id = h.user_id AND
+            h2.bloque_id = h.bloque_id
+        )";
 
         $resultados=DB::select($consulta, [$rut, $fechaActual]);
-        
+
         if (count($resultados)>0){
             $mostrarResultados=true;
         }
