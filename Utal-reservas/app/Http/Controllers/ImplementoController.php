@@ -267,7 +267,15 @@ class ImplementoController extends Controller
         INNER JOIN bloques as b ON b.id = h.bloque_id
         INNER JOIN implementos as se ON se.reserva_id = r.id
         WHERE h.estado_instancia_id=1 AND
-        h.user_id=?";
+        h.user_id=? AND
+        NOT EXISTS (
+            SELECT 1 FROM historial_instancia_reservas as h2
+            WHERE h2.estado_instancia_id NOT IN (2,3,4,5) AND
+            h2.fecha_reserva = h.fecha_reserva AND
+            h2.reserva_id = h.reserva_id AND
+            h2.user_id = h.user_id AND
+            h2.bloque_id = h.bloque_id
+        )";
         $resultados=DB::select($reservas,[$user_id]);
         if ($resultados!=[]){
             $mostrarResultados=true;
