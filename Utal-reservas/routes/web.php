@@ -166,4 +166,19 @@ Route::get('/implemento_entregar_filtrado', [ImplementoController::class, 'get_e
 
 Route::post('post_implemento_entregar_filtrado', [ImplementoController::class, 'post_entregar_filtrado'])->name('post_implemento_entregar_filtrado')->middleware('moderador');
 
+/* ------------------ SEMANA 5 -------------------------------*/
+/* Recepcionar cancha*/
+Route::get('/cancha_recepcionar', [CanchaController::class, 'get_recepcionar'])->name('cancha_recepcionar')->middleware('moderador');
+
+Route::post('post_cancha_recepcionar', [CanchaController::class, 'post_recepcionar'])->name('post_cancha_recepcionar')->middleware('moderador');
+
+Route::post('post_cancha_recepcionar_resultados', [CanchaController::class, 'post_recepcionar_resultados'])->name('post_cancha_recepcionar_resultados')->middleware('moderador');
+
+/* Recepcionar implemento*/
+Route::get('/implemento_recepcionar', [ImplementoController::class, 'get_recepcionar'])->name('implemento_recepcionar')->middleware('moderador');
+
+Route::post('post_implemento_recepcionar', [ImplementoController::class, 'post_recepcionar'])->name('post_implemento_recepcionar')->middleware('moderador');
+
+Route::post('post_implemento_recepcionar_resultados', [ImplementoController::class, 'post_recepcionar_resultados'])->name('post_implemento_recepcionar_resultados')->middleware('moderador');
+
 

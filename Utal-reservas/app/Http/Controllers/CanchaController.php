@@ -357,4 +357,22 @@ class CanchaController extends Controller
         return redirect()->route('cancha_entregar');//->with('datos', $datos);
     }
 
+    /* RECEPCIONAR */
+    public function get_recepcionar(){
+        $resultados="";
+        $mostrarResultados=false;
+        return view('cancha.recepcionar',compact('resultados','mostrarResultados'));
+    }
+
+    public function post_recepcionar(Request $request){
+        $resultados=""; // modificar
+        $mostrarResultados=true; // modificar
+        return view('cancha.recepcionar',compact('resultados','mostrarResultados'));
+    }
+
+    public function post_recepcionar_resultados(Request $request){
+        // modificar acá en el interior
+        return redirect()->route('cancha_recepcionar') ->with("success","Cancha(s) recepcionada(s) correctamente");//->with('datos', $datos);
+    }
+
 }

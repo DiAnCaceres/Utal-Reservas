@@ -372,4 +372,24 @@ class ImplementoController extends Controller
     public function post_entregar_filtrado(Request $request){
         return redirect()->route('implemento_entregar');//->with('datos', $datos);
     }
+
+    /* Semana 5*/
+
+    /* RECEPCIONAR */
+    public function get_recepcionar(){
+        $resultados="";
+        $mostrarResultados=false;
+        return view('implemento.recepcionar',compact('resultados','mostrarResultados'));
+    }
+
+    public function post_recepcionar(Request $request){
+        $resultados=""; // modificar
+        $mostrarResultados=true; // modificar
+        return view('implemento.recepcionar',compact('resultados','mostrarResultados'));
+    }
+
+    public function post_recepcionar_resultados(Request $request){
+        // modificar acá en el interior
+        return redirect()->route('implemento_recepcionar') ->with("success","Cancha(s) recepcionada(s) correctamente");//->with('datos', $datos);
+    }
 }
