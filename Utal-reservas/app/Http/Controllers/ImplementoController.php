@@ -318,24 +318,19 @@ class ImplementoController extends Controller
         $rut = $request->input('rut');
         $mostrarResultados=false;
 
-        $consulta = "SELECT * FROM historial_instancia_reservas as h
-        INNER JOIN reservas as r ON r.id = h.reserva_id
-        INNER JOIN bloques as b ON b.id = h.bloque_id
-        INNER JOIN implementos as can ON can.reserva_id = r.id
-        INNER JOIN users as u ON u.id=h.user_id
-        INNER JOIN ubicaciones as ubi ON ubi.id=r.ubicacione_id
-        WHERE
-        h.estado_instancia_id=1 AND /* es 1 ya que la instancia debe estar reservada pero sin entregar*/
-        u.rut=? AND /* variar el 3 por ? e ingresar lo capturado en frontend*/
-        h.fecha_reserva=? AND
-        NOT EXISTS (
-            SELECT 1 FROM historial_instancia_reservas as h2
-            WHERE h2.estado_instancia_id=2 AND
-            h2.fecha_reserva = h.fecha_reserva AND
-            h2.reserva_id = h.reserva_id AND
-            h2.user_id = h.user_id AND
-            h2.bloque_id = h.bloque_id
-        )";
+        $consulta="SELECT *
+            FROM (
+                SELECT fecha_reserva, user_id, reserva_id, bloque_id, COUNT(*) AS total
+                FROM historial_instancia_reservas AS h
+                GROUP BY fecha_reserva, user_id, reserva_id, bloque_id
+				 HAVING total >=1 AND total<2
+            ) AS sub1
+            INNER JOIN reservas as r ON r.id = sub1.reserva_id
+            INNER JOIN bloques as b ON b.id = sub1.bloque_id
+            INNER JOIN implementos as im ON im.reserva_id = r.id
+            INNER JOIN users as u ON u.id=sub1.user_id
+            INNER JOIN ubicaciones as ubi ON ubi.id=r.ubicacione_id
+            WHERE u.rut=? AND sub1.fecha_reserva=?";
 
         $resultados=DB::select($consulta, [$rut, $fechaActual]);
         //dd($resultados);
