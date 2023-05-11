@@ -43,6 +43,9 @@
                 @csrf
 
                 @if($mostrarResultados == true)
+                    <!--BORRAR: Javier, actualmente mostrará resultados cuando tenga resultados en la query,
+                    Sin embargo, al igual que con las anteriores, deberas mostrarlo en formato lista estos resultados
+                     te recomiendo utilizar el dd($) para debuguear-->
                     <h> Resultados</h>
                 @else
                     <p>No se encontraron resultados.</p>

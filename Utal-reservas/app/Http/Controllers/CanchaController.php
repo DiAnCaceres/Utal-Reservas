@@ -365,8 +365,30 @@ class CanchaController extends Controller
     }
 
     public function post_recepcionar(Request $request){
-        $resultados=""; // modificar
-        $mostrarResultados=true; // modificar
+        $rut = $request->input('rut');
+
+        $consulta = "SELECT *
+        FROM (
+            SELECT fecha_reserva, user_id, reserva_id, bloque_id, COUNT(*) AS total
+            FROM historial_instancia_reservas AS h
+            WHERE h.estado_instancia_id <> 5
+            GROUP BY fecha_reserva, user_id, reserva_id, bloque_id
+            HAVING total >= 2 AND total < 3
+        ) AS sub1
+        INNER JOIN reservas as r ON r.id = sub1.reserva_id
+        INNER JOIN bloques as b ON b.id = sub1.bloque_id
+        INNER JOIN canchas as can ON can.reserva_id = r.id
+        INNER JOIN users as u ON u.id=sub1.user_id
+        INNER JOIN ubicaciones as ubi ON ubi.id=r.ubicacione_id
+        WHERE u.rut=?";
+
+        $resultados=DB::select($consulta, [$rut]);
+        // dd($resultados); // funciona, sólo queda mostrarlo en tabla al frontend y bueno, capturar los ticket para recepcionarlos ..
+        if (count($resultados)>0){
+            $mostrarResultados=true;
+        } else{
+            $mostrarResultados=false;
+        }
         return view('cancha.recepcionar',compact('resultados','mostrarResultados'));
     }
 
