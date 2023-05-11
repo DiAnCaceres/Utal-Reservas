@@ -181,4 +181,24 @@ Route::post('post_implemento_recepcionar', [ImplementoController::class, 'post_r
 
 Route::post('post_implemento_recepcionar_resultados', [ImplementoController::class, 'post_recepcionar_resultados'])->name('post_implemento_recepcionar_resultados')->middleware('moderador');
 
+/* Deshabilitar sala estudio*/
+Route::get('/salaestudio_deshabilitar', [SalaEstudioController::class, 'get_deshabilitar'])->name('salaestudio_deshabilitar')->middleware('administrador');
+
+Route::post('post_salaestudio_deshabilitar', [SalaEstudioController::class, 'post_deshabilitar'])->name('post_salaestudio_deshabilitar')->middleware('administrador');
+
+/* Deshabilitar sala gimnasio*/
+Route::get('/salagimnasio_deshabilitar', [SalaGimnasioController::class, 'get_deshabilitar'])->name('salagimnasio_deshabilitar')->middleware('administrador');
+
+Route::post('post_salagimnasio_deshabilitar', [SalaGimnasioController::class, 'post_deshabilitar'])->name('post_salagimnasio_deshabilitar')->middleware('administrador');
+
+/* Deshabilitar cancha*/
+Route::get('/cancha_deshabilitar', [CanchaController::class, 'get_deshabilitar'])->name('cancha_deshabilitar')->middleware('administrador');
+
+Route::post('post_cancha_deshabilitar', [CanchaController::class, 'post_deshabilitar'])->name('post_cancha_deshabilitar')->middleware('administrador');
+
+/* Implemento cancha*/
+Route::get('/implemento_deshabilitar', [ImplementoController::class, 'get_deshabilitar'])->name('implemento_deshabilitar')->middleware('administrador');
+
+Route::post('post_implemento_deshabilitar', [ImplementoController::class, 'post_deshabilitar'])->name('post_implemento_deshabilitar')->middleware('administrador');
+
 
