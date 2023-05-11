@@ -365,9 +365,16 @@ class SalaGimnasioController extends Controller
             $reserva_id = $valores[2];
             $user_id = $valores[3];
 
-
-            $instancia_reserva = DB::table('historial_instancia_reservas')->where('fecha_reserva', $fecha)->where('bloque_id', $id_bloque)->where('reserva_id', $reserva_id)->where('user_id', $user_id)->update(['estado_instancia_id' => 2 ]);
-
+            $date = Carbon::now();
+            $date = $date->format('Y-m-d');
+            DB::table("historial_instancia_reservas")->insert([
+                "fecha_reserva"=>$fecha,
+                "user_id"=>$user_id,
+                "bloque_id"=>$id_bloque,
+                "reserva_id"=>$reserva_id,
+                "fecha_estado"=>$date,
+                "estado_instancia_id"=>2
+            ]);
         }
         return redirect()->route('salagimnasio_entregar') ->with("success","Sala gimnasio(s) entregada(s) correctamente");//->with('datos', $datos);
 

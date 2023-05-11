@@ -331,7 +331,7 @@ class ImplementoController extends Controller
         h.fecha_reserva=? AND
         NOT EXISTS (
             SELECT 1 FROM historial_instancia_reservas as h2
-            WHERE h2.estado_instancia_id NOT IN (2,3,4,5) AND
+            WHERE h2.estado_instancia_id=2 AND
             h2.fecha_reserva = h.fecha_reserva AND
             h2.reserva_id = h.reserva_id AND
             h2.user_id = h.user_id AND
