@@ -477,4 +477,30 @@ class SalaGimnasioController extends Controller
         // capturar los tickeados y deshabilitarlos
         return redirect()->route('salagimnasio_deshabilitar') ->with("success","Se ha deshabilitado correctamente tu seleccion");//->with('datos', $datos);
     }
+
+    /*--- Historial estudiante ---*/
+    public function get_historial_estudiante(){
+        $consulta = "";
+        $resultados=["resultados","sin","filtro"]; // demo, borrar hasta estar la consulta lista para que no arroje error x consulta vacia
+        //$resultados=DB::select($consulta);
+        if (count($resultados)>0){
+            $mostrarResultados=true;
+        }else {
+            $mostrarResultados=false;
+        }
+        return view('SalaGimnasio.historial_estudiante',compact('resultados','mostrarResultados'));
+    }
+
+    public function post_historial_estudiante(Request $request){
+        // la consulta aqui tendrá filtros, por tanto, debe modificarse según los que decida el programador
+        $consulta = "";
+        $resultados=["resultados","con","filtro"]; // demo, borrar hasta estar la consulta lista para que no arroje error x consulta vacia
+        //$resultados=DB::select($consulta);
+        if (count($resultados)>0){
+            $mostrarResultados=true;
+        }else {
+            $mostrarResultados=false;
+        }
+        return view('SalaGimnasio.historial_estudiante',compact('resultados','mostrarResultados'));
+    }
 }
