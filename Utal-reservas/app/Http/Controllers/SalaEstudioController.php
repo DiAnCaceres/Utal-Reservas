@@ -442,7 +442,11 @@ class SalaEstudioController extends Controller
 
     /*---- Deshabilitar --- */
     public function get_deshabilitar(){
-        $consulta = "";
+        $consulta = "SELECT r.nombre, ubi.nombre_ubicacion as ubicacion FROM reservas as r
+        INNER JOIN sala_estudios as se ON se.reserva_id = r.id
+        INNER JOIN estado_reservas as er ON er.id = r.estado_reserva_id
+        INNER JOIN ubicaciones as ubi ON ubi.id = r.ubicacione_id
+        WHERE r.estado_reserva_id = 2";
         $resultados=DB::select($consulta);
         if (count($resultados)>0){
             $mostrarResultados=true;
