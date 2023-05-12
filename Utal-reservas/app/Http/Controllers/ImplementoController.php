@@ -451,7 +451,7 @@ class ImplementoController extends Controller
 
     public function post_historial_estudiante(Request $request){
         // la consulta aqui tendrá filtros, por tanto, debe modificarse según los que decida el programador
-        $consulta = "SELECT u.name, r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
+        $consulta = "SELECT r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
         INNER JOIN implementos as imp on imp.reserva_id = h.reserva_id
         INNER JOIN bloques as blo on blo.id = h.bloque_id
         INNER JOIN reservas as r on r.id = h.reserva_id

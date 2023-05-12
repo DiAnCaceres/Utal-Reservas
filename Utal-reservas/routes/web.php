@@ -214,3 +214,16 @@ Route::post('post_cancha_historial_estudiante',[CanchaController::class,'post_hi
 
 Route::get('/implemento_historial_estudiante',[ImplementoController::class,'get_historial_estudiante'])->name('implemento_historial_estudiante')->middleware('estudiante');
 Route::post('post_implemento_historial_estudiante',[ImplementoController::class,'post_historial_estudiante'])->name('post_implemento_historial_estudiante')->middleware('estudiante');
+
+/* Historial moderador */
+Route::get('/salaestudio_historial_moderador',[SalaEstudioController::class,'get_historial_moderador'])->name('salaestudio_historial_moderador')->middleware('moderador');
+Route::post('post_salaestudio_historial_moderador',[SalaEstudioController::class,'post_historial_moderador'])->name('post_salaestudio_historial_moderador')->middleware('moderador');
+
+Route::get('/salagimnasio_historial_moderador',[SalaGimnasioController::class,'get_historial_moderador'])->name('sala-gimnasio.get_historial_moderador')->middleware('moderador');
+Route::post('post_salagimnasio_historial_moderador',[SalaGimnasioController::class,'post_historial_moderador'])->name('post_salagimnasio_historial_moderador')->middleware('moderador');
+
+Route::get('/cancha_historial_moderador',[CanchaController::class,'get_historial_moderador'])->name('cancha.get_historial_moderador')->middleware('moderador');
+Route::post('post_cancha_historial_moderador',[CanchaController::class,'post_historial_moderador'])->name('post_cancha_historial_moderador')->middleware('moderador');
+
+Route::get('/implemento_historial_moderador',[ImplementoController::class,'get_historial_moderador'])->name('implemento_historial_moderador')->middleware('moderador');
+Route::post('post_implemento_historial_moderador',[ImplementoController::class,'post_historial_moderador'])->name('post_implemento_historial_moderador')->middleware('moderador');

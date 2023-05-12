@@ -463,7 +463,7 @@ class SalaEstudioController extends Controller
 
     /*--- Historial estudiante ---*/
     public function get_historial_estudiante(){
-        $consulta = "SELECT u.name, r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
+        $consulta = "SELECT r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
         INNER JOIN sala_estudios as se on se.reserva_id = h.reserva_id
         INNER JOIN bloques as blo on blo.id = h.bloque_id
         INNER JOIN reservas as r on r.id = h.reserva_id
