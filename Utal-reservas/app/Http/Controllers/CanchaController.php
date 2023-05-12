@@ -459,6 +459,7 @@ class CanchaController extends Controller
 
     /*--- Historial moderador ---*/
     public function get_historial_moderador(){
+        $botonApretado=false;
         $consulta = "SELECT u.name, r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
         INNER JOIN canchas as can on can.reserva_id = h.reserva_id
         INNER JOIN bloques as blo on blo.id = h.bloque_id
@@ -470,13 +471,12 @@ class CanchaController extends Controller
         ";
 
         $resultados=DB::select($consulta);
-        dd($resultados);
         if (count($resultados)>0){
             $mostrarResultados=true;
         }else {
             $mostrarResultados=false;
         }
-        return view('Cancha.historial_moderador',compact('resultados','mostrarResultados'));
+        return view('Cancha.historial_moderador',compact('resultados','mostrarResultados','botonApretado'));
     }
 
     public function post_historial_moderador(Request $request){
@@ -486,9 +486,11 @@ class CanchaController extends Controller
         //$resultados=DB::select($consulta);
         if (count($resultados)>0){
             $mostrarResultados=true;
+            $botonApretado=true;
         }else {
             $mostrarResultados=false;
+            $botonApretado=false;
         }
-        return view('Cancha.historial_moderador',compact('resultados','mostrarResultados'));
+        return view('Cancha.historial_moderador',compact('resultados','mostrarResultados','botonApretado'));
     }
 }
