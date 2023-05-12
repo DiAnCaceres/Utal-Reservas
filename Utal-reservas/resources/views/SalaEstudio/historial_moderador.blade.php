@@ -9,4 +9,38 @@
 
 @section('content')
     <h1> Historial Salas de Estudio</h1>
+
+    <div class="box_recepcionar_ligteblue">
+        <div id="div_resultados">
+
+            <h1> Recepcionar Cancha</h1>
+
+            <form action="{{route('post_salaestudio_historial_moderador')}}" method="POST">
+                @csrf
+                <button type="submit">Aplicar filtro</button>
+
+                <!-- MOSTRAR LA TABLA DE LOS RESULTADOS -->
+                @if($mostrarResultados == true)
+                    <!-- MOSTRAR LA TABLA DE LOS RESULTADOS - CON FILTRO -->
+                    @foreach($resultados as $resultado)
+                        <p> {{$resultado}}</p>
+                    @endforeach
+                @else
+                    <!-- MOSTRAR LA TABLA DE LOS RESULTADOS - SIN FILTRO -->
+                    @foreach($resultados as $resultado)
+                        <p> {{$resultado}}</p>
+                    @endforeach
+                @endif
+
+
+
+            </form>
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+        </div>
+    </div>
 @endsection
