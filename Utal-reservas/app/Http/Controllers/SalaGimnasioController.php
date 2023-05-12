@@ -480,9 +480,20 @@ class SalaGimnasioController extends Controller
 
     /*--- Historial estudiante ---*/
     public function get_historial_estudiante(){
-        $consulta = "";
-        $resultados=["resultados","sin","filtro"]; // demo, borrar hasta estar la consulta lista para que no arroje error x consulta vacia
-        //$resultados=DB::select($consulta);
+        $user_id=Auth::user()->id;
+        $consulta = "SELECT r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
+        INNER JOIN sala_gimnasios as sg on sg.reserva_id = h.reserva_id
+        INNER JOIN bloques as blo on blo.id = h.bloque_id
+        INNER JOIN reservas as r on r.id = h.reserva_id
+        INNER JOIN ubicaciones as ubi on ubi.id = r.ubicacione_id
+        INNER JOIN users as u on u.id = h.user_id
+        INNER JOIN estado_instancias as ei on ei.id = h.estado_instancia_id
+        WHERE u.id=?
+        ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC
+        ";
+
+        $resultados=DB::select($consulta, [$user_id]);
+        dd($resultados);
         if (count($resultados)>0){
             $mostrarResultados=true;
         }else {
@@ -493,15 +504,7 @@ class SalaGimnasioController extends Controller
 
     public function post_historial_estudiante(Request $request){
         // la consulta aqui tendrá filtros, por tanto, debe modificarse según los que decida el programador
-        $consulta = "SELECT r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
-        INNER JOIN sala_gimnasios as sg on sg.reserva_id = h.reserva_id
-        INNER JOIN bloques as blo on blo.id = h.bloque_id
-        INNER JOIN reservas as r on r.id = h.reserva_id
-        INNER JOIN ubicaciones as ubi on ubi.id = r.ubicacione_id
-        INNER JOIN users as u on u.id = h.user_id
-        INNER JOIN estado_instancias as ei on ei.id = h.estado_instancia_id
-        ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC
-        ";
+        $consulta="";
         $resultados=["resultados","con","filtro"]; // demo, borrar hasta estar la consulta lista para que no arroje error x consulta vacia
         //$resultados=DB::select($consulta);
         if (count($resultados)>0){
@@ -510,5 +513,40 @@ class SalaGimnasioController extends Controller
             $mostrarResultados=false;
         }
         return view('SalaGimnasio.historial_estudiante',compact('resultados','mostrarResultados'));
+    }
+
+    /*--- Historial moderador ---*/
+    public function get_historial_moderador(){
+        $consulta = "SELECT u.name, r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
+        INNER JOIN sala_gimnasios as sg on sg.reserva_id = h.reserva_id
+        INNER JOIN bloques as blo on blo.id = h.bloque_id
+        INNER JOIN reservas as r on r.id = h.reserva_id
+        INNER JOIN ubicaciones as ubi on ubi.id = r.ubicacione_id
+        INNER JOIN users as u on u.id = h.user_id
+        INNER JOIN estado_instancias as ei on ei.id = h.estado_instancia_id
+        ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC
+        ";
+
+        $resultados=DB::select($consulta);
+        dd($resultados);
+        if (count($resultados)>0){
+            $mostrarResultados=true;
+        }else {
+            $mostrarResultados=false;
+        }
+        return view('SalaGimnasio.historial_moderador',compact('resultados','mostrarResultados'));
+    }
+
+    public function post_historial_moderador(Request $request){
+        // la consulta aqui tendrá filtros, por tanto, debe modificarse según los que decida el programador
+        $consulta = "";
+        $resultados=["resultados","con","filtro"]; // demo, borrar hasta estar la consulta lista para que no arroje error x consulta vacia
+        //$resultados=DB::select($consulta);
+        if (count($resultados)>0){
+            $mostrarResultados=true;
+        }else {
+            $mostrarResultados=false;
+        }
+        return view('SalaGimnasio.historial_moderador',compact('resultados','mostrarResultados'));
     }
 }
