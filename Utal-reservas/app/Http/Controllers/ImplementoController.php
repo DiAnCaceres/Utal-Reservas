@@ -439,6 +439,7 @@ class ImplementoController extends Controller
     /*--- Historial estudiante ---*/
     public function get_historial_estudiante(){
         $user_id=Auth::user()->id;
+        $botonApretado=false;
         $consulta = "SELECT r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
         INNER JOIN implementos as imp on imp.reserva_id = h.reserva_id
         INNER JOIN bloques as blo on blo.id = h.bloque_id
@@ -451,14 +452,13 @@ class ImplementoController extends Controller
         ";
 
         $resultados=DB::select($consulta, [$user_id]);
-        dd($resultados);
         //$resultados=DB::select($consulta);
         if (count($resultados)>0){
             $mostrarResultados=true;
         }else {
             $mostrarResultados=false;
         }
-        return view('Implemento.historial_estudiante',compact('resultados','mostrarResultados'));
+        return view('Implemento.historial_estudiante',compact('resultados','mostrarResultados','botonApretado'));
     }
 
     public function post_historial_estudiante(Request $request){
@@ -468,10 +468,12 @@ class ImplementoController extends Controller
         //$resultados=DB::select($consulta);
         if (count($resultados)>0){
             $mostrarResultados=true;
+            $botonApretado=true;
         }else {
             $mostrarResultados=false;
+            $botonApretado=false;
         }
-        return view('Implemento.historial_estudiante',compact('resultados','mostrarResultados'));
+        return view('Implemento.historial_estudiante',compact('resultados','mostrarResultados','botonApretado'));
     }
 
     /*--- Historial moderador ---*/
