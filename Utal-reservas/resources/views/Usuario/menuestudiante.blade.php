@@ -9,7 +9,7 @@
 
 @section('content')
 
-    
+
     <div class="columns">
 
         <div class="column">
@@ -25,11 +25,13 @@
         <div class="buttons column">
             {{-- <button class="button" type="button" onclick="window.location='{{ route('profile.edit') }}' ">Perfil</button> --}}
             <button type="button" class="button" onclick="window.location='{{ route('salaestudio_reservar') }}'">Ir a Reservar</button>
-            
+
 
             <!-- BOTONES SEMANA 4-->
             <button class="button" onclick="window.location='{{route('salaestudio_cancelar')}}' ">Cancelar reserva</button>
-            
+            <!-- BOTONES SEMANA 5-->
+            <button class="button" onclick="window.location='{{route('salaestudio_historial_estudiante')}}' ">Historial de reservas</button>
+
         </div>
 
         <div class="column">
@@ -45,5 +47,5 @@
         </div>
 
     </div>
-    
+
 @endsection

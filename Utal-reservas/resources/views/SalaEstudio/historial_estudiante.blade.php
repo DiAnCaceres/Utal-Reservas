@@ -8,6 +8,13 @@
 @endsection
 
 @section('content')
+    <div class="botonera">
+        <button type="button" class="btn btn-default col-xs-4 boton_activo">Sala de Estudios</button>
+        <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('salagimnasio_historial_estudiante') }}'">Salas Gimnasios</button>
+        <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('cancha_historial_estudiante') }}'">Canchas</button>
+        <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('implemento_historial_estudiante') }}'">Implemento</button>
+    </div>
+
     <h1> Mi Historial de Reservas: Salas Estudio</h1>
 
     <div class="box_recepcionar_ligteblue">
