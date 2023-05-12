@@ -117,7 +117,7 @@ class CanchaController extends Controller
                 $consulta = "SELECT * FROM canchas
                 INNER JOIN reservas ON reservas.id = canchas.reserva_id
                 INNER JOIN ubicaciones ON ubicaciones.id = reservas.ubicacione_id
-                WHERE reservas.id NOT IN (
+                WHERE reservas.estado_reserva_id=2 AND reservas.id NOT IN (
                 SELECT reservas.id FROM instancia_reservas
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
                 WHERE instancia_reservas.fecha_reserva = ? AND instancia_reservas.bloque_id = ?)";

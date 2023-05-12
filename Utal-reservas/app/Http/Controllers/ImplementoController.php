@@ -134,6 +134,7 @@ class ImplementoController extends Controller
                 $consulta = "SELECT * FROM implementos
                 INNER JOIN reservas ON reservas.id = implementos.reserva_id
                 INNER JOIN ubicaciones ON reservas.ubicacione_id = ubicaciones.id
+                WHERE reservas.estado_reserva_id=2
                 AND reserva_id NOT IN
                 ( SELECT reservas.id FROM instancia_reservas
                 INNER JOIN reservas ON instancia_reservas.reserva_id = reservas.id

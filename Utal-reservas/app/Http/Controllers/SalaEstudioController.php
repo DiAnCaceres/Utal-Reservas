@@ -125,7 +125,7 @@ class SalaEstudioController extends Controller
                 $consulta = "SELECT * FROM sala_estudios
                 INNER JOIN reservas ON reservas.id = sala_estudios.reserva_id
                 INNER JOIN ubicaciones ON reservas.ubicacione_id = ubicaciones.id
-                WHERE reservas.id NOT IN (
+                WHERE reservas.estado_reserva_id=2 AND reservas.id NOT IN (
                 SELECT reservas.id FROM instancia_reservas
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
                 WHERE instancia_reservas.fecha_reserva = ? AND instancia_reservas.bloque_id = ?)";

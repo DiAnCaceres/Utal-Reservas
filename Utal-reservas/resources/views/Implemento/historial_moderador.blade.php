@@ -24,6 +24,7 @@
                 @foreach($resultados as $resultado)
                     <!--  nombre 	nombre_ubicacion 	hora_inicio 	hora_fin 	fecha_reserva Ascendente 1 	estado 	fecha_estado 	-->
                     <p>
+                        {{$resultado->name}} -
                         {{$resultado->nombre}} -
                         {{$resultado->nombre_ubicacion}} -
                         {{$resultado->hora_inicio}} -

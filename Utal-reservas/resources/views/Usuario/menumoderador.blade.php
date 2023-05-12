@@ -23,17 +23,17 @@
                 <div class="card-content">
                     <div class="content">
                         <p> User ID: {{ Auth::user()->id }} </p>
-                    
+
                         <p> User Name: {{ Auth::user()->name }} </p>
 
                         <p> User Email: {{ Auth::user()->email }} </p>
-                        
+
                     </div>
                 </div>
             </div>
 
         </div> --}}
-        
+
         <div class="buttons column">
             {{-- <button class="button" type="button" onclick="window.location='{{ route('profile.edit') }}' ">Perfil</button> --}}
             <button class="button" type="button" onclick="window.location='{{ route('register_estudiante') }}' ">Registrar estudiante</button>
@@ -43,6 +43,8 @@
             <button class="button" onclick="window.location='{{route('salaestudio_entregar')}}' ">Entregar sala</button>
 
             <button class="button" onclick="window.location='{{route('salaestudio_recepcionar')}}' ">Recepcionar sala</button>
+            <!-- BOTONES SEMANA 4-->
+            <button class="button" onclick="window.location='{{route('salaestudio_historial_moderador')}}' ">Historial de reservas de estudiantes</button>
         </div>
 
         <div class="column">
@@ -58,10 +60,10 @@
         </div>
 
     </div>
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
 @endsection

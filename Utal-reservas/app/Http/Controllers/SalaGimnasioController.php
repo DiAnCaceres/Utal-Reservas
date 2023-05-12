@@ -125,6 +125,7 @@ class SalaGimnasioController extends Controller
                     SELECT * FROM sala_gimnasios
                     INNER JOIN reservas ON reservas.id = sala_gimnasios.reserva_id
                     INNER JOIN ubicaciones ON reservas.ubicacione_id = ubicaciones.id
+                    WHERE reservas.estado_reserva_id=2
                     AND reserva_id NOT IN (
                     SELECT reservas.id
                     FROM instancia_reservas
