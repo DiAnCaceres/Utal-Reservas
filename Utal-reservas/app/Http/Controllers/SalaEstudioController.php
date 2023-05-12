@@ -501,7 +501,8 @@ class SalaEstudioController extends Controller
 
     /*--- Historial moderador ---*/
     public function get_historial_moderador(){
-        $consulta = "SELECT u.name,r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
+        $botonApretado=false;
+        $consulta = "SELECT u.name as nombre_estudiante,r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
         INNER JOIN sala_estudios as se on se.reserva_id = h.reserva_id
         INNER JOIN bloques as blo on blo.id = h.bloque_id
         INNER JOIN reservas as r on r.id = h.reserva_id
@@ -511,13 +512,12 @@ class SalaEstudioController extends Controller
         ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC";
 
         $resultados=DB::select($consulta);
-        dd($resultados);
         if (count($resultados)>0){
             $mostrarResultados=true;
         }else {
             $mostrarResultados=false;
         }
-        return view('SalaEstudio.historial_moderador',compact('resultados','mostrarResultados'));
+        return view('SalaEstudio.historial_moderador',compact('resultados','mostrarResultados','botonApretado'));
     }
 
     public function post_historial_moderador(Request $request){
@@ -527,9 +527,11 @@ class SalaEstudioController extends Controller
         //$resultados=DB::select($consulta);
         if (count($resultados)>0){
             $mostrarResultados=true;
+            $botonApretado=true;
         }else {
             $mostrarResultados=false;
+            $botonApretado=false;
         }
-        return view('SalaEstudio.historial_moderador',compact('resultados','mostrarResultados'));
+        return view('SalaEstudio.historial_moderador',compact('resultados','mostrarResultados','botonApretado'));
     }
 }
