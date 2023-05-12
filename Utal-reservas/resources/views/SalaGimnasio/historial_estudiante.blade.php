@@ -13,26 +13,44 @@
     <div class="box_recepcionar_ligteblue">
         <div id="div_resultados">
 
-            <h1> Recepcionar Cancha</h1>
+            @if($mostrarResultados==true && $botonApretado==false)
+                @foreach($resultados as $resultado)
+                    <!--  nombre 	nombre_ubicacion 	hora_inicio 	hora_fin 	fecha_reserva Ascendente 1 	estado 	fecha_estado 	-->
+                    <p>
+                        {{$resultado->nombre}} -
+                        {{$resultado->nombre_ubicacion}} -
+                        {{$resultado->hora_inicio}} -
+                        {{$resultado->hora_fin}} -
+                        {{$resultado->fecha_reserva}} -
+                        {{$resultado->estado}} -
+                        {{$resultado->fecha_estado}}
+                    </p>
+                @endforeach
+            @elseif($mostrarResultados==false && $botonApretado==false)
+                <p>No hay datos</p>
+            @endif
 
             <form action="{{route('post_salagimnasio_historial_estudiante')}}" method="POST">
                 @csrf
-                <button type="submit">Aplicar filtro</button>
 
                 <!-- MOSTRAR LA TABLA DE LOS RESULTADOS -->
-                @if($mostrarResultados == true)
+                @if($mostrarResultados == true and $botonApretado==true)
                     <!-- MOSTRAR LA TABLA DE LOS RESULTADOS - CON FILTRO -->
                     @foreach($resultados as $resultado)
-                        <p> {{$resultado}}</p>
+                        <!--  nombre 	nombre_ubicacion 	hora_inicio 	hora_fin 	fecha_reserva Ascendente 1 	estado 	fecha_estado 	-->
+                        <p>
+                            {{$resultado}}
+                        </p>
                     @endforeach
-                @else
-                    <!-- MOSTRAR LA TABLA DE LOS RESULTADOS - SIN FILTRO -->
-                    @foreach($resultados as $resultado)
-                        <p> {{$resultado}}</p>
-                    @endforeach
+                @elseif($mostrarResultados == false and $botonApretado==true)
+                    <p>Sin resultados para el filtro</p>
                 @endif
 
-
+                @if($mostrarResultados==true and $botonApretado==false)
+                    <button type="submit">Aplicar filtro</button>
+                @elseif($mostrarResultados==true and $botonApretado==true)
+                    <button type="button"  onclick="window.location='{{ route('salagimnasio_historial_estudiante') }}'">Volver al historial sin filtro</button>
+                @endif
 
             </form>
 
