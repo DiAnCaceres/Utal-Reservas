@@ -17,7 +17,7 @@
     </div>
 
     <br>
-    <h1 style="text-align:center; font-weight:bold;">Deshabilitar Sala Estudio</h1>
+    <h1 style="text-align:center; font-weight:bold;">Deshabilitar Cancha</h1>
     <br>
 
     <div class="box_recepcionar_ligteblue1">
