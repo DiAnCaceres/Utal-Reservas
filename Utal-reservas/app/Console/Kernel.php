@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         //CADA UNA HORA SE VERIFICARÁ EL ESTADO DE LAS RESERVAS Q PUEDEN ESTAR VENCIDAS
         $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')
-                ->cron('*/70 * * * *')
+                ->cron('* * * * *')
                 ->between('8:30', '20:30');
     }
 
