@@ -7,6 +7,7 @@ use App\Http\Requests\Reserva\SalaEstudioRequest;
 use App\Models\Bloques;
 use App\Models\Ubicacion;
 use App\Models\Sala_Estudio;
+use App\Models\Estado_instancias;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -480,14 +481,15 @@ class SalaEstudioController extends Controller
         INNER JOIN estado_instancias as ei on ei.id = h.estado_instancia_id
         WHERE u.id=?
         ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC";
-
+        $ubicacionesEstudio = Ubicacion::where('categoria', 'educativo')->get();
+        $estados= Estado_instancias::all();
         $resultados=DB::select($consulta, [$user_id]);
         if (count($resultados)>0){
             $mostrarResultados=true;
         }else {
             $mostrarResultados=false;
         }
-        return view('SalaEstudio.historial_estudiante',compact('resultados','mostrarResultados','botonApretado'));
+        return view('SalaEstudio.historial_estudiante',compact('resultados','mostrarResultados','botonApretado','estados','ubicacionesEstudio'));
     }
 
     public function post_historial_estudiante(Request $request){
