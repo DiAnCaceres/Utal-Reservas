@@ -37,6 +37,8 @@
         </div>
     </div>
 
+    <br>
+    
     <div class="box_recepcionar_ligteblue1">
         <div id="div_resultados">
             <form action="{{route('post_implemento_recepcionar_resultados')}}" method="POST">
