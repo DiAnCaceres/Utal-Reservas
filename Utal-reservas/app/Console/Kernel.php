@@ -16,9 +16,16 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         //CADA UNA HORA SE VERIFICARÁ EL ESTADO DE LAS RESERVAS Q PUEDEN ESTAR VENCIDAS
-        $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')
-                ->cron('* * * * *')
-                ->between('8:30', '20:30');
+        $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')->dailyAt('9:40');
+        $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')->dailyAt('10:50');
+        $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')->dailyAt('12:00');
+        $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')->dailyAt('13:10');
+        $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')->dailyAt('14:20');
+        $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')->dailyAt('15:30');
+        $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')->dailyAt('16:40');
+        $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')->dailyAt('17:50');
+        $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')->dailyAt('19:00');
+        $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')->dailyAt('20:10');
     }
 
     /**

@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class VerificarHelper{
     public static function hacePenalizacion($fecha_reserva,$reserva_id,$user_id,$bloque_id,$fechaHoraActual){
-
         //FILTRAR AQUELLAS RESERVAS QUE SI SE MARCARON COMO FINALIZADAS/ASISTE
         $noExisteFinalizada = DB::table("historial_instancia_reservas")
                 ->whereDate('fecha_reserva', $fecha_reserva)
@@ -15,6 +14,7 @@ class VerificarHelper{
                 ->where('user_id', $user_id)
                 ->where('bloque_id', $bloque_id)
                 ->where('estado_instancia_id', 3)           //marca como finalizada
+                ->orWhere('estado_instancia_id',5)          //o está marca como cancelada (este es un caso extremo si la primera reserva fue cancelada y la segunda no)
                 ->doesntExist();
         
         if($noExisteFinalizada){
