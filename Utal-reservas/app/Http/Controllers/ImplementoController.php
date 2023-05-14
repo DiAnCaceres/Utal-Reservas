@@ -412,8 +412,26 @@ class ImplementoController extends Controller
     }
 
     public function post_recepcionar_resultados(Request $request){
-        // modificar acá en el interior
-        return redirect()->route('implemento_recepcionar') ->with("success","Cancha(s) recepcionada(s) correctamente");//->with('datos', $datos);
+         
+        $resultadosSeleccionados = $request->input('resultados_seleccionados');
+        foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
+            // Dividir el valor del checkbox usando el delimitador
+            list($fecha_reserva, $reserva_id, $user_id, $bloque_id) = explode('|', $resultadoSeleccionado);
+
+            $date = Carbon::now();
+            $date = $date->format('Y-m-d');
+
+            DB::table("historial_instancia_reservas")->insert([
+                "fecha_reserva"=>$fecha_reserva,
+                "user_id"=>intval($user_id),
+                "bloque_id"=>intval($bloque_id),
+                "reserva_id"=>intval($reserva_id),
+                "fecha_estado"=>$date,
+                "estado_instancia_id"=>3
+            ]);
+            // Realizar acciones con los valores originales de las columnas
+        }
+        return redirect()->route('implemento_recepcionar') ->with("success","Implemento(s) recepcionada(s) correctamente");//->with('datos', $datos);
     }
 
     /*---- Deshabilitar --- */
