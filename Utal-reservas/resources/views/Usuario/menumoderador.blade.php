@@ -43,6 +43,9 @@
             <button class="button" onclick="window.location='{{route('salaestudio_entregar')}}' ">Entregar sala</button>
 
             <button class="button" onclick="window.location='{{route('salaestudio_recepcionar')}}' ">Recepcionar sala</button>
+
+            {{-- BOTON SEMANA 5 --}}
+            <button class="button" onclick="window.location='{{ route('salaestudio_historial_moderador') }}' " >Ver historial de reservas</button>
         </div>
 
         <div class="column">
