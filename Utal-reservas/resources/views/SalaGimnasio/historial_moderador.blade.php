@@ -19,55 +19,65 @@
     <br>
 
     <div class="filtros">
-        <h1>Filtrar por:</h1>
-        <div>
-            <label for="">Estado</label>
-            <select name="estado" class="opciones">
-                @foreach($estadosEstudio as $estado)
-                    <option name="nombre_ubicacion" value="{{ $estado->id }}">{{ $estado->nombre_estado }}</option>
-                @endforeach
-            </select>
-        </div>
+        <form method="POST" action="post_salagimnasio_historial_moderador">
+            @csrf
+            <h1>Filtrar por:</h1>
+            <div class="labels">
+                <label for="">Estado</label>
+                <select name="estado" class="opciones">
+                    <option name="nombre_estado" value="0">Cualquier estado</option>
+                    @foreach($estadosGimnasio as $estado)
+                        <option name="nombre_estado" value="{{ $estado->id }}">{{ $estado->nombre_estado }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <div>
-            <label for="">Fecha inicio</label>
-            <input class="form-control my-datepicker" type="fecha-local" placeholder="Seleccionar fecha inicio" name="fechaInicio">
-            @if ($errors->has('fecha'))
-                <span class="text-danger">{{ $errors->first('fecha') }}</span>
+            <div class="labels">
+                <label for="">Fecha inicio</label>
+                <input class="form-control my-datepicker" type="fecha-local" placeholder="Seleccionar fecha inicio" name="fechaInicio">
+                @if ($errors->has('fecha'))
+                    <span class="text-danger">{{ $errors->first('fecha') }}</span>
+                @endif
+            </div>
+
+            <div class="labels">
+                <label for="">Fecha fin</label>
+                <input class="form-control my-datepicker" type="fecha-local" placeholder="Seleccionar fecha fin" name="fechaFin">
+                @if ($errors->has('fecha'))
+                    <span class="text-danger">{{ $errors->first('fecha') }}</span>
+                @endif
+            </div>
+
+            <div class="labels">
+                <label for="">Ubicacion</label>
+                <select name="ubicacion" class="opciones">
+                    <option name="nombre_ubicacion" value="0">Cualquier ubicación</option>
+                    @foreach($ubicacionesGimnasio as $ubicacion)
+                        <option name="nombre_ubicacion" value="{{ $ubicacion->id }}">{{ $ubicacion->nombre_ubicacion }}</option>
+                    @endforeach
+                </select>
+            </div>
+            @if($mostrarResultados==true and $botonApretado==false)
+                <div>
+                    <button class="button" type="submit">Aplicar filtro</button>
+                    
+                </div>
+            @elseif($mostrarResultados==true and $botonApretado==true)
+                <button class="button" type="button"  onclick="window.location='{{ route('salagimnasio_historial_moderador') }}'">Volver al historial sin filtro</button>
             @endif
-        </div>
-
-        <div>
-            <label for="">Fecha fin</label>
-            <input class="form-control my-datepicker" type="fecha-local" placeholder="Seleccionar fecha fin" name="fechaFin">
-            @if ($errors->has('fecha'))
-                <span class="text-danger">{{ $errors->first('fecha') }}</span>
-            @endif
-        </div>
-
-        <div>
-            <label for="">Ubicacion</label>
-            <select name="ubicacion" class="opciones">
-                @foreach($ubicacionesEstudio as $ubicacion)
-                    <option name="nombre_ubicacion" value="{{ $ubicacion->nombre_ubicacion }}">{{ $ubicacion->nombre_ubicacion }}</option>
-                @endforeach
-            </select>
-        </div>
-        @if($mostrarResultados==true and $botonApretado==false)
-            <button class="button" type="submit">Aplicar filtro</button>
-        @elseif($mostrarResultados==true and $botonApretado==true)
-            <button class="button" type="button"  onclick="window.location='{{ route('salaestudio_historial_moderador') }}'">Volver al historial sin filtro</button>
-        @endif
+        </form>
+        
     </div>
 
+
     <br>
-    <div class="box_entregar_ligteblue1"">
-        <h1> Historial Salas de Estudio</h1>
+    <div class="tabla">
+        <h1> Historial Salas de Gimnasio</h1>
         <br>
         <div id="div_resultados">
 
             @if($mostrarResultados==true && $botonApretado==false)
-                <table class="tabla_resultados">
+                <table class="tabla_resultados2">
                     <thead>
                         <tr>
                             <th>Nombre estudiante</th>
@@ -100,31 +110,7 @@
                 <p>No hay datos</p>
             @endif
 
-            <form action="{{route('post_salaestudio_historial_moderador')}}" method="POST">
-                @csrf
-
-                <!-- MOSTRAR LA TABLA DE LOS RESULTADOS -->
-                @if($mostrarResultados == true and $botonApretado==true)
-                    <!-- MOSTRAR LA TABLA DE LOS RESULTADOS - CON FILTRO -->
-                    @foreach($resultados as $resultado)
-                        <!--  nombre 	nombre_ubicacion 	hora_inicio 	hora_fin 	fecha_reserva Ascendente 1 	estado 	fecha_estado 	-->
-                        <p>
-                            {{$resultado}}
-                        </p>
-                    @endforeach
-                @elseif($mostrarResultados == false and $botonApretado==true)
-                    <p>Sin resultados para el filtro</p>
-                @endif
-
-                
-
-            </form>
-
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
+            
         </div>
     </div>
 
