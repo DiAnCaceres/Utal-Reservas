@@ -26,6 +26,8 @@ class Kernel extends ConsoleKernel
         $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')->dailyAt('17:50');
         $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')->dailyAt('19:00');
         $schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')->dailyAt('20:10');
+        //AQUI SE PUEDEN HACER PRUEBAS PARA HACER LLAMADO A LA FUNCION EN UNA HORA ESPECÍFICA
+        //$schedule->call('App\Helpers\PenalizacionHelper::verificarnoAsiste')->dailyAt('18:01');
     }
 
     /**

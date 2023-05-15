@@ -14,7 +14,7 @@ class VerificarHelper{
                 ->where('user_id', $user_id)
                 ->where('bloque_id', $bloque_id)
                 ->where('estado_instancia_id', 3)           //marca como finalizada
-                ->orWhere('estado_instancia_id',5)          //o está marca como cancelada (este es un caso extremo si la primera reserva fue cancelada y la segunda no)
+                //->orWhere('estado_instancia_id',5)          //o está marca como cancelada (este es un caso extremo si la primera reserva fue cancelada y la segunda no)
                 ->doesntExist();
         
         if($noExisteFinalizada){

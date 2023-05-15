@@ -57,12 +57,35 @@ class PenalizacionHelper
                     ->exists();
                     
                 if ($bloqueSgte){
-                    //hay siguiente bloque no puedo seguir con la penalizacion ya que puede estar en progreso la reserva
+                    //hay siguiente bloque no puedo seguir con la penalizacion ya que puede estar en progreso la reserv
+
+                    //en caso de ser bloques seguidos, debo ver si el segundo bloque fue cancelado y el primero no
+                    $segundoCancelado = DB::table("historial_instancia_reservas")
+                            ->whereDate('fecha_reserva', $fecha_reserva)
+                            ->where('reserva_id', $reserva_id)
+                            ->where('user_id', $user_id)
+                            ->where('bloque_id', $bloque_sgte)
+                            ->where('estado_instancia_id', 5)           //marca como cancelada
+                            ->exists();
+                    if($segundoCancelado){
+                        //en este caso existen dos reservas continuas, el primero reservado y el segundo cancelado verificamos si necesita penalizacion
+                        VerificarHelper::hacePenalizacion($fecha_reserva,$reserva_id,$user_id,$bloque_id,$fechaHoraActual);
+                    }
                 }
                 else{
                     
                     if ($bloqueAnterior){   //ES LA SEGUNDA HORA DE UNA RESERVA AHORA PUEDO PENALIZAR LA HORA ANTERIOR EN CASO DE SER NECESARIO
-                        VerificarHelper::hacePenalizacion($fecha_reserva,$reserva_id,$user_id,$bloque_ant,$fechaHoraActual);
+                        $anteriorCancelada = DB::table("historial_instancia_reservas")
+                            ->whereDate('fecha_reserva', $fecha_reserva)
+                            ->where('reserva_id', $reserva_id)
+                            ->where('user_id', $user_id)
+                            ->where('bloque_id', $bloque_ant)
+                            ->where('estado_instancia_id', 5)           //marca como cancelada
+                            ->doesntExist();
+                        if ($anteriorCancelada){
+                            VerificarHelper::hacePenalizacion($fecha_reserva,$reserva_id,$user_id,$bloque_ant,$fechaHoraActual);
+                        }
+                        
                     }
                     //INDEPENDIENTE DE SI EXISTE UNA PENALIZACION ANTES DEBO MARCAR LA DE LA DEL BLOQUE ACTUAL
                     VerificarHelper::hacePenalizacion($fecha_reserva,$reserva_id,$user_id,$bloque_id,$fechaHoraActual);
