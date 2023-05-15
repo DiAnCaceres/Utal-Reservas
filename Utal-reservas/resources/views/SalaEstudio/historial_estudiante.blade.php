@@ -22,52 +22,46 @@
         <div id="div_filtros">
             <form action="{{route('post_salaestudio_historial_estudiante')}}" method="POST">
                 @csrf
+            <h1>Filtrar por:</h1>
                 
                     <label for='Estado' style="margin-right: 200px;">Estado:</label>
-                <select name="Estado" id="estado">
-                @foreach($estados as $estado)
-                    <option name="bloque" value="{{ $estado->id }}">{{ $estado->nombre_estado}}</option>
+                <select name="Estado" value="0">
+                    <option name="nombre_estado" value="0">Cualquier estado</option>
+                @foreach($estadosEstudio as $estado)
+                    <option name="nombre_estado" value="{{ $estado->id }}">{{ $estado->nombre_estado}}</option>
                 @endforeach
                 </select>
                 
                 <label for='fecha_inicio' style="margin-right: 200px;">Desde:</label>
-                <input class="form-control" type="fecha-local" placeholder="Seleccionar fecha" name="fecha">
+                <input class="form-control" type="fecha-local" placeholder="Seleccionar fecha" name="fechaInicio">
                 @if ($errors->has('fecha'))
                     <span class="text-danger">{{ $errors->first('fecha') }}</span>
                 @endif
 
                     <label for='Fecha_inicio' style="margin-right: 200px;">Hasta:</label>
-                <input class="form-control" type="fecha-local" placeholder="Seleccionar fecha" name="fecha">
+                <input class="form-control" type="fecha-local" placeholder="Seleccionar fecha" name="fechaFin">
                 @if ($errors->has('fecha'))
                     <span class="text-danger">{{ $errors->first('fecha') }}</span>
                 @endif
 
                 <label for='Ubicacion' style="margin-right: 200px;">Ubicacion:</label>
                 <select name="Ubicacion" id="ubicacion">
+                    <option name="nombre_ubicacion" value="0">Cualquier ubicación</option>
                 @foreach($ubicacionesEstudio as $ubicacion)
-                    <option name="ubicacion" value="{{ $ubicacion->id }}">{{ $ubicacion->nombre_ubicacion}}</option>
+                    <option name="nombre_ubicacion" value="{{ $ubicacion->id }}">{{ $ubicacion->nombre_ubicacion}}</option>
                 @endforeach
                 </select>
 
 
-                <!-- MOSTRAR LA TABLA DE LOS RESULTADOS -->
-                @if($mostrarResultados == true and $botonApretado==true)
-                    <!-- MOSTRAR LA TABLA DE LOS RESULTADOS - CON FILTRO -->
-                    @foreach($resultados as $resultado)
-                        <!--  nombre 	nombre_ubicacion 	hora_inicio 	hora_fin 	fecha_reserva Ascendente 1 	estado 	fecha_estado 	-->
-                        <p>
-                            {{$resultado}}
-                        </p>
-                    @endforeach
-                @elseif($mostrarResultados == false and $botonApretado==true)
-                    <p>Sin resultados para el filtro</p>
-                @endif
-
                 @if($mostrarResultados==true and $botonApretado==false)
-                    <button type="submit">Aplicar filtro</button>
-                @elseif($mostrarResultados==true and $botonApretado==true)
-                    <button type="button"  onclick="window.location='{{ route('salaestudio_historial_estudiante') }}'">Volver al historial sin filtro</button>
-                @endif
+                <div>
+                    <button class="button" type="submit">Aplicar filtro</button>
+                    
+                </div>
+            @elseif($mostrarResultados==true and $botonApretado==true)
+                <button class="button" type="button"  onclick="window.location='{{ route('salaestudio_historial_estudiante') }}'">Volver al historial sin filtro</button>
+            @endif
+
 
             </form>
 
@@ -104,7 +98,6 @@
                         <tboby>
                     @foreach($resultados as $resultado)
                         <tr>
-                        <!--  nombre 	nombre_ubicacion 	hora_inicio 	hora_fin 	fecha_reserva Ascendente 1 	estado 	fecha_estado 	-->
                         <p>
                             <th>{{$resultado->nombre}}</th>
                             <th>{{$resultado->nombre_ubicacion}}</th>
