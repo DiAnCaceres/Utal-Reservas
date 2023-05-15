@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class CanchaController extends Controller
 {
@@ -475,10 +477,24 @@ class CanchaController extends Controller
         }else {
             $mostrarResultados=false;
         }
+
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
+
         // dd($resultados);
         $ubicacionesCanchas = Ubicacion::where('categoria', 'deportivo')->get();
         $estadosCanchas = DB::table('estado_instancias')->get();
-        return view('Cancha.historial_moderador',compact('resultados','mostrarResultados','botonApretado', 'ubicacionesCanchas', 'estadosCanchas'));
+        return view('Cancha.historial_moderador',compact('resultadosPaginados','mostrarResultados','botonApretado', 'ubicacionesCanchas', 'estadosCanchas'));
     }
 
     public function post_historial_moderador(Request $request){
@@ -545,8 +561,22 @@ class CanchaController extends Controller
             $mostrarResultados=false;
             $botonApretado=false;
         }
+
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
+
         $ubicacionesCanchas = Ubicacion::where('categoria', 'deportivo')->get();
         $estadosCanchas = DB::table('estado_instancias')->get();
-        return view('Cancha.historial_moderador',compact('resultados','mostrarResultados','botonApretado', 'ubicacionesCanchas', 'estadosCanchas'));
+        return view('Cancha.historial_moderador',compact('resultadosPaginados','mostrarResultados','botonApretado', 'ubicacionesCanchas', 'estadosCanchas'));
     }
 }

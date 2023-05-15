@@ -91,7 +91,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($resultados as $resultado)
+                        @foreach($resultadosPaginados as $resultado)
                 
                         <tr>
                             <td>{{$resultado->nombre_estudiante}}</td>
@@ -113,6 +113,41 @@
             
         </div>
     </div>
+
+    
+    <div class="pagination">
+        <ul class="pagination-list">
+            <!-- Botón "Anterior" -->
+            @if ($resultadosPaginados->onFirstPage())
+                <li class="disabled"><span>&laquo;</span></li>
+            @else
+                <li><a href="{{ '?page=' . $resultadosPaginados->currentPage() - 1 }}" rel="prev" class="pagination-link">&laquo;</a></li>
+            @endif
+    
+            <!-- Números de página -->
+            @foreach ($resultadosPaginados->getUrlRange(1, $resultadosPaginados->lastPage()) as $page => $url)
+                @if ($page == $resultadosPaginados->currentPage())
+                    <li class="active"><span class="pagination-link current">{{ $page }}</span></li>
+                @else
+                    <li><a href="{{ '?page='.$page }}" class="pagination-link">{{ $page }}</a></li>
+                @endif
+            @endforeach
+    
+            <!-- Botón "Siguiente" -->
+            @if ($resultadosPaginados->hasMorePages())
+                @if (($resultadosPaginados->currentPage()) == 1)
+                    <li><a href="{{ '?page=' . $resultadosPaginados->currentPage() + 1}}" rel="next" class="pagination-link">&raquo;</a></li>
+                @else
+                    <li><a href="{{str_replace(request()->path(), '' , '?page=' . $resultadosPaginados->currentPage() + 1)}}" rel="next" class="pagination-link">&raquo;</a></li>
+                @endif
+            @else
+                <li class="disabled"><span>&raquo;</span></li>
+            @endif
+        </ul>
+    </div>
+    
+
+    
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>flatpickr("input[type=fecha-local]",{})</script>

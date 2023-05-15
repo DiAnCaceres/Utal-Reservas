@@ -11,8 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class SalaEstudioController extends Controller
 {
@@ -512,16 +513,29 @@ class SalaEstudioController extends Controller
         INNER JOIN estado_instancias as ei on ei.id = h.estado_instancia_id
         ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC";
 
-        $resultados=DB::select($consulta);
+        $resultados= DB::select($consulta);
         if (count($resultados)>0){
             $mostrarResultados=true;
         }else {
             $mostrarResultados=false;
         }
-        // dd($resultados);
+        
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
+
         $ubicacionesEstudio = Ubicacion::where('categoria', 'educativo')->get();
         $estadosEstudio = DB::table('estado_instancias')->get();
-        return view('SalaEstudio.historial_moderador',compact('resultados','mostrarResultados','botonApretado', 'ubicacionesEstudio', 'estadosEstudio'));
+        return view('SalaEstudio.historial_moderador',compact('resultadosPaginados','mostrarResultados','botonApretado', 'ubicacionesEstudio', 'estadosEstudio'));
     }
 
     public function post_historial_moderador(Request $request){
@@ -588,8 +602,22 @@ class SalaEstudioController extends Controller
             $mostrarResultados=false;
             $botonApretado=false;
         }
+
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
+        
         $ubicacionesEstudio = Ubicacion::where('categoria', 'educativo')->get();
         $estadosEstudio = DB::table('estado_instancias')->get();
-        return view('SalaEstudio.historial_moderador',compact('resultados','mostrarResultados','botonApretado', 'ubicacionesEstudio', 'estadosEstudio'));
+        return view('SalaEstudio.historial_moderador',compact('resultadosPaginados','mostrarResultados','botonApretado', 'ubicacionesEstudio', 'estadosEstudio'));
     }
 }

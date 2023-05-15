@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 
 class SalaGimnasioController extends Controller
@@ -535,10 +537,23 @@ class SalaGimnasioController extends Controller
         }else {
             $mostrarResultados=false;
         }
-        // dd($resultados);
+
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
+
         $ubicacionesGimnasio = Ubicacion::where('categoria', 'deportivo')->whereNotIn('nombre_ubicacion',['aire libre'])->get();
         $estadosGimnasio = DB::table('estado_instancias')->get();
-        return view('SalaGimnasio.historial_moderador',compact('resultados','mostrarResultados','botonApretado', 'ubicacionesGimnasio', 'estadosGimnasio'));
+        return view('SalaGimnasio.historial_moderador',compact('resultadosPaginados','mostrarResultados','botonApretado', 'ubicacionesGimnasio', 'estadosGimnasio'));
     }
 
     public function post_historial_moderador(Request $request){
@@ -605,8 +620,22 @@ class SalaGimnasioController extends Controller
             $mostrarResultados=false;
             $botonApretado=false;
         }
+
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
+
         $ubicacionesGimnasio = Ubicacion::where('categoria', 'deportivo')->whereNotIn('nombre_ubicacion',['aire libre'])->get();
         $estadosGimnasio = DB::table('estado_instancias')->get();
-        return view('SalaGimnasio.historial_moderador',compact('resultados','mostrarResultados','botonApretado', 'ubicacionesGimnasio', 'estadosGimnasio'));
+        return view('SalaGimnasio.historial_moderador',compact('resultadosPaginados','mostrarResultados','botonApretado', 'ubicacionesGimnasio', 'estadosGimnasio'));
     }
 }
