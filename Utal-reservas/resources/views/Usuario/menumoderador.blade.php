@@ -42,9 +42,14 @@
             <!-- BOTONES SEMANA 4-->
             <button class="button" onclick="window.location='{{route('salaestudio_entregar')}}' ">Entregar Servicio</button>
 
+
+
+            {{-- BOTON SEMANA 5 --}}
+            <button class="button" onclick="window.location='{{ route('salaestudio_historial_moderador') }}' " >Ver historial de reservas</button>
+
             <button class="button" onclick="window.location='{{route('salaestudio_recepcionar')}}' ">Recepcionar Servicio</button>
             <!-- BOTONES SEMANA 4-->
-            <button class="button" onclick="window.location='{{route('salaestudio_historial_moderador')}}' ">Historial de reservas de estudiantes</button>
+
         </div>
 
         <div class="column">
