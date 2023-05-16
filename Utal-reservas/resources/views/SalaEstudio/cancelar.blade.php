@@ -7,6 +7,7 @@
     <link rel="stylesheet" href=" {{ asset('css/app.css') }} "/>
 @endsection
 
+
 @section('content')
 
     <div class="botonera">
@@ -55,6 +56,13 @@
         
 
         </form>
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif    
     <button class="button" onclick="window.location='{{route('usuario_menuestudiante')}}' ">Volver atrás</button>
+
     </div>
 @endsection
