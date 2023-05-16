@@ -105,7 +105,8 @@
                         </tr>
                         @endforeach
                     </tbody>
-                </table>
+                </table>          
+
             @elseif($mostrarResultados==false && $botonApretado==false)
                 <p>No hay datos</p>
             @endif

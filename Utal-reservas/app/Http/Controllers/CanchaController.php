@@ -119,7 +119,7 @@ class CanchaController extends Controller
                 $consulta = "SELECT * FROM canchas
                 INNER JOIN reservas ON reservas.id = canchas.reserva_id
                 INNER JOIN ubicaciones ON ubicaciones.id = reservas.ubicacione_id
-                WHERE reservas.id NOT IN (
+                WHERE reservas.estado_reserva_id=2 AND reservas.id NOT IN (
                 SELECT reservas.id FROM instancia_reservas
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
                 WHERE instancia_reservas.fecha_reserva = ? AND instancia_reservas.bloque_id = ?)";
@@ -395,13 +395,31 @@ class CanchaController extends Controller
     }
 
     public function post_recepcionar_resultados(Request $request){
-        // modificar acá en el interior
+        
+        $resultadosSeleccionados = $request->input('resultados_seleccionados');
+        foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
+            // Dividir el valor del checkbox usando el delimitador
+            list($fecha_reserva, $reserva_id, $user_id, $bloque_id) = explode('|', $resultadoSeleccionado);
+
+            $date = Carbon::now();
+            $date = $date->format('Y-m-d');
+
+            DB::table("historial_instancia_reservas")->insert([
+                "fecha_reserva"=>$fecha_reserva,
+                "user_id"=>intval($user_id),
+                "bloque_id"=>intval($bloque_id),
+                "reserva_id"=>intval($reserva_id),
+                "fecha_estado"=>$date,
+                "estado_instancia_id"=>3
+            ]);
+            // Realizar acciones con los valores originales de las columnas
+        }
         return redirect()->route('cancha_recepcionar') ->with("success","Cancha(s) recepcionada(s) correctamente");//->with('datos', $datos);
     }
 
     /*---- Deshabilitar --- */
     public function get_deshabilitar(){
-        $consulta = "SELECT r.nombre, ubi.nombre_ubicacion as ubicacion FROM reservas as r
+        $consulta = "SELECT r.id,r.nombre, ubi.nombre_ubicacion as ubicacion FROM reservas as r
         INNER JOIN canchas as can ON can.reserva_id= r.id
         INNER JOIN estado_reservas as er ON er.id = r.estado_reserva_id
         INNER JOIN ubicaciones as ubi ON ubi.id = r.ubicacione_id
@@ -416,8 +434,12 @@ class CanchaController extends Controller
     }
 
     public function post_deshabilitar(Request $request){
-        // capturar los tickeados y deshabilitarlos
-        return redirect()->route('cancha_deshabilitar') ->with("success","Se ha deshabilitado correctamente tu seleccion");//->with('datos', $datos);
+        $resultadosSeleccionados = $request->input('resultados_seleccionados');
+        foreach ($resultadosSeleccionados as $idCapturado) {
+            DB::table('reservas')->where('id', $idCapturado)->update(['estado_reserva_id' => 1]);
+        }
+
+        return redirect()->route('cancha_deshabilitar') ->with("success","Se ha deshabilitado correctamente tu seleccion");
     }
 
     /*--- Historial estudiante ---*/

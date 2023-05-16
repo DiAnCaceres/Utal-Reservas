@@ -21,7 +21,7 @@
     <div class="box_recepcionar_ligteblue">
         <div id="div_resultados">
 
-            <h1> Entregar cancha</h1>
+            <h1> Recepcionar cancha</h1>
 
             <form action="{{route('post_salaestudio_recepcionar')}}" method="POST">
                 @csrf
@@ -60,7 +60,7 @@
                                 <th>Hora inicio </th>
                                 <th>Hora fin    </th>
                                 <th>Ubicacion   </th>
-                                <th>Entregar    </th>
+                                <th>Recepcionar    </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -79,7 +79,7 @@
                         </tbody>
                     </table>
 
-                    <button type="submit" style="display:inline-block">Recepcionarr</button>
+                    <button type="submit" style="display:inline-block">Recepcionar</button>
                     <button onclick="window.location='{{route('usuario_menumoderador')}}'" style="display:inline-block">Volver menu</button>
                 @else
                     <p>No se encontraron resultados.</p>

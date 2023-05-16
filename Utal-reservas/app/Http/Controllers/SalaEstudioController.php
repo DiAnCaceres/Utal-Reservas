@@ -127,7 +127,7 @@ class SalaEstudioController extends Controller
                 $consulta = "SELECT * FROM sala_estudios
                 INNER JOIN reservas ON reservas.id = sala_estudios.reserva_id
                 INNER JOIN ubicaciones ON reservas.ubicacione_id = ubicaciones.id
-                WHERE reservas.id NOT IN (
+                WHERE reservas.estado_reserva_id=2 AND reservas.id NOT IN (
                 SELECT reservas.id FROM instancia_reservas
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
                 WHERE instancia_reservas.fecha_reserva = ? AND instancia_reservas.bloque_id = ?)";
@@ -444,12 +444,13 @@ class SalaEstudioController extends Controller
 
     /*---- Deshabilitar --- */
     public function get_deshabilitar(){
-        $consulta = "SELECT r.nombre, ubi.nombre_ubicacion as ubicacion FROM reservas as r
+        $consulta = "SELECT r.id, r.nombre, ubi.nombre_ubicacion as ubicacion FROM reservas as r
         INNER JOIN sala_estudios as se ON se.reserva_id = r.id
         INNER JOIN estado_reservas as er ON er.id = r.estado_reserva_id
         INNER JOIN ubicaciones as ubi ON ubi.id = r.ubicacione_id
         WHERE r.estado_reserva_id = 2";
         $resultados=DB::select($consulta);
+
         if (count($resultados)>0){
             $mostrarResultados=true;
         }else {
@@ -459,9 +460,14 @@ class SalaEstudioController extends Controller
     }
 
     public function post_deshabilitar(Request $request){
-        // capturar los tickeados y deshabilitarlos
-        return redirect()->route('salaestudio_deshabilitar') ->with("success","Se ha deshabilitado correctamente tu seleccion");//->with('datos', $datos);
+        $resultadosSeleccionados = $request->input('resultados_seleccionados');
+        foreach ($resultadosSeleccionados as $idCapturado) {
+            DB::table('reservas')->where('id', $idCapturado)->update(['estado_reserva_id' => 1]);
+        }
+
+        return redirect()->route('salaestudio_deshabilitar') ->with("success","Se ha deshabilitado correctamente tu seleccion");
     }
+
 
     /*--- Historial estudiante ---*/
     public function get_historial_estudiante(){

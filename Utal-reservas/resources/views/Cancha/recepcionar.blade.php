@@ -16,6 +16,8 @@
         <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('implemento_recepcionar') }}'">Implemento</button>
     </div>
 
+    <br>
+
     <div class="box_recepcionar_ligteblue">
         <div id="div_resultados">
 
@@ -41,16 +43,50 @@
         <div id="div_resultados">
             <form action="{{route('post_cancha_recepcionar_resultados')}}" method="POST">
                 @csrf
-
+                
                 @if($mostrarResultados == true)
-                    <!--BORRAR: Javier, actualmente mostrará resultados cuando tenga resultados en la query,
-                    Sin embargo, al igual que con las anteriores, deberas mostrarlo en formato lista estos resultados
-                     te recomiendo utilizar el dd($) para debuguear-->
-                    <h> Resultados</h>
+                    <h1 align="left"> Datos del estudiante: </h1>
+                    <p>
+                        <b>Nombre:</b> {{ $resultados[0]->name }} <br>
+                        <b>Rut:</b> {{ $resultados[0]->rut }} <br>
+                        <b>Correo:</b> {{ $resultados[0]->email }} <br>
+                    </p>
+                    <h1 align="left"> Resultados de busqueda: </h1>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Fecha       </th>
+                                <th>Nombre      </th>
+                                <th>Hora inicio </th>
+                                <th>Hora fin    </th>
+                                <th>Ubicacion   </th>
+                                <th>Recepcionar    </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($resultados as $resultado)
+                            <tr>
+                                <th> {{ $resultado->fecha_reserva }} </th>
+                                <th> {{ $resultado->nombre }} </th>
+                                <th> {{ $resultado->hora_inicio }} </th>
+                                <th> {{ $resultado->hora_fin }} </th>
+                                <th> {{ $resultado->nombre_ubicacion }} </th>
+                                <td>
+                                    <input type="checkbox" name="resultados_seleccionados[]" value="{{ $resultado->fecha_reserva }}|{{ $resultado->reserva_id }}|{{ $resultado->user_id }}|{{ $resultado->bloque_id }}">
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                    <button type="submit" style="display:inline-block">Recepcionar</button>
+                    <button onclick="window.location='{{route('usuario_menumoderador')}}'" style="display:inline-block">Volver menu</button>
                 @else
                     <p>No se encontraron resultados.</p>
                 @endif
 
             </form>
         </div>
+    </div>
 @endsection
+
