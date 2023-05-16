@@ -16,7 +16,7 @@
         <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('implemento_historial_estudiante') }}'">Implemento</button>
     </div>
 
-    <h1> Mi Historial de Reservas: Salas Estudio</h1>
+    <div class="separacion"> </div>
 
     <div class="box_recepcionar_ligteblue">
         <div id="div_filtros">
@@ -24,8 +24,8 @@
                 @csrf
             <h1>Filtrar por:</h1>
                 
-                    <label for='Estado' style="margin-right: 200px;">Estado:</label>
-                <select name="Estado" value="0">
+                    <label for='estado' style="margin-right: 200px;">Estado:</label>
+                <select name="estado" value="0">
                     <option name="nombre_estado" value="0">Cualquier estado</option>
                 @foreach($estadosEstudio as $estado)
                     <option name="nombre_estado" value="{{ $estado->id }}">{{ $estado->nombre_estado}}</option>
@@ -44,44 +44,41 @@
                     <span class="text-danger">{{ $errors->first('fecha') }}</span>
                 @endif
 
-                <label for='Ubicacion' style="margin-right: 200px;">Ubicacion:</label>
-                <select name="Ubicacion" id="ubicacion">
-                    <option name="nombre_ubicacion" value="0">Cualquier ubicación</option>
+                <label for='ubicacion' style="margin-right: 200px;">Ubicacion:</label>
+                <select name="ubicacion" id="ubicacion">
+                    <option name="ubicacion" value="0">Cualquier ubicación</option>
                 @foreach($ubicacionesEstudio as $ubicacion)
-                    <option name="nombre_ubicacion" value="{{ $ubicacion->id }}">{{ $ubicacion->nombre_ubicacion}}</option>
+                    <option name="ubicacion" value="{{ $ubicacion->id }}">{{ $ubicacion->nombre_ubicacion}}</option>
                 @endforeach
                 </select>
 
 
-                @if($mostrarResultados==true and $botonApretado==false)
                 <div>
                     <button class="button" type="submit">Aplicar filtro</button>
                     
                 </div>
-            @elseif($mostrarResultados==true and $botonApretado==true)
-                <button class="button" type="button"  onclick="window.location='{{ route('salaestudio_historial_estudiante') }}'">Volver al historial sin filtro</button>
+</div>
+            @if($mostrarResultados==true and $botonApretado==true)
+                <button class="button" type="button"  onclick="window.location='{{ route('cancha_historial_estudiante') }}'">Volver al historial sin filtro</button>
             @endif
+        </form>
+        
+    </div>
 
-
-            </form>
-
-            @if (session('success'))
+    @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
-        </div>
-    
-                
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script>flatpickr("input[type=fecha-local]",{})</script>
-    </div>
-    
-    <div class="separacion"></div>
 
+
+    <br>
     <div class="box_historial_ligteblue">
+        <h1> Historial canchas</h1>
+        <br>
         <div>
-            @if($mostrarResultados==true && $botonApretado==false)
+
+            @if($mostrarResultados==true)
                     <table class = "table table-striped">
                     <thead>
                         <tr>
@@ -113,5 +110,9 @@
                 @endif
                 </div>
     </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>flatpickr("input[type=fecha-local]",{})</script>
 
 @endsection

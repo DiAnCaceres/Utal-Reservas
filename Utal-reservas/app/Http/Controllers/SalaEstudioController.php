@@ -265,6 +265,7 @@ class SalaEstudioController extends Controller
         INNER JOIN ubicaciones as ubi ON ubi.id=r.ubicacione_id
         WHERE u.id=?";
         $resultados=DB::select($reservas,[$user_id]);
+        dd($resultados);
         if ($resultados!=[]){
             $mostrarResultados=true;
         }
@@ -483,7 +484,6 @@ class SalaEstudioController extends Controller
         $ubicacionesEstudio = Ubicacion::where('categoria', 'educativo')->get();
         $estadosEstudio= DB::table('estado_instancias')->get();
         $resultados=DB::select($consulta, [$user_id]);
-        dd($estadosEstudio);
         if (count($resultados)>0){
             $mostrarResultados=true;
         }else {
@@ -495,7 +495,6 @@ class SalaEstudioController extends Controller
     public function post_historial_estudiante(Request $request){
         // la consulta aqui tendrá filtros, por tanto, debe modificarse según los que decida el programador
         $estadoSeleccionado = $request->input('estado');
-        
         if(!$estadoSeleccionado == 0){
             
             $consultaEstados = "WHERE h.estado_instancia_id = $estadoSeleccionado -- Estado = 1
