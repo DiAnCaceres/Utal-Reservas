@@ -267,7 +267,6 @@ class SalaEstudioController extends Controller
         INNER JOIN ubicaciones as ubi ON ubi.id=r.ubicacione_id
         WHERE u.id=?";
         $resultados=DB::select($reservas,[$user_id]);
-        dd($resultados);
         if ($resultados!=[]){
             $mostrarResultados=true;
         }
