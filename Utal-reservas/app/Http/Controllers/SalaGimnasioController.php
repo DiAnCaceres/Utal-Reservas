@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 
 class SalaGimnasioController extends Controller
@@ -504,7 +506,20 @@ class SalaGimnasioController extends Controller
         }else {
             $mostrarResultados=false;
         }
-        return view('SalaGimnasio.historial_estudiante',compact('resultados','mostrarResultados','botonApretado', 'ubicacionesDeportivas', 'estadosGimnasio'));
+
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
+        return view('SalaGimnasio.historial_estudiante',compact('resultadosPaginados','resultados','mostrarResultados','botonApretado', 'ubicacionesDeportivas', 'estadosGimnasio'));
     }
 
     public function post_historial_estudiante(Request $request){
@@ -570,9 +585,22 @@ class SalaGimnasioController extends Controller
             $mostrarResultados=false;
             $botonApretado=false;
         }
+        
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
         $ubicacionesDeportivas = Ubicacion::where('categoria', 'deportivo')->get();
         $estadosGimnasio = DB::table('estado_instancias')->get();
-        return view('SalaGimnasio.historial_estudiante',compact('resultados','mostrarResultados','botonApretado','estadosGimnasio', 'ubicacionesDeportivas'));
+        return view('SalaGimnasio.historial_estudiante',compact('resultadosPaginados','resultados','mostrarResultados','botonApretado','estadosGimnasio', 'ubicacionesDeportivas'));
     }
 
     /*--- Historial moderador ---*/

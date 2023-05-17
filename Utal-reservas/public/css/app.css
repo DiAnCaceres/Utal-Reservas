@@ -463,3 +463,46 @@ form input {
 .tabla_resultados th {
     padding: 0px 4px;
 }
+
+
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination-list li {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.pagination-link {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #f1f1f1;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.pagination-link.current {
+    background-color: #333;
+    color: #fff;
+}
+
+.pagination-link:hover {
+    background-color: #ddd;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}

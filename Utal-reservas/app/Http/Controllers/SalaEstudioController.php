@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class SalaEstudioController extends Controller
 {
@@ -489,7 +491,20 @@ class SalaEstudioController extends Controller
         }else {
             $mostrarResultados=false;
         }
-        return view('SalaEstudio.historial_estudiante',compact('resultados','mostrarResultados','botonApretado','estadosEstudio','ubicacionesEstudio'));
+        
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
+        return view('SalaEstudio.historial_estudiante',compact('resultadosPaginados','resultados','mostrarResultados','botonApretado','estadosEstudio','ubicacionesEstudio'));
     }
 
     public function post_historial_estudiante(Request $request){
@@ -555,9 +570,22 @@ class SalaEstudioController extends Controller
             $mostrarResultados=false;
             $botonApretado=false;
         }
+        
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
         $ubicacionesEstudio = Ubicacion::where('categoria', 'educativo')->get();
         $estadosEstudio = DB::table('estado_instancias')->get();
-        return view('SalaEstudio.historial_estudiante',compact('resultados','mostrarResultados','botonApretado','ubicacionesEstudio', 'estadosEstudio'));
+        return view('SalaEstudio.historial_estudiante',compact('resultadosPaginados','resultados','mostrarResultados','botonApretado','ubicacionesEstudio', 'estadosEstudio'));
     }
 
     /*--- Historial moderador ---*/
