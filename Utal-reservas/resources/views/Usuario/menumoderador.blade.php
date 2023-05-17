@@ -40,11 +40,16 @@
             <button class="button" onclick="window.location='{{route('implemento_modificarcantidad_agregar')}}' ">Modificar cantidad a implemento ya existente</button>
 
             <!-- BOTONES SEMANA 4-->
-            <button class="button" onclick="window.location='{{route('salaestudio_entregar')}}' ">Entregar sala</button>
+            <button class="button" onclick="window.location='{{route('salaestudio_entregar')}}' ">Entregar Servicio</button>
 
-            <button class="button" onclick="window.location='{{route('salaestudio_recepcionar')}}' ">Recepcionar sala</button>
+
+
+            {{-- BOTON SEMANA 5 --}}
+            <button class="button" onclick="window.location='{{ route('salaestudio_historial_moderador') }}' " >Ver historial de reservas</button>
+
+            <button class="button" onclick="window.location='{{route('salaestudio_recepcionar')}}' ">Recepcionar Servicio</button>
             <!-- BOTONES SEMANA 4-->
-            <button class="button" onclick="window.location='{{route('salaestudio_historial_moderador')}}' ">Historial de reservas de estudiantes</button>
+
         </div>
 
         <div class="column">

@@ -606,15 +606,14 @@ class SalaGimnasioController extends Controller
     /*--- Historial moderador ---*/
     public function get_historial_moderador(){
         $botonApretado=false;
-        $consulta = "SELECT u.name, r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
-        INNER JOIN sala_gimnasios as sg on sg.reserva_id = h.reserva_id
+        $consulta = "SELECT u.name as nombre_estudiante,r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
+        INNER JOIN sala_gimnasios as se on se.reserva_id = h.reserva_id
         INNER JOIN bloques as blo on blo.id = h.bloque_id
         INNER JOIN reservas as r on r.id = h.reserva_id
         INNER JOIN ubicaciones as ubi on ubi.id = r.ubicacione_id
         INNER JOIN users as u on u.id = h.user_id
         INNER JOIN estado_instancias as ei on ei.id = h.estado_instancia_id
-        ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC
-        ";
+        ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC";
 
         $resultados=DB::select($consulta);
         if (count($resultados)>0){
@@ -622,21 +621,105 @@ class SalaGimnasioController extends Controller
         }else {
             $mostrarResultados=false;
         }
-        return view('SalaGimnasio.historial_moderador',compact('resultados','mostrarResultados','botonApretado'));
+
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
+
+        $ubicacionesGimnasio = Ubicacion::where('categoria', 'deportivo')->whereNotIn('nombre_ubicacion',['aire libre'])->get();
+        $estadosGimnasio = DB::table('estado_instancias')->get();
+        return view('SalaGimnasio.historial_moderador',compact('resultadosPaginados','mostrarResultados','botonApretado', 'ubicacionesGimnasio', 'estadosGimnasio'));
     }
 
     public function post_historial_moderador(Request $request){
         // la consulta aqui tendrá filtros, por tanto, debe modificarse según los que decida el programador
-        $consulta = "";
-        $resultados=["resultados","con","filtro"]; // demo, borrar hasta estar la consulta lista para que no arroje error x consulta vacia
-        //$resultados=DB::select($consulta);
+        $estadoSeleccionado = $request->input('estado');
+        
+        if(!$estadoSeleccionado == 0){
+            
+            $consultaEstados = "WHERE h.estado_instancia_id = $estadoSeleccionado -- Estado = 1
+                                AND NOT EXISTS (
+                                SELECT 1
+                                FROM historial_instancia_reservas
+                                WHERE reserva_id = h.reserva_id
+                                AND bloque_id = h.bloque_id
+                                AND estado_instancia_id > $estadoSeleccionado -- Estado en (2, 3, 4, 5)
+            ) ";
+        }else{
+            $consultaEstados = "WHERE TRUE ";
+        }
+        
+        // dd($consultaEstados);
+
+        $fecha_inicio = $request->input('fechaInicio');
+        if($fecha_inicio){
+            $consultaFecha = "AND fecha_reserva >= '$fecha_inicio' ";
+        }else{
+            $consultaFecha = "AND TRUE";
+        }
+        
+        $fecha_fin = $request->input('fechaFin');
+
+        if($fecha_fin){
+            $consultaFecha = $consultaFecha . " AND fecha_reserva <= '$fecha_fin' ";
+        }
+
+        $ubicacion = $request->input('ubicacion');
+        if(!$ubicacion == 0){
+            $consultaUbicacion = " AND ubi.id = $ubicacion";
+        }else{
+            $consultaUbicacion = "";
+        }
+
+        $consulta = "SELECT u.name as nombre_estudiante, r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado
+        FROM historial_instancia_reservas as h
+        INNER JOIN sala_gimnasios as se on se.reserva_id = h.reserva_id
+        INNER JOIN bloques as blo on blo.id = h.bloque_id
+        INNER JOIN reservas as r on r.id = h.reserva_id
+        INNER JOIN ubicaciones as ubi on ubi.id = r.ubicacione_id
+        INNER JOIN users as u on u.id = h.user_id
+        INNER JOIN estado_instancias as ei on ei.id = h.estado_instancia_id
+        " . $consultaEstados . $consultaFecha . $consultaUbicacion . " 
+        ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC
+        ";
+        
+        // dd($consulta);
+        $resultados=DB::select($consulta);
+        
+        // dd($resultados);
+        
         if (count($resultados)>0){
             $mostrarResultados=true;
-            $botonApretado=true;
+            $botonApretado=false;
         }else {
             $mostrarResultados=false;
             $botonApretado=false;
         }
-        return view('SalaGimnasio.historial_moderador',compact('resultados','mostrarResultados','botonApretado'));
+
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
+
+        $ubicacionesGimnasio = Ubicacion::where('categoria', 'deportivo')->whereNotIn('nombre_ubicacion',['aire libre'])->get();
+        $estadosGimnasio = DB::table('estado_instancias')->get();
+        return view('SalaGimnasio.historial_moderador',compact('resultadosPaginados','mostrarResultados','botonApretado', 'ubicacionesGimnasio', 'estadosGimnasio'));
     }
 }
