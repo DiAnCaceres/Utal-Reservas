@@ -109,7 +109,7 @@ class SalaGimnasioController extends Controller
                 }
 
             }
- 
+
             $comprobacion = "
                 SELECT * FROM instancia_reservas
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
@@ -295,7 +295,7 @@ class SalaGimnasioController extends Controller
         $date = Carbon::now();
         $date = $date->format('Y-m-d');
         $fecha_actual = date('Y-m-d');
-        
+
         if($fecha_actual == $fecha_reserva){
             $hora_actual = Carbon::now()->format('H:i:s');
             $bloque = DB::table('bloques')->where('id', $bloque_id)->first();
@@ -308,7 +308,7 @@ class SalaGimnasioController extends Controller
             if($hora_actual>$hora_actual_modificada){
                 return redirect()->route('salagimnasio_cancelar')->with('error', '¡Solo puedes cancelar con 2 horas de anticipación!');
             }
-        
+
         }
 
         DB::table("historial_instancia_reservas")->insert([
@@ -497,6 +497,41 @@ class SalaGimnasioController extends Controller
         $resultadosSeleccionados = $request->input('resultados_seleccionados');
         foreach ($resultadosSeleccionados as $idCapturado) {
             DB::table('reservas')->where('id', $idCapturado)->update(['estado_reserva_id' => 1]);
+
+            $consulta = "
+            SELECT *
+            FROM (
+                SELECT fecha_reserva, user_id, reserva_id, bloque_id, COUNT(*) AS total
+                FROM historial_instancia_reservas AS h
+                GROUP BY fecha_reserva, user_id, reserva_id, bloque_id
+                HAVING total >= 1 AND total <= 2
+            ) AS sub1
+            INNER JOIN reservas as r ON r.id = sub1.reserva_id
+            INNER JOIN bloques as b ON b.id = sub1.bloque_id
+            INNER JOIN sala_gimnasios as sg ON sg.reserva_id= r.id
+            INNER JOIN users as u ON u.id=sub1.user_id
+            INNER JOIN ubicaciones as ubi ON ubi.id=r.ubicacione_id
+            WHERE r.id=? AND (sub1.fecha_reserva, sub1.user_id, sub1.reserva_id, sub1.bloque_id) NOT IN (
+                SELECT h.fecha_reserva, h.user_id, h.reserva_id, h.bloque_id
+                FROM historial_instancia_reservas AS h
+                WHERE h.estado_instancia_id = 5
+            )
+            ";
+
+            $resultados=DB::select($consulta, [intval($idCapturado)]);
+            $date = Carbon::now();
+            $date = $date->format('Y-m-d');
+
+            foreach ($resultados as $resultado) {
+                DB::table("historial_instancia_reservas")->insert([
+                    "fecha_reserva"=>($resultado->fecha_reserva),
+                    "user_id"=>($resultado->user_id),
+                    "bloque_id"=>($resultado->bloque_id),
+                    "reserva_id"=>($resultado->reserva_id),
+                    "fecha_estado"=>$date,
+                    "estado_instancia_id"=>6
+                ]);
+            }
         }
 
         return redirect()->route('salagimnasio_deshabilitar') ->with("success","Se ha deshabilitado correctamente tu seleccion");
@@ -541,9 +576,9 @@ class SalaGimnasioController extends Controller
 
     public function post_historial_estudiante(Request $request){
         $estadoSeleccionado = $request->input('estado');
-        
+
         if(!$estadoSeleccionado == 0){
-            
+
             $consultaEstados = "WHERE h.estado_instancia_id = $estadoSeleccionado -- Estado = 1
                                 AND NOT EXISTS (
                                 SELECT 1
@@ -555,7 +590,7 @@ class SalaGimnasioController extends Controller
         }else{
             $consultaEstados = "WHERE TRUE ";
         }
-        
+
         // dd($consultaEstados);
 
         $fecha_inicio = $request->input('fechaInicio');
@@ -564,7 +599,7 @@ class SalaGimnasioController extends Controller
         }else{
             $consultaFecha = "AND TRUE";
         }
-        
+
         $fecha_fin = $request->input('fechaFin');
 
         if($fecha_fin){
@@ -586,22 +621,22 @@ class SalaGimnasioController extends Controller
         INNER JOIN ubicaciones as ubi on ubi.id = r.ubicacione_id
         INNER JOIN users as u on u.id = h.user_id
         INNER JOIN estado_instancias as ei on ei.id = h.estado_instancia_id
-        " . $consultaEstados . $consultaFecha . $consultaUbicacion . " 
+        " . $consultaEstados . $consultaFecha . $consultaUbicacion . "
         ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC
         ";
-        
+
         // dd($consulta);
         $resultados=DB::select($consulta);
-        
+
         // dd($resultados);
-        
+
         if (count($resultados)>0){
             $mostrarResultados=true;
         }else {
             $mostrarResultados=false;
         }
         $botonApretado=true;
-        
+
         // Convertir los resultados en una colección
         $coleccion = new Collection($resultados);
 
@@ -659,9 +694,9 @@ class SalaGimnasioController extends Controller
     public function post_historial_moderador(Request $request){
         // la consulta aqui tendrá filtros, por tanto, debe modificarse según los que decida el programador
         $estadoSeleccionado = $request->input('estado');
-        
+
         if(!$estadoSeleccionado == 0){
-            
+
             $consultaEstados = "WHERE h.estado_instancia_id = $estadoSeleccionado -- Estado = 1
                                 AND NOT EXISTS (
                                 SELECT 1
@@ -673,7 +708,7 @@ class SalaGimnasioController extends Controller
         }else{
             $consultaEstados = "WHERE TRUE ";
         }
-        
+
         // dd($consultaEstados);
 
         $fecha_inicio = $request->input('fechaInicio');
@@ -682,7 +717,7 @@ class SalaGimnasioController extends Controller
         }else{
             $consultaFecha = "AND TRUE";
         }
-        
+
         $fecha_fin = $request->input('fechaFin');
 
         if($fecha_fin){
@@ -704,15 +739,15 @@ class SalaGimnasioController extends Controller
         INNER JOIN ubicaciones as ubi on ubi.id = r.ubicacione_id
         INNER JOIN users as u on u.id = h.user_id
         INNER JOIN estado_instancias as ei on ei.id = h.estado_instancia_id
-        " . $consultaEstados . $consultaFecha . $consultaUbicacion . " 
+        " . $consultaEstados . $consultaFecha . $consultaUbicacion . "
         ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC
         ";
-        
+
         // dd($consulta);
         $resultados=DB::select($consulta);
-        
+
         // dd($resultados);
-        
+
         if (count($resultados)>0){
             $mostrarResultados=true;
             $botonApretado=false;
