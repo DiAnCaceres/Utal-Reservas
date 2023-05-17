@@ -30,6 +30,11 @@
                 </div>
             @endif
 
+            @if (session('error'))
+                <div class="alert alert-error"  style="text-align:center; color:red; font-weight:bold;">
+                    {{ session('error') }}
+                </div>
+            @endif
 
 
             <form action="{{route('post_salagimnasio_deshabilitar')}}" method="POST">

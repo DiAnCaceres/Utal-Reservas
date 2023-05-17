@@ -490,10 +490,12 @@ class SalaGimnasioController extends Controller
 
     public function post_deshabilitar(Request $request){
         $resultadosSeleccionados = $request->input('resultados_seleccionados');
-        foreach ($resultadosSeleccionados as $idCapturado) {
-            DB::table('reservas')->where('id', $idCapturado)->update(['estado_reserva_id' => 1]);
 
-            $consulta = "
+        if($resultadosSeleccionados!=null) {
+            foreach ($resultadosSeleccionados as $idCapturado) {
+                DB::table('reservas')->where('id', $idCapturado)->update(['estado_reserva_id' => 1]);
+
+                $consulta = "
             SELECT *
             FROM (
                 SELECT fecha_reserva, user_id, reserva_id, bloque_id, COUNT(*) AS total
@@ -513,22 +515,25 @@ class SalaGimnasioController extends Controller
             )
             ";
 
-            $resultados=DB::select($consulta, [intval($idCapturado)]);
-            $date = date('Y-m-d H:i:s');
+                $resultados = DB::select($consulta, [intval($idCapturado)]);
+                $date = date('Y-m-d H:i:s');
 
-            foreach ($resultados as $resultado) {
-                DB::table("historial_instancia_reservas")->insert([
-                    "fecha_reserva"=>($resultado->fecha_reserva),
-                    "user_id"=>($resultado->user_id),
-                    "bloque_id"=>($resultado->bloque_id),
-                    "reserva_id"=>($resultado->reserva_id),
-                    "fecha_estado"=>$date,
-                    "estado_instancia_id"=>6
-                ]);
+                foreach ($resultados as $resultado) {
+                    DB::table("historial_instancia_reservas")->insert([
+                        "fecha_reserva" => ($resultado->fecha_reserva),
+                        "user_id" => ($resultado->user_id),
+                        "bloque_id" => ($resultado->bloque_id),
+                        "reserva_id" => ($resultado->reserva_id),
+                        "fecha_estado" => $date,
+                        "estado_instancia_id" => 6
+                    ]);
+                }
             }
-        }
 
-        return redirect()->route('salagimnasio_deshabilitar') ->with("success","Se ha deshabilitado correctamente tu seleccion");
+            return redirect()->route('salagimnasio_deshabilitar')->with("success", "Se ha deshabilitado correctamente tu seleccion");
+        }else{
+            return redirect()->route('salagimnasio_deshabilitar')->with("error","No has seleccionado nada para deshabilitar, intentalo nuevamente");
+        }
     }
 
     /*--- Historial estudiante ---*/
