@@ -375,27 +375,26 @@ class SalaGimnasioController extends Controller
 
         if(empty($resultadosSeleccionados)){
             return redirect()->route('salagimnasio_entregar')->with('error',"Debe seleccionar una reserva");
+        }else {
+            foreach ($resultadosSeleccionados as $resultado) {
+                $valores = explode(',', $resultado);
+                $fecha = $valores[0];
+                $id_bloque = $valores[1];
+                $reserva_id = $valores[2];
+                $user_id = $valores[3];
+
+                $date = date('Y-m-d H:i:s');
+                DB::table("historial_instancia_reservas")->insert([
+                    "fecha_reserva" => $fecha,
+                    "user_id" => $user_id,
+                    "bloque_id" => $id_bloque,
+                    "reserva_id" => $reserva_id,
+                    "fecha_estado" => $date,
+                    "estado_instancia_id" => 2
+                ]);
+            }
+            return redirect()->route('salagimnasio_entregar')->with("success", "Sala gimnasio(s) entregada(s) correctamente");//->with('datos', $datos);
         }
-
-        foreach ($resultadosSeleccionados as $resultado) {
-            $valores = explode(',', $resultado);
-            $fecha = $valores[0];
-            $id_bloque = $valores[1];
-            $reserva_id = $valores[2];
-            $user_id = $valores[3];
-
-            $date = date('Y-m-d H:i:s');
-            DB::table("historial_instancia_reservas")->insert([
-                "fecha_reserva"=>$fecha,
-                "user_id"=>$user_id,
-                "bloque_id"=>$id_bloque,
-                "reserva_id"=>$reserva_id,
-                "fecha_estado"=>$date,
-                "estado_instancia_id"=>2
-            ]);
-        }
-        return redirect()->route('salagimnasio_entregar') ->with("success","Sala gimnasio(s) entregada(s) correctamente");//->with('datos', $datos);
-
     }
 
 
