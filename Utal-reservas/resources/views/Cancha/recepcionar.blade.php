@@ -34,6 +34,13 @@
                     {{ session('success') }}
                 </div>
             @endif
+
+            @if (session('error'))
+                <div class="alert alert-error">
+                    {{ session('error') }}
+                </div>
+            @endif
+
         </div>
     </div>
 
@@ -43,7 +50,7 @@
         <div id="div_resultados">
             <form action="{{route('post_cancha_recepcionar_resultados')}}" method="POST">
                 @csrf
-                
+
                 @if($mostrarResultados == true)
                     <h1 align="left"> Datos del estudiante: </h1>
                     <p>

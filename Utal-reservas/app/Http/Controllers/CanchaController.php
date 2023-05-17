@@ -409,23 +409,28 @@ class CanchaController extends Controller
     public function post_recepcionar_resultados(Request $request){
 
         $resultadosSeleccionados = $request->input('resultados_seleccionados');
-        foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
-            // Dividir el valor del checkbox usando el delimitador
-            list($fecha_reserva, $reserva_id, $user_id, $bloque_id) = explode('|', $resultadoSeleccionado);
 
-            $date = date('Y-m-d H:i:s');
+        if($resultadosSeleccionados!=null) {
+            foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
+                // Dividir el valor del checkbox usando el delimitador
+                list($fecha_reserva, $reserva_id, $user_id, $bloque_id) = explode('|', $resultadoSeleccionado);
 
-            DB::table("historial_instancia_reservas")->insert([
-                "fecha_reserva"=>$fecha_reserva,
-                "user_id"=>intval($user_id),
-                "bloque_id"=>intval($bloque_id),
-                "reserva_id"=>intval($reserva_id),
-                "fecha_estado"=>$date,
-                "estado_instancia_id"=>3
-            ]);
-            // Realizar acciones con los valores originales de las columnas
+                $date = date('Y-m-d H:i:s');
+
+                DB::table("historial_instancia_reservas")->insert([
+                    "fecha_reserva" => $fecha_reserva,
+                    "user_id" => intval($user_id),
+                    "bloque_id" => intval($bloque_id),
+                    "reserva_id" => intval($reserva_id),
+                    "fecha_estado" => $date,
+                    "estado_instancia_id" => 3
+                ]);
+                // Realizar acciones con los valores originales de las columnas
+            }
+            return redirect()->route('cancha_recepcionar')->with("success", "Cancha(s) recepcionada(s) correctamente");//->with('datos', $datos);
+        }else{
+            return redirect()->route('cancha_recepcionar')->with("error", "No has seleccionado nada, intentalo nuevamente");
         }
-        return redirect()->route('cancha_recepcionar') ->with("success","Cancha(s) recepcionada(s) correctamente");//->with('datos', $datos);
     }
 
     /*---- Deshabilitar --- */
