@@ -178,8 +178,7 @@ class SalaEstudioController extends Controller
 
                         //AHORA AGREGAMOS AL HISTORIAL DE RESERVAS
                         $id_estado_instancia = $estado_instancia_reserva->id;
-                        $date = Carbon::now();
-                        $date = $date->format('Y-m-d');
+                        $date = date('Y-m-d H:i:s');
                         DB::table("historial_instancia_reservas")->insert([
                             "fecha_reserva"=>$fecha_reserva,
                             "user_id"=>$id_usuario,
@@ -216,8 +215,7 @@ class SalaEstudioController extends Controller
 
                                     //AHORA AGREGAMOS AL HISTORIAL DE RESERVAS
                                     $id_estado_instancia = $estado_instancia_reserva->id;
-                                    $date = Carbon::now();
-                                    $date = $date->format('Y-m-d');
+                                    $date = date('Y-m-d H:i:s');
                                     DB::table("historial_instancia_reservas")->insert([
                                         "fecha_reserva"=>$fecha_reserva,
                                         "user_id"=>$id_usuario,
@@ -281,8 +279,7 @@ class SalaEstudioController extends Controller
         if($resultadosSeleccionados!=null){
         foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
         list($fecha_reserva, $bloque_id, $reserva_id, $user_id) = explode('|', $resultadoSeleccionado);
-        $date = Carbon::now();
-        $date = $date->format('Y-m-d');
+        $date = date('Y-m-d H:i:s');
         $fecha_actual = date('Y-m-d');
 
         if($fecha_actual == $fecha_reserva){
@@ -377,8 +374,7 @@ class SalaEstudioController extends Controller
             $user_id = $valores[3];
 
 
-            $date = Carbon::now();
-            $date = $date->format('Y-m-d');
+            $date = date('Y-m-d H:i:s');
             DB::table("historial_instancia_reservas")->insert([
                 "fecha_reserva"=>$fecha,
                 "user_id"=>$user_id,
@@ -436,8 +432,7 @@ class SalaEstudioController extends Controller
             // Dividir el valor del checkbox usando el delimitador
             list($fecha_reserva, $reserva_id, $user_id, $bloque_id) = explode('|', $resultadoSeleccionado);
 
-            $date = Carbon::now();
-            $date = $date->format('Y-m-d');
+            $date = date('Y-m-d H:i:s');
 
             DB::table("historial_instancia_reservas")->insert([
                 "fecha_reserva"=>$fecha_reserva,
@@ -504,8 +499,7 @@ class SalaEstudioController extends Controller
             ";
 
             $resultados=DB::select($consulta, [intval($idCapturado)]);
-            $date = Carbon::now();
-            $date = $date->format('Y-m-d');
+            $date = date('Y-m-d H:i:s');
 
             foreach ($resultados as $resultado) {
                 DB::table("historial_instancia_reservas")->insert([
