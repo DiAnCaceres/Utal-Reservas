@@ -580,11 +580,10 @@ class SalaGimnasioController extends Controller
         
         if (count($resultados)>0){
             $mostrarResultados=true;
-            $botonApretado=false;
         }else {
             $mostrarResultados=false;
-            $botonApretado=false;
         }
+        $botonApretado=true;
         
         // Convertir los resultados en una colección
         $coleccion = new Collection($resultados);

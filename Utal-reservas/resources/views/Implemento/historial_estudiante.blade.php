@@ -54,10 +54,10 @@
                     <button class="button" type="submit">Aplicar filtro</button>
                     
                 </div>
-</div>
-            @if($mostrarResultados==true and $botonApretado==true)
-                <button class="button" type="button"  onclick="window.location='{{ route('cancha_historial_estudiante') }}'">Volver al historial sin filtro</button>
+            @if($botonApretado==true)
+                <button class="button" type="button"  onclick="window.location='{{ route('implemento_historial_estudiante') }}'">Volver al historial sin filtro</button>
             @endif
+</div>
         </form>
         
     </div>
