@@ -55,6 +55,13 @@
                 
         </form>
 
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif      
+    
     <button class="button" onclick="window.location='{{route('usuario_menuestudiante')}}' ">Volver atrás</button>
     
     </div>

@@ -284,6 +284,23 @@ class SalaEstudioController extends Controller
         list($fecha_reserva, $bloque_id, $reserva_id, $user_id) = explode('|', $resultadoSeleccionado);
         $date = Carbon::now();
         $date = $date->format('Y-m-d');
+        $fecha_actual = date('Y-m-d');
+        
+        if($fecha_actual == $fecha_reserva){
+            $hora_actual = Carbon::now()->format('H:i:s');
+            $bloque = DB::table('bloques')->where('id', $bloque_id)->first();
+
+            $fecha = Carbon::createFromFormat('H:i:s', $bloque->hora_inicio);
+            $fecha->subHours(2);
+            $hora_actual_modificada = $fecha->format('H:i:s');
+
+
+            if($hora_actual>$hora_actual_modificada){
+                return redirect()->route('salaestudio_cancelar')->with('error', '¡Solo puedes cancelar con 2 horas de anticipación!');
+            }
+        
+        }
+
         DB::table("historial_instancia_reservas")->insert([
             "fecha_reserva"=>$fecha_reserva,
             "bloque_id"=>$bloque_id,
@@ -292,6 +309,8 @@ class SalaEstudioController extends Controller
             "fecha_estado"=>$date,
             "estado_instancia_id"=>5
         ]);
+
+
     }}
         return redirect()->route('salaestudio_cancelar');//->with('datos', $datos);
 
