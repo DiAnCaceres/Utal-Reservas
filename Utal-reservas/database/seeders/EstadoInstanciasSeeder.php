@@ -34,6 +34,10 @@ class EstadoInstanciasSeeder extends Seeder
                 'id'=>5,
                 'nombre_estado'=>'cancelado',
             ],
+            [
+                'id'=>6,
+                'nombre_estado'=>'cancelada debido emergencia',
+            ],
         ]);
     }
 }
