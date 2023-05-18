@@ -166,4 +166,64 @@ Route::get('/implemento_entregar_filtrado', [ImplementoController::class, 'get_e
 
 Route::post('post_implemento_entregar_filtrado', [ImplementoController::class, 'post_entregar_filtrado'])->name('post_implemento_entregar_filtrado')->middleware('moderador');
 
+/* ------------------ SEMANA 5 -------------------------------*/
+/* Recepcionar cancha*/
+Route::get('/cancha_recepcionar', [CanchaController::class, 'get_recepcionar'])->name('cancha_recepcionar')->middleware('moderador');
 
+Route::post('post_cancha_recepcionar', [CanchaController::class, 'post_recepcionar'])->name('post_cancha_recepcionar')->middleware('moderador');
+
+Route::post('post_cancha_recepcionar_resultados', [CanchaController::class, 'post_recepcionar_resultados'])->name('post_cancha_recepcionar_resultados')->middleware('moderador');
+
+/* Recepcionar implemento*/
+Route::get('/implemento_recepcionar', [ImplementoController::class, 'get_recepcionar'])->name('implemento_recepcionar')->middleware('moderador');
+
+Route::post('post_implemento_recepcionar', [ImplementoController::class, 'post_recepcionar'])->name('post_implemento_recepcionar')->middleware('moderador');
+
+Route::post('post_implemento_recepcionar_resultados', [ImplementoController::class, 'post_recepcionar_resultados'])->name('post_implemento_recepcionar_resultados')->middleware('moderador');
+
+/* Deshabilitar sala estudio*/
+Route::get('/salaestudio_deshabilitar', [SalaEstudioController::class, 'get_deshabilitar'])->name('salaestudio_deshabilitar')->middleware('admin');
+
+Route::post('post_salaestudio_deshabilitar', [SalaEstudioController::class, 'post_deshabilitar'])->name('post_salaestudio_deshabilitar')->middleware('admin');
+
+/* Deshabilitar sala gimnasio*/
+Route::get('/salagimnasio_deshabilitar', [SalaGimnasioController::class, 'get_deshabilitar'])->name('salagimnasio_deshabilitar')->middleware('admin');
+
+Route::post('post_salagimnasio_deshabilitar', [SalaGimnasioController::class, 'post_deshabilitar'])->name('post_salagimnasio_deshabilitar')->middleware('admin');
+
+/* Deshabilitar cancha*/
+Route::get('/cancha_deshabilitar', [CanchaController::class, 'get_deshabilitar'])->name('cancha_deshabilitar')->middleware('admin');
+
+Route::post('post_cancha_deshabilitar', [CanchaController::class, 'post_deshabilitar'])->name('post_cancha_deshabilitar')->middleware('admin');
+
+/* Implemento cancha*/
+Route::get('/implemento_deshabilitar', [ImplementoController::class, 'get_deshabilitar'])->name('implemento_deshabilitar')->middleware('admin');
+
+Route::post('post_implemento_deshabilitar', [ImplementoController::class, 'post_deshabilitar'])->name('post_implemento_deshabilitar')->middleware('admin');
+
+/* Historial estudiante */
+
+Route::get('/salaestudio_historial_estudiante',[SalaEstudioController::class,'get_historial_estudiante'])->name('salaestudio_historial_estudiante')->middleware('estudiante');
+Route::post('post_salaestudio_historial_estudiante',[SalaEstudioController::class,'post_historial_estudiante'])->name('post_salaestudio_historial_estudiante')->middleware('estudiante');
+
+Route::get('/salagimnasio_historial_estudiante',[SalaGimnasioController::class,'get_historial_estudiante'])->name('salagimnasio_historial_estudiante')->middleware('estudiante');
+Route::post('post_salagimnasio_historial_estudiante',[SalaGimnasioController::class,'post_historial_estudiante'])->name('post_salagimnasio_historial_estudiante')->middleware('estudiante');
+
+Route::get('/cancha_historial_estudiante',[CanchaController::class,'get_historial_estudiante'])->name('cancha_historial_estudiante')->middleware('estudiante');
+Route::post('post_cancha_historial_estudiante',[CanchaController::class,'post_historial_estudiante'])->name('post_cancha_historial_estudiante')->middleware('estudiante');
+
+Route::get('/implemento_historial_estudiante',[ImplementoController::class,'get_historial_estudiante'])->name('implemento_historial_estudiante')->middleware('estudiante');
+Route::post('post_implemento_historial_estudiante',[ImplementoController::class,'post_historial_estudiante'])->name('post_implemento_historial_estudiante')->middleware('estudiante');
+
+/* Historial moderador */
+Route::get('/salaestudio_historial_moderador',[SalaEstudioController::class,'get_historial_moderador'])->name('salaestudio_historial_moderador')->middleware('moderador');
+Route::post('post_salaestudio_historial_moderador',[SalaEstudioController::class,'post_historial_moderador'])->name('post_salaestudio_historial_moderador')->middleware('moderador');
+
+Route::get('/salagimnasio_historial_moderador',[SalaGimnasioController::class,'get_historial_moderador'])->name('salagimnasio_historial_moderador')->middleware('moderador');
+Route::post('post_salagimnasio_historial_moderador',[SalaGimnasioController::class,'post_historial_moderador'])->name('post_salagimnasio_historial_moderador')->middleware('moderador');
+
+Route::get('/cancha_historial_moderador',[CanchaController::class,'get_historial_moderador'])->name('cancha_historial_moderador')->middleware('moderador');
+Route::post('post_cancha_historial_moderador',[CanchaController::class,'post_historial_moderador'])->name('post_cancha_historial_moderador')->middleware('moderador');
+
+Route::get('/implemento_historial_moderador',[ImplementoController::class,'get_historial_moderador'])->name('implemento_historial_moderador')->middleware('moderador');
+Route::post('post_implemento_historial_moderador',[ImplementoController::class,'post_historial_moderador'])->name('post_implemento_historial_moderador')->middleware('moderador');

@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class CanchaController extends Controller
 {
@@ -117,7 +119,7 @@ class CanchaController extends Controller
                 $consulta = "SELECT * FROM canchas
                 INNER JOIN reservas ON reservas.id = canchas.reserva_id
                 INNER JOIN ubicaciones ON ubicaciones.id = reservas.ubicacione_id
-                WHERE reservas.id NOT IN (
+                WHERE reservas.estado_reserva_id=2 AND reservas.id NOT IN (
                 SELECT reservas.id FROM instancia_reservas
                 INNER JOIN reservas ON reservas.id = instancia_reservas.reserva_id
                 WHERE instancia_reservas.fecha_reserva = ? AND instancia_reservas.bloque_id = ?)";
@@ -167,8 +169,7 @@ class CanchaController extends Controller
 
                         //AHORA AGREGAMOS AL HISTORIAL DE RESERVAS
                         $id_estado_instancia = $estado_instancia_reserva->id;
-                        $date = Carbon::now();
-                        $date = $date->format('Y-m-d');
+                        $date = date('Y-m-d H:i:s');
                         DB::table("historial_instancia_reservas")->insert([
                             "fecha_reserva"=>$fecha_reserva,
                             "user_id"=>$id_usuario,
@@ -206,8 +207,7 @@ class CanchaController extends Controller
 
                                     //AHORA AGREGAMOS AL HISTORIAL DE RESERVAS
                                     $id_estado_instancia = $estado_instancia_reserva->id;
-                                    $date = Carbon::now();
-                                    $date = $date->format('Y-m-d');
+                                    $date = date('Y-m-d H:i:s');
                                     DB::table("historial_instancia_reservas")->insert([
                                         "fecha_reserva"=>$fecha_reserva,
                                         "user_id"=>$id_usuario,
@@ -274,8 +274,23 @@ class CanchaController extends Controller
     if($resultadosSeleccionados!=null){
         foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
         list($fecha_reserva, $bloque_id, $reserva_id, $user_id) = explode('|', $resultadoSeleccionado);
-        $date = Carbon::now();
-        $date = $date->format('Y-m-d');
+        $date = date('Y-m-d H:i:s');
+        $fecha_actual = date('Y-m-d');
+
+        if($fecha_actual == $fecha_reserva){
+            $hora_actual = Carbon::now()->format('H:i:s');
+            $bloque = DB::table('bloques')->where('id', $bloque_id)->first();
+
+            $fecha = Carbon::createFromFormat('H:i:s', $bloque->hora_inicio);
+            $fecha->subHours(2);
+            $hora_actual_modificada = $fecha->format('H:i:s');
+
+
+            if($hora_actual>$hora_actual_modificada){
+                return redirect()->route('cancha_cancelar')->with('error', '¡Solo puedes cancelar con 2 horas de anticipación!');
+            }
+
+        }
         DB::table("historial_instancia_reservas")->insert([
             "fecha_reserva"=>$fecha_reserva,
             "bloque_id"=>$bloque_id,
@@ -331,8 +346,7 @@ class CanchaController extends Controller
                 // Dividir el valor del checkbox usando el delimitador
                 list($fecha_reserva, $reserva_id, $user_id, $bloque_id) = explode('|', $resultadoSeleccionado);
 
-                $date = Carbon::now();
-                $date = $date->format('Y-m-d');
+                $date = date('Y-m-d H:i:s');
                 DB::table("historial_instancia_reservas")->insert([
                     "fecha_reserva"=>$fecha_reserva,
                     "user_id"=>$user_id,
@@ -357,4 +371,371 @@ class CanchaController extends Controller
         return redirect()->route('cancha_entregar');//->with('datos', $datos);
     }
 
+    /* RECEPCIONAR */
+    public function get_recepcionar(){
+        $resultados="";
+        $mostrarResultados=false;
+        return view('cancha.recepcionar',compact('resultados','mostrarResultados'));
+    }
+
+    public function post_recepcionar(Request $request){
+        $rut = $request->input('rut');
+
+        $consulta = "SELECT *
+        FROM (
+            SELECT fecha_reserva, user_id, reserva_id, bloque_id, COUNT(*) AS total
+            FROM historial_instancia_reservas AS h
+            WHERE h.estado_instancia_id <> 5
+            GROUP BY fecha_reserva, user_id, reserva_id, bloque_id
+            HAVING total >= 2 AND total < 3
+        ) AS sub1
+        INNER JOIN reservas as r ON r.id = sub1.reserva_id
+        INNER JOIN bloques as b ON b.id = sub1.bloque_id
+        INNER JOIN canchas as can ON can.reserva_id = r.id
+        INNER JOIN users as u ON u.id=sub1.user_id
+        INNER JOIN ubicaciones as ubi ON ubi.id=r.ubicacione_id
+        WHERE u.rut=?";
+
+        $resultados=DB::select($consulta, [$rut]);
+        // dd($resultados); // funciona, sólo queda mostrarlo en tabla al frontend y bueno, capturar los ticket para recepcionarlos ..
+        if (count($resultados)>0){
+            $mostrarResultados=true;
+        } else{
+            $mostrarResultados=false;
+        }
+        return view('cancha.recepcionar',compact('resultados','mostrarResultados'));
+    }
+
+    public function post_recepcionar_resultados(Request $request){
+
+        $resultadosSeleccionados = $request->input('resultados_seleccionados');
+
+        if($resultadosSeleccionados!=null) {
+            foreach ($resultadosSeleccionados as $resultadoSeleccionado) {
+                // Dividir el valor del checkbox usando el delimitador
+                list($fecha_reserva, $reserva_id, $user_id, $bloque_id) = explode('|', $resultadoSeleccionado);
+
+                $date = date('Y-m-d H:i:s');
+
+                DB::table("historial_instancia_reservas")->insert([
+                    "fecha_reserva" => $fecha_reserva,
+                    "user_id" => intval($user_id),
+                    "bloque_id" => intval($bloque_id),
+                    "reserva_id" => intval($reserva_id),
+                    "fecha_estado" => $date,
+                    "estado_instancia_id" => 3
+                ]);
+                // Realizar acciones con los valores originales de las columnas
+            }
+            return redirect()->route('cancha_recepcionar')->with("success", "Cancha(s) recepcionada(s) correctamente");//->with('datos', $datos);
+        }else{
+            return redirect()->route('cancha_recepcionar')->with("error", "No has seleccionado nada, intentalo nuevamente");
+        }
+    }
+
+    /*---- Deshabilitar --- */
+    public function get_deshabilitar(){
+        $consulta = "SELECT r.id,r.nombre, ubi.nombre_ubicacion as ubicacion FROM reservas as r
+        INNER JOIN canchas as can ON can.reserva_id= r.id
+        INNER JOIN estado_reservas as er ON er.id = r.estado_reserva_id
+        INNER JOIN ubicaciones as ubi ON ubi.id = r.ubicacione_id
+        WHERE r.estado_reserva_id = 2";
+        $resultados=DB::select($consulta);
+        if (count($resultados)>0){
+            $mostrarResultados=true;
+        }else {
+            $mostrarResultados=false;
+        }
+        return view('cancha.deshabilitar',compact('resultados','mostrarResultados'));
+    }
+
+    public function post_deshabilitar(Request $request){
+        $resultadosSeleccionados = $request->input('resultados_seleccionados');
+        if($resultadosSeleccionados!=null) {
+            foreach ($resultadosSeleccionados as $idCapturado) {
+                DB::table('reservas')->where('id', $idCapturado)->update(['estado_reserva_id' => 1]);
+
+                $consulta = "
+            SELECT *
+            FROM (
+                SELECT fecha_reserva, user_id, reserva_id, bloque_id, COUNT(*) AS total
+                FROM historial_instancia_reservas AS h
+                GROUP BY fecha_reserva, user_id, reserva_id, bloque_id
+                HAVING total >= 1 AND total <= 2
+            ) AS sub1
+            INNER JOIN reservas as r ON r.id = sub1.reserva_id
+            INNER JOIN bloques as b ON b.id = sub1.bloque_id
+            INNER JOIN canchas as can ON can.reserva_id= r.id
+            INNER JOIN users as u ON u.id=sub1.user_id
+            INNER JOIN ubicaciones as ubi ON ubi.id=r.ubicacione_id
+            WHERE r.id=? AND (sub1.fecha_reserva, sub1.user_id, sub1.reserva_id, sub1.bloque_id) NOT IN (
+                SELECT h.fecha_reserva, h.user_id, h.reserva_id, h.bloque_id
+                FROM historial_instancia_reservas AS h
+                WHERE h.estado_instancia_id = 5
+            )
+            ";
+
+                $resultados = DB::select($consulta, [intval($idCapturado)]);
+                $date = date('Y-m-d H:i:s');
+
+                foreach ($resultados as $resultado) {
+                    DB::table("historial_instancia_reservas")->insert([
+                        "fecha_reserva" => ($resultado->fecha_reserva),
+                        "user_id" => ($resultado->user_id),
+                        "bloque_id" => ($resultado->bloque_id),
+                        "reserva_id" => ($resultado->reserva_id),
+                        "fecha_estado" => $date,
+                        "estado_instancia_id" => 6
+                    ]);
+                }
+            }
+
+            return redirect()->route('cancha_deshabilitar')->with("success", "Se ha deshabilitado correctamente tu seleccion");
+        }else{
+            return redirect()->route('cancha_deshabilitar')->with("error","No has seleccionado nada para deshabilitar, intentalo nuevamente");
+        }
+    }
+
+    /*--- Historial estudiante ---*/
+    public function get_historial_estudiante(){
+        $user_id=Auth::user()->id;
+        $botonApretado=false;
+        $consulta = "SELECT r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
+        INNER JOIN canchas as can on can.reserva_id = h.reserva_id
+        INNER JOIN bloques as blo on blo.id = h.bloque_id
+        INNER JOIN reservas as r on r.id = h.reserva_id
+        INNER JOIN ubicaciones as ubi on ubi.id = r.ubicacione_id
+        INNER JOIN users as u on u.id = h.user_id
+        INNER JOIN estado_instancias as ei on ei.id = h.estado_instancia_id
+        WHERE u.id=?
+        ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC
+        ";
+
+        $resultados=DB::select($consulta, [$user_id]);
+        if (count($resultados)>0){
+            $mostrarResultados=true;
+        }else {
+            $mostrarResultados=false;
+        }
+
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
+        $ubicacionesCanchas = Ubicacion::where('categoria', 'deportivo')->get();
+        $estadosCanchas = DB::table('estado_instancias')->get();
+        return view('Cancha.historial_estudiante',compact('resultadosPaginados','resultados','mostrarResultados','botonApretado','ubicacionesCanchas', 'estadosCanchas'));
+    }
+
+    public function post_historial_estudiante(Request $request){
+        // la consulta aqui tendrá filtros, por tanto, debe modificarse según los que decida el programador
+        $estadoSeleccionado = $request->input('estado');
+
+        if(!$estadoSeleccionado == 0){
+
+            $consultaEstados = "WHERE h.estado_instancia_id = $estadoSeleccionado -- Estado = 1
+                                AND NOT EXISTS (
+                                SELECT 1
+                                FROM historial_instancia_reservas
+                                WHERE reserva_id = h.reserva_id
+                                AND bloque_id = h.bloque_id
+                                AND estado_instancia_id > $estadoSeleccionado -- Estado en (2, 3, 4, 5)
+            ) ";
+        }else{
+            $consultaEstados = "WHERE TRUE ";
+        }
+
+        // dd($consultaEstados);
+
+        $fecha_inicio = $request->input('fechaInicio');
+        if($fecha_inicio){
+            $consultaFecha = "AND fecha_reserva >= '$fecha_inicio' ";
+        }else{
+            $consultaFecha = "AND TRUE";
+        }
+
+        $fecha_fin = $request->input('fechaFin');
+
+        if($fecha_fin){
+            $consultaFecha = $consultaFecha . " AND fecha_reserva <= '$fecha_fin' ";
+        }
+
+        $ubicacion = $request->input('ubicacion');
+        if(!$ubicacion == 0){
+            $consultaUbicacion = " AND ubi.id = $ubicacion";
+        }else{
+            $consultaUbicacion = "";
+        }
+
+        $consulta = "SELECT u.name as nombre_estudiante, r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado
+        FROM historial_instancia_reservas as h
+        INNER JOIN canchas as se on se.reserva_id = h.reserva_id
+        INNER JOIN bloques as blo on blo.id = h.bloque_id
+        INNER JOIN reservas as r on r.id = h.reserva_id
+        INNER JOIN ubicaciones as ubi on ubi.id = r.ubicacione_id
+        INNER JOIN users as u on u.id = h.user_id
+        INNER JOIN estado_instancias as ei on ei.id = h.estado_instancia_id
+        " . $consultaEstados . $consultaFecha . $consultaUbicacion . "
+        ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC
+        ";
+
+        // dd($consulta);
+        $resultados=DB::select($consulta);
+
+        // dd($resultados);
+
+        if (count($resultados)>0){
+            $mostrarResultados=true;
+        }else {
+            $mostrarResultados=false;
+        }
+        $botonApretado=true;
+
+
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
+
+        $ubicacionesCanchas = Ubicacion::where('categoria', 'deportivo')->get();
+        $estadosCanchas = DB::table('estado_instancias')->get();
+        return view('Cancha.historial_estudiante',compact('resultadosPaginados','resultados','mostrarResultados','botonApretado','ubicacionesCanchas', 'estadosCanchas'));
+    }
+
+    /*--- Historial moderador ---*/
+    public function get_historial_moderador(){
+        $botonApretado=false;
+        $consulta = "SELECT u.name as nombre_estudiante,r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado FROM historial_instancia_reservas as h
+        INNER JOIN canchas as se on se.reserva_id = h.reserva_id
+        INNER JOIN bloques as blo on blo.id = h.bloque_id
+        INNER JOIN reservas as r on r.id = h.reserva_id
+        INNER JOIN ubicaciones as ubi on ubi.id = r.ubicacione_id
+        INNER JOIN users as u on u.id = h.user_id
+        INNER JOIN estado_instancias as ei on ei.id = h.estado_instancia_id
+        ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC";
+
+        $resultados=DB::select($consulta);
+        if (count($resultados)>0){
+            $mostrarResultados=true;
+        }else {
+            $mostrarResultados=false;
+        }
+
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
+
+        // dd($resultados);
+        $ubicacionesCanchas = Ubicacion::where('categoria', 'deportivo')->get();
+        $estadosCanchas = DB::table('estado_instancias')->get();
+        return view('Cancha.historial_moderador',compact('resultadosPaginados','mostrarResultados','botonApretado', 'ubicacionesCanchas', 'estadosCanchas'));
+    }
+
+    public function post_historial_moderador(Request $request){
+        // la consulta aqui tendrá filtros, por tanto, debe modificarse según los que decida el programador
+        $estadoSeleccionado = $request->input('estado');
+
+        if(!$estadoSeleccionado == 0){
+
+            $consultaEstados = "WHERE h.estado_instancia_id = $estadoSeleccionado -- Estado = 1
+                                AND NOT EXISTS (
+                                SELECT 1
+                                FROM historial_instancia_reservas
+                                WHERE reserva_id = h.reserva_id
+                                AND bloque_id = h.bloque_id
+                                AND estado_instancia_id > $estadoSeleccionado -- Estado en (2, 3, 4, 5)
+            ) ";
+        }else{
+            $consultaEstados = "WHERE TRUE ";
+        }
+
+        // dd($consultaEstados);
+
+        $fecha_inicio = $request->input('fechaInicio');
+        if($fecha_inicio){
+            $consultaFecha = "AND fecha_reserva >= '$fecha_inicio' ";
+        }else{
+            $consultaFecha = "AND TRUE";
+        }
+
+        $fecha_fin = $request->input('fechaFin');
+
+        if($fecha_fin){
+            $consultaFecha = $consultaFecha . " AND fecha_reserva <= '$fecha_fin' ";
+        }
+
+        $ubicacion = $request->input('ubicacion');
+        if(!$ubicacion == 0){
+            $consultaUbicacion = " AND ubi.id = $ubicacion";
+        }else{
+            $consultaUbicacion = "";
+        }
+
+        $consulta = "SELECT u.name as nombre_estudiante, r.nombre, ubi.nombre_ubicacion, blo.hora_inicio, blo.hora_fin, h.fecha_reserva, ei.nombre_estado as estado, h.fecha_estado
+        FROM historial_instancia_reservas as h
+        INNER JOIN canchas as se on se.reserva_id = h.reserva_id
+        INNER JOIN bloques as blo on blo.id = h.bloque_id
+        INNER JOIN reservas as r on r.id = h.reserva_id
+        INNER JOIN ubicaciones as ubi on ubi.id = r.ubicacione_id
+        INNER JOIN users as u on u.id = h.user_id
+        INNER JOIN estado_instancias as ei on ei.id = h.estado_instancia_id
+        " . $consultaEstados . $consultaFecha . $consultaUbicacion . "
+        ORDER BY h.fecha_reserva ASC, h.user_id ASC, h.bloque_id ASC, h.estado_instancia_id ASC
+        ";
+
+        // dd($consulta);
+        $resultados=DB::select($consulta);
+
+        // dd($resultados);
+
+        if (count($resultados)>0){
+            $mostrarResultados=true;
+            $botonApretado=false;
+        }else {
+            $mostrarResultados=false;
+            $botonApretado=false;
+        }
+
+        // Convertir los resultados en una colección
+        $coleccion = new Collection($resultados);
+
+        // Crear la instancia de LengthAwarePaginator con la colección y la configuración de paginación
+        $paginaActual = LengthAwarePaginator::resolveCurrentPage();
+        $itemsPorPagina = 6; // Número de elementos por página
+        $resultadosPaginados = new LengthAwarePaginator(
+            $coleccion->forPage($paginaActual, $itemsPorPagina),
+            $coleccion->count(),
+            $itemsPorPagina,
+            $paginaActual
+        );
+
+        $ubicacionesCanchas = Ubicacion::where('categoria', 'deportivo')->get();
+        $estadosCanchas = DB::table('estado_instancias')->get();
+        return view('Cancha.historial_moderador',compact('resultadosPaginados','mostrarResultados','botonApretado', 'ubicacionesCanchas', 'estadosCanchas'));
+    }
 }

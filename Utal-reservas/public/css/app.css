@@ -123,6 +123,16 @@ header span {
     border-radius: 12px;
 }
 
+.box_historial_ligteblue {                   /*  Caja celeste bajo los servicios seleccionables */ 
+    display: flex;
+    flex-direction: column;
+    margin-left: 15%;
+    width: 70%;
+    background-color: #00cccc;
+    padding: 20px 30px;
+    border-radius: 12px;
+}
+
 .btnAyuda {
     width: 75%;
     margin: auto;
@@ -452,4 +462,144 @@ form input {
 
 .tabla_resultados th {
     padding: 0px 4px;
+}
+
+
+.filtros {
+    
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    gap: 10px;
+    align-items: center;
+    margin: auto;
+    background-color:#00cccc;
+    border-radius: 12px;
+    padding-bottom: 10px;
+}
+
+.filtros form {
+    gap: 10px;
+    align-items: center;
+    margin: auto;
+    background-color:#00cccc;
+    border-radius: 12px;
+    padding: 20px 10px;
+    margin: 0px;
+}
+
+.opciones {
+    padding: 2px; /* Añade un espacio interno alrededor del elemento */
+    font-size: 16px; /* Tamaño de fuente */
+    border-radius: 4px; /* Borde redondeado */
+    border: 1px solid #ccc; /* Borde con color */
+    background-color: #f7f7f7; /* Color de fondo */
+}
+
+.opciones option {
+    padding: 4px; /* Añade un espacio interno alrededor de las opciones */
+}
+
+.opciones:hover {
+    border-color: #aaa; /* Cambia el color del borde al pasar el cursor sobre el elemento */
+}
+
+.opciones:focus {
+    outline: none; /* Elimina el contorno al hacer clic en el elemento */
+    box-shadow: 0 0 5px #aaa; /* Añade una sombra al hacer foco en el elemento */
+}
+
+.my-datepicker {
+    /* Estilos personalizados */
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    /* Otros estilos deseados */
+}
+
+.my-datepicker:hover {
+    border-color: #aaa; /* Cambia el color del borde al pasar el cursor sobre el elemento */
+}
+
+.my-datepicker:focus {
+    outline: none; /* Elimina el contorno al hacer clic en el elemento */
+    box-shadow: 0 0 5px #aaa; /* Añade una sombra al hacer foco en el elemento */
+}
+
+.tabla {
+
+    width: 85%;
+    gap: 10px;
+    margin: auto;
+    background-color:#00cccc;
+    border-radius: 12px;
+    padding: 20px 10px;
+}
+
+.tabla_resultados2 {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla_resultados2 th, .tabla_resultados2 td {
+    padding: 8px 16px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabla_resultados2 th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.tabla_resultados2 tr:hover {
+    background-color: #f5f5f5;
+}
+
+.labels {
+    display: flex;
+    gap: 5px;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination-list li {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.pagination-link {
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #f1f1f1;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.pagination-link.current {
+    background-color: #333;
+    color: #fff;
+}
+
+.pagination-link:hover {
+    background-color: #ddd;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
 }

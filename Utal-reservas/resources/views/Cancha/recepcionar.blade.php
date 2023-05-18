@@ -10,15 +10,10 @@
 @section('content')
 
     <div class="botonera">
-    <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('salaestudio_recepcionar') }}'">Salas de estudio</button>
-    <button type="button" class="btn btn-default col-xs-4 boton_activo">Salas gimnasio</button>
-    <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('cancha_recepcionar') }}'">Cancha</button>
-    <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('implemento_recepcionar') }}'">Implemento</button>
-
-
-        <!--
-        <button type="button" class="btn btn-default col-xs-4 boton_activo">Implementos</button>
-         -->
+        <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('salaestudio_recepcionar') }}'">Sala estudio</button>
+        <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('salagimnasio_recepcionar') }}'"> Salas gimnasio</button>
+        <button type="button" class="btn btn-default col-xs-4 boton_activo">Cancha</button>
+        <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('implemento_recepcionar') }}'">Implemento</button>
     </div>
 
     <br>
@@ -26,9 +21,9 @@
     <div class="box_recepcionar_ligteblue">
         <div id="div_resultados">
 
-            <h1> Recepcionar sala de gimnasio</h1>
+            <h1> Recepcionar Cancha</h1>
 
-            <form action="{{route('post_salagimnasio_recepcionar')}}" method="POST">
+            <form action="{{route('post_cancha_recepcionar')}}" method="POST">
                 @csrf
                 <input type="text" placeholder="Rut: 12.345.678-9" name="rut">
                 <button type="submit">Buscar reservas del usuario</button>
@@ -45,6 +40,7 @@
                     {{ session('error') }}
                 </div>
             @endif
+
         </div>
     </div>
 
@@ -52,7 +48,7 @@
 
     <div class="box_recepcionar_ligteblue1">
         <div id="div_resultados">
-            <form action="{{route('post_salagimnasio_recepcionar_resultados')}}" method="POST">
+            <form action="{{route('post_cancha_recepcionar_resultados')}}" method="POST">
                 @csrf
 
                 @if($mostrarResultados == true)
@@ -71,7 +67,7 @@
                                 <th>Hora inicio </th>
                                 <th>Hora fin    </th>
                                 <th>Ubicacion   </th>
-                                <th>Recepcionar   </th>
+                                <th>Recepcionar    </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -100,3 +96,4 @@
         </div>
     </div>
 @endsection
+

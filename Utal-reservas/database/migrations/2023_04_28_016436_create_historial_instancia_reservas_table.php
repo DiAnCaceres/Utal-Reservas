@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('reserva_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('bloque_id');
-            $table->date('fecha_estado');
+            $table->dateTime('fecha_estado');
             $table->foreignId('estado_instancia_id')->constrained();
 
             $table->foreign('fecha_reserva')->references('fecha_reserva')->on('instancia_reservas')->onDelete('cascade');

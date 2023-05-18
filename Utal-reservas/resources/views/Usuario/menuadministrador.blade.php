@@ -28,6 +28,10 @@
                 Registrar moderador
             </button>
 
+            <button class="button" type="button" onclick="window.location='{{ route('salaestudio_deshabilitar') }}' ">
+                Deshabilitar servicio
+            </button>
+
         </div>
 
         <div class="column">

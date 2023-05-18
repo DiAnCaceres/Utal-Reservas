@@ -10,13 +10,10 @@
 @section('content')
 
     <div class="botonera">
-    <button type="button" class="btn btn-default col-xs-4 boton_activo">Salas Estudio</button>
+        <button type="button" class="btn btn-default col-xs-4 boton_activo">Salas Estudio</button>
         <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('salagimnasio_recepcionar') }}'"> Salas gimnasio</button>
-
-
-        <!--
-        <button type="button" class="btn btn-default col-xs-4 boton_activo">Implementos</button>
-         -->
+        <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('cancha_recepcionar') }}'">Cancha</button>
+        <button type="button" class="btn btn-default col-xs-4 boton_servicios" onclick="window.location='{{ route('implemento_recepcionar') }}'">Implemento</button>
     </div>
 
     <br>
@@ -24,7 +21,7 @@
     <div class="box_recepcionar_ligteblue">
         <div id="div_resultados">
 
-            <h1> Entregar cancha</h1>
+            <h1> Recepcionar cancha</h1>
 
             <form action="{{route('post_salaestudio_recepcionar')}}" method="POST">
                 @csrf
@@ -35,6 +32,12 @@
             @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-error">
+                    {{ session('error') }}
                 </div>
             @endif
         </div>
@@ -63,7 +66,7 @@
                                 <th>Hora inicio </th>
                                 <th>Hora fin    </th>
                                 <th>Ubicacion   </th>
-                                <th>Entregar    </th>
+                                <th>Recepcionar    </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,7 +85,7 @@
                         </tbody>
                     </table>
 
-                    <button type="submit" style="display:inline-block">Recepcionarr</button>
+                    <button type="submit" style="display:inline-block">Recepcionar</button>
                     <button onclick="window.location='{{route('usuario_menumoderador')}}'" style="display:inline-block">Volver menu</button>
                 @else
                     <p>No se encontraron resultados.</p>
